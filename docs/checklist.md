@@ -1,56 +1,59 @@
 # Dumpsite project — checklist to Nov 17
 
-Oct 27, 2026 · @VXCIO
+Oct 27, 2026 · @VXCIO · revised Nov 3, 2026 for the late start
 
-> Exported 31 Oct 2026 from the Claude Docs checklist (revision 7): https://claude.ai/artifact/G9CZC7b3Ew6kSD9A16DLLP
+> Exported 31 Oct 2026 from the Claude Docs checklist (revision 7): https://claude.ai/artifact/G9CZC7b3Ew6kSD9A16DLLP. The doc still has the original Oct 27 dates; this file has the revised ones.
 
-## Phase 1 — labels (Oct 27 – Nov 2)
+Work started on Nov 3 rather than Oct 27, leaving 15 days instead of 22. Phase 2 shrinks to two days because its code is written during Phase 1; the rest of the time comes from the scope cuts under Slack.
 
-The only input nothing downstream can fix. Gate 1 is Nov 2, 2026: both label sets exist and the Gujarat one is closed.
+| Phase | Dates | Gate |
+| --- | --- | --- |
+| 1 Labels | Tue Nov 3 – Thu Nov 5 | Thu Nov 5: Gujarat list sealed and pushed; India screening stops wherever it has reached |
+| 2 Features and models | Fri Nov 6 – Sat Nov 7 | Sat Nov 7: leave-one-state-out results for every model |
+| Diwali | Sun Nov 8 | |
+| 3 Freeze, then Gujarat | Mon Nov 9 – Tue Nov 10 | Tue Nov 10: results frozen and not revisited |
+| 4 Depth analysis and paper | Wed Nov 11 – Sat Nov 14 | |
+| 5 Site, repo, submit | Sun Nov 15 – Tue Nov 17 | Submit Tue Nov 17 |
+
+## Phase 1 — labels (Nov 3 – 5)
+
+The only input nothing downstream can fix. Gate 1 is Thu Nov 5, 2026: the Gujarat list is sealed and pushed, and India screening stops wherever it has reached. Step-by-step instructions are in [phase1_labels.md](phase1_labels.md).
 
 ### India training labels
 
-- [ ] Export OSM `landuse=landfill` polygons for India. Overpass and the Geofabrik downloads are blocked from Claude's workspace, so run this locally (query below) or download the India `.osm.pbf` extract and filter with osmium.
-- [ ] Drop anything tagged disused, abandoned or `landuse=quarry`.
-- [ ] Pull the 80-site list from Agrawal et al. (2026) Appendix B — supplementary file first, email the corresponding author if it is not there.
+- [ ] Export OSM `landuse=landfill` nodes, ways and relations for India with the query in [phase1_labels.md](phase1_labels.md). Overpass is blocked from Claude's workspace, so run it in your browser at overpass-turbo.eu and upload the GeoJSON, or run `scripts/osm_to_screening.py` yourself.
+- [ ] Check `labels/osm_excluded.csv`: the script drops anything tagged disused, abandoned or with an end date, anything with "quarry" in its name, and sites in Dadra and Nagar Haveli and Daman and Diu.
+- [ ] Check the Agrawal et al. (2026) supplementary file for the Appendix B 80-site list, 15 minutes at most. Don't email the author: a reply would not arrive in time.
 - [ ] Add the 53 Madhya Pradesh sites from Bhajantri & Mandpe (2026).
-- [ ] Move every Gujarat site found in any of these sources into the test set, not the training set.
-- [ ] Screen each remaining site by eye in Google Earth Pro. Record a keep/drop decision per site — this file is a paper figure later.
-- [ ] Target 300+ active sites across several states. Note the per-state counts; leave-one-state-out needs at least four or five states with real coverage.
+- [ ] Move every Gujarat site found in any of these sources into the test set, not the training set. The script already does this for OSM.
+- [ ] Screen each remaining site by eye in Google Earth Pro, in `screen_order`, against the imagery closest to March–May 2024. Record a keep/drop decision per site in `labels/india_screening.csv` — this file is a paper figure later.
+- [ ] Screen until Thursday evening; there is no fixed target. Note the per-state counts; leave-one-state-out needs at least four or five states with real coverage.
 
 ### Negatives
 
 - [ ] Random pixels drawn from the same training states, matched roughly to the positive count.
-- [ ] 300 hand-checked look-alikes: quarries, bare soil, construction sites, dry riverbeds, brick kilns. Record which class each one is — the failure audit in Phase 4 reads this column.
+- [ ] About 100 hand-checked look-alikes: quarries, bare soil, construction sites, dry riverbeds, brick kilns. Record which class each one is — the failure audit in Phase 4 reads this column. Sites dropped while screening as `quarry`, `kiln`, `bare_soil`, `construction` or `riverbed` count towards this.
 
 ### Gujarat test labels (sealed)
 
-- [ ] Write up your 14 known sites across 10 cities with coordinates and city names.
-- [ ] Get to 20+ from the GPCB annual report under the SWM Rules, NGT filings, and the SBM-U / DRAP dashboards.
+- [ ] Put your 14 known sites across 10 cities into a `gujarat_test` folder in Google Earth Pro, named `City | site name`, with outlines where you can.
+- [ ] Get to 20+ from the GPCB annual report under the SWM Rules, NGT filings, the SBM-U / DRAP dashboards and `labels/gujarat_osm_candidates.kml`.
 - [ ] Confirm each one by eye.
-- [ ] Save to a file, commit it, and do not open it again until Nov 9.
+- [ ] Save as `labels/gujarat_test.kml`, convert it with `scripts/kml_to_csv.py --kind gujarat`, commit both files and push by Thu Nov 5. Do not open them again until Nov 9.
 
-### Overpass query to run locally
+### In parallel: code (Claude)
 
-```
-[out:json][timeout:600];
-area["ISO3166-1"="IN"][admin_level=2]->.in;
-(
-  way["landuse"="landfill"](area.in);
-  relation["landuse"="landfill"](area.in);
-);
-out geom;
-```
-
-Paste it into overpass-turbo.eu and export as GeoJSON. If it times out, split by state with a smaller area filter.
+- [ ] Earth Engine feature export for the Phase 2 stack, sampled at points.
+- [ ] Model and validation code: the five models below, leave-one-state-out, random-pixel and site-grouped splits, per-fold metrics.
+- [ ] Dry run on the first screened sites, Thu Nov 5, so Phase 2 only has to run.
 
 ### Fallback
 
-If you reach Nov 2 with fewer than 200 screened India sites, stop screening and proceed anyway. Report the number you got and treat the shortfall as a stated limitation. Do not let this phase eat into Phase 2.
+If you reach Thursday evening, Nov 5, with fewer than 200 screened India sites, stop screening and proceed anyway. Report the number you got and treat the shortfall as a stated limitation. Do not let this phase eat into Phase 2.
 
-## Phase 2 — features and models (Nov 3 – 7)
+## Phase 2 — features and models (Nov 6 – 7)
 
-The week with the most ways to lose time. Gate 2 is Nov 7, 2026: leave-one-state-out results in hand for all four models.
+Two days, which works only because the code was written and dry-run during Phase 1. Gate 2 is Sat Nov 7, 2026: leave-one-state-out results in hand for every model.
 
 ### Feature stack in GEE
 
@@ -77,20 +80,21 @@ The week with the most ways to lose time. Gate 2 is Nov 7, 2026: leave-one-state
 
 ### Risks this week
 
-GEE export limits and the 30 m to 10 m LST resampling are where days disappear. Sort the Contributor tier before the phase starts, not during it. If the LST anomaly turns out expensive to compute at scale, drop the neighbourhood size to 1 km rather than dropping the feature.
+GEE export limits and the 30 m to 10 m LST resampling are where days disappear. Sort the Contributor tier on Nov 3, not during this phase. If the LST anomaly turns out expensive to compute at scale, drop the neighbourhood size to 1 km rather than dropping the feature.
 
-## Phase 3 — freeze, then Gujarat (Nov 9 – 11)
+## Phase 3 — freeze, then Gujarat (Nov 9 – 10)
 
-Three days is enough because by now there are no decisions left, only a run. Gate 3 is Nov 11, 2026: results frozen and not revisited.
+Two days is enough because by now there are no decisions left, only a run. Gate 3 is Tue Nov 10, 2026: results frozen and not revisited.
 
 ### Freeze checklist (Nov 9, before anything else)
 
 - [ ] Pick the one model you will report as primary, based on leave-one-state-out results alone.
 - [ ] Fix its hyperparameters, its decision threshold, and the feature list.
-- [ ] Commit all of it. Tag the commit. The tag is your evidence at the viva that the freeze happened before the test.
+- [ ] Fix how a Gujarat site counts as found: a flagged pixel inside its outline, or within a stated radius of its pin.
+- [ ] Commit all of it. Tag the commit and push the tag before scoring Gujarat. The tag is your evidence at the viva that the freeze happened before the test, and the push gives it a GitHub timestamp.
 - [ ] Write down, now, what result would count as failure. Deciding this after seeing Gujarat is how a negative result gets quietly reframed as a success.
 
-### The Gujarat pass (Nov 10 – 11)
+### The Gujarat pass (Nov 9 – 10)
 
 - [ ] Build the same feature stack over the Gujarat test districts.
 - [ ] Score every pixel. This is the real-rarity test — no balanced sampling, no restriction to candidate areas.
@@ -102,7 +106,7 @@ Three days is enough because by now there are no decisions left, only a run. Gat
 
 If the Gujarat numbers are bad, they are the result. Write them up. A threshold retuned after seeing them makes every number in the paper unverifiable, and the rubric does not reward accuracy as a standalone criterion anyway. Threshold sensitivity on Gujarat is allowed in Phase 4 as a post-hoc analysis that selects nothing.
 
-## Phase 4 — depth analysis and paper (Nov 12 – 15)
+## Phase 4 — depth analysis and paper (Nov 11 – 14)
 
 Four pages including references, two columns, the course LaTeX template adapted from NeurIPS 2026.
 
@@ -122,15 +126,15 @@ Four pages including references, two columns, the course LaTeX template adapted 
 - [ ] State the AI tools used and the kinds of assistance, as the course requires.
 - [ ] Cite Bhajantri & Mandpe (2026) where their cut-offs serve as the baseline, and every other external source.
 
-## Phase 5 — site, repo, submit (Nov 16 – 17)
+## Phase 5 — site, repo, submit (Nov 15 – 17)
 
-Submission is Nov 17, 2026.
+Submission is Tue Nov 17, 2026. Sun Nov 15 is for the results map and the repo, Mon Nov 16 for the clean-clone check and otherwise spare.
 
 ### Results map
 
 - [ ] Static page, GitHub Pages plus Leaflet, built from the frozen Phase 3 output. No backend, no live inference.
 - [ ] Gujarat candidates as a GeoJSON. Click a point for the Sentinel-2 chip, the model score, NDVI / NDBI / LST values, and the blind-check verdict.
-- [ ] Keep it to one day. It is not in the rubric except as reproducibility support, and the paper comes first.
+- [ ] Claude builds it on Nov 15 and you check it. It is not in the rubric except as reproducibility support, and the paper comes first.
 
 ### Repository
 
@@ -148,11 +152,11 @@ Submission is Nov 17, 2026.
 
 No fixed date, but each one blocks something if left.
 
-- [ ] Put the GEE project on the Contributor tier (1,000 EECU-hours a month). Do this before Phase 2 starts.
+- [ ] Put the GEE project on the Contributor tier (1,000 EECU-hours a month). Do this on Nov 3; Phase 2 starts Nov 6.
 - [ ] Check the registered project title still matches the proposal as submitted. If it does not, ask the course staff now rather than at submission.
-- [ ] Keep a running note of AI tools used and what for, so the disclosure is not reconstructed from memory on Nov 15.
+- [ ] Keep a running note of AI tools used and what for, so the disclosure is not reconstructed from memory on Nov 14.
 - [ ] Update the project plan doc, which still describes the earlier replication design and a Nov 10 deadline.
 
 ### Slack
 
-This plan has one spare day, the Diwali buffer on Nov 8. That is thin. If a gate slips by more than a day, cut scope rather than the buffer: drop the recalibrated threshold rule, drop the second figure, or reduce the blind eye check from 100 candidates to 50. Do not cut the split ablation or the freeze.
+The late start has already used up the first round of cuts: no 300-site target, about 100 look-alikes instead of 300, no email for Appendix B, and Claude builds the results map. Nov 8 is Diwali, and Mon Nov 16 is the only spare day. If a gate slips by more than a day, cut further rather than spending Nov 16: drop the recalibrated threshold rule, drop the second figure, or reduce the blind eye check from 100 candidates to 50. Do not cut the split ablation or the freeze.
