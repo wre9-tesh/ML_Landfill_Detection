@@ -7,7 +7,7 @@
 Accepts .kml or .kmz, points or drawn polygons (a polygon gives its centroid
 and area). Naming rules, set in docs/phase1_labels.md:
   gujarat    "City | site name", source in the description
-  lookalike  name starts with the class: quarry, kiln, bare_soil, construction, riverbed, other
+  lookalike  name starts with the class: quarry, kiln, bare_soil, construction, riverbed, ash_pond, other
   extra      active landfills found while screening that are not in the OSM list; any name
 
 Every row is checked against the state boundaries. A Gujarat site outside
@@ -29,6 +29,7 @@ LOOKALIKE_CLASSES = {
     "brick_kiln": "kiln", "kiln": "kiln",
     "bare_soil": "bare_soil", "baresoil": "bare_soil", "soil": "bare_soil",
     "construction": "construction",
+    "ash_pond": "ash_pond", "ashpond": "ash_pond", "fly_ash": "ash_pond", "ash": "ash_pond",
     "dry_riverbed": "riverbed", "riverbed": "riverbed", "river": "riverbed",
     "other": "other",
 }

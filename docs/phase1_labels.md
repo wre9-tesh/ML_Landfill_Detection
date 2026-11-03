@@ -50,7 +50,9 @@ The CSV is the record, so keep it as CSV when you save (Excel will ask; choose K
 | `drop` | Anything else; give a `reason` |
 | `unsure` | Can't tell. These are left out of both positives and negatives |
 
-Drop reasons: `not_visible`, `inactive` (capped, vegetated or built over), `mislocated`, `too_small`, `quarry`, `kiln`, `bare_soil`, `construction`, `riverbed`, `other`. A site dropped as `quarry`, `kiln`, `bare_soil`, `construction` or `riverbed` is also a hand-checked look-alike, so it counts towards step 4.
+Mines count as `quarry`; fly-ash ponds next to coal power plants are `ash_pond`.
+
+Drop reasons: `not_visible`, `inactive` (capped, vegetated or built over), `mislocated`, `too_small`, `quarry`, `kiln`, `bare_soil`, `construction`, `riverbed`, `ash_pond`, `other`. A site dropped as `quarry`, `kiln`, `bare_soil`, `construction`, `riverbed` or `ash_pond` is also a hand-checked look-alike, so it counts towards step 4.
 
 ## 3. Build and seal the Gujarat test list
 
@@ -67,7 +69,7 @@ python scripts/kml_to_csv.py labels/gujarat_test.kml --kind gujarat
 
 ## 4. Pin look-alikes outside Gujarat
 
-1. Make a folder named `lookalikes`. Each placemark's name starts with its class: `quarry`, `kiln`, `bare_soil`, `construction`, `riverbed` or `other` (for example `kiln 12`).
+1. Make a folder named `lookalikes`. Each placemark's name starts with its class: `quarry`, `kiln`, `bare_soil`, `construction`, `riverbed`, `ash_pond` or `other` (for example `kiln 12`).
 2. Pin them as you come across them while screening, in training states only. Any pin inside Gujarat is left out.
 3. Save as `labels/lookalikes.kml`, then run:
 
