@@ -1,0 +1,14 @@
+﻿site_id,osm_type,osm_id,reason,state_iso,lat,lon,area_ha,name,tags
+osm_w235983873,way,235983873,lifecycle_tag_abandoned:landuse,IN-MH,19.080885,73.022734,16.007,Turbhe Landfill,abandoned:landuse=quarry; name=Turbhe Landfill; operator=NMMC
+osm_w257455759,way,257455759,disused,IN-MH,19.236347,72.82655,16.415,Gorai Landfill,disused=yes; name=Gorai Landfill; operator=BMC
+osm_w412929395,way,412929395,quarry_in_name,IN-KA,12.835484,77.627061,10.634,Bingipura Quarry Pit Landfill,name=Bingipura Quarry Pit Landfill; note=Closed for exceeding capacity
+osm_w412940000,way,412940000,quarry_in_name,IN-KA,12.825107,77.590048,2.675,Lakshmipura Quarry Pit Landfill,"name=Lakshmipura Quarry Pit Landfill; note=Illegal waste dumping site, now closed"
+osm_w901739178,way,901739178,disused,IN-OR,21.70286,83.558287,5.078,,disused=yes; source=MaxarPremium
+osm_w901739180,way,901739180,disused,IN-OR,21.677548,83.552242,10.31,,disused=yes; source=MaxarPremium
+osm_w901739181,way,901739181,disused,IN-OR,21.682331,83.550378,8.126,,disused=yes; source=MaxarPremium
+osm_w901787438,way,901787438,disused,IN-OR,21.694479,83.552225,6.643,,disused=yes; source=MaxarPremium
+osm_w901787439,way,901787439,disused,IN-OR,21.689104,83.551534,0.432,,disused=yes; source=MaxarPremium
+osm_w902079843,way,902079843,disused,IN-OR,21.673594,83.551281,1.897,,disused=yes; source=MaxarPremium
+osm_w1042436641,way,1042436641,lifecycle_tag_disused:landuse,IN-JH,22.732884,86.170638,3.196,,disused:landuse=landfill; hazard=contamination; source=Esri World Imagery
+osm_w1047736110,way,1047736110,disused,IN-OR,21.972755,85.208465,4.856,,disused=yes; source=Esri World Imagery
+osm_w1162988812,way,1162988812,disused,IN-TN,12.95391,79.30974,7.238,,abandoned:man_made=works; boundary=hazard; contamination=chromate; description=Abandoned Factory site of TCCl with piles of Chromium sludge waste containing hexavelent Chromium wich is leeching into ground and surface water; disused=yes; hazard=contamination; informal=yes; old_name=Tamil Nadu Chromates and Chemicals Limited

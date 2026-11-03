@@ -1,0 +1,40 @@
+Input: osm_landfill_india.geojson, 917 features, 917 unique OSM objects
+Excluded before screening: 13
+  disused: 9
+  quarry_in_name: 2
+  lifecycle_tag_abandoned:landuse: 1
+  lifecycle_tag_disused:landuse: 1
+Held out (IN-GJ), for test-list screening only: 47
+India training candidates: 857 (>= 1 ha: 416, smaller or point: 441)
+Site groups at 500 m: 494
+State assigned by snapping to the nearest boundary: 13
+
+Training candidates per state (all / >= min-ha):
+  IN-AP  Andhra Pradesh                                 183   21
+  IN-GA  Goa                                            128   52
+  IN-TG  Telangāna                                       87   43
+  IN-KL  Kerala                                          74   17
+  IN-MH  Mahārāshtra                                     60   46
+  IN-KA  Karnātaka                                       49   36
+  IN-TN  Tamil Nādu                                      46   31
+  IN-DL  Delhi                                           32    7
+  IN-UP  Uttar Pradesh                                   30   24
+  IN-OR  Odisha                                          28   27
+  IN-WB  West Bengal                                     24   16
+  IN-CT  Chhattīsgarh                                    22   22
+  IN-PB  Punjab                                          16   15
+  IN-RJ  Rājasthān                                       14   13
+  IN-JH  Jhārkhand                                       12   12
+  IN-MP  Madhya Pradesh                                  12   12
+  IN-HR  Haryāna                                         10    7
+  IN-BR  Bihār                                            6    3
+  IN-NL  Nāgāland                                         4    4
+  IN-HP  Himāchal Pradesh                                 4    0
+  IN-PY  Puducherry                                       3    2
+  IN-UT  Uttarākhand                                      3    2
+  IN-JK  Jammu and Kashmīr                                3    1
+  IN-ML  Meghālaya                                        2    1
+  IN-AN  Andaman and Nicobar Islands                      2    0
+  IN-CH  Chandīgarh                                       1    1
+  IN-LA  Ladākh                                           1    1
+  IN-AS  Assam                                            1    0
