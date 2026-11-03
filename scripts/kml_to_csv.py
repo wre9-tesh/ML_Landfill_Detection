@@ -2,15 +2,17 @@
 
     python scripts/kml_to_csv.py gujarat_test.kml --kind gujarat
     python scripts/kml_to_csv.py lookalikes.kml --kind lookalike
+    python scripts/kml_to_csv.py extra_sites.kml --kind extra
 
 Accepts .kml or .kmz, points or drawn polygons (a polygon gives its centroid
 and area). Naming rules, set in docs/phase1_labels.md:
   gujarat    "City | site name", source in the description
   lookalike  name starts with the class: quarry, kiln, bare_soil, construction, riverbed, other
+  extra      active landfills found while screening that are not in the OSM list; any name
 
 Every row is checked against the state boundaries. A Gujarat site outside
-Gujarat is reported. A look-alike inside the held-out region is left out,
-because training negatives must come from outside it.
+Gujarat is reported. A look-alike or extra site inside the held-out region is
+left out, because training labels must come from outside it.
 """
 import argparse
 import csv
@@ -115,8 +117,8 @@ def lookalike_class(name):
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("kml")
-    ap.add_argument("--kind", choices=["gujarat", "lookalike"], required=True)
-    ap.add_argument("--out", help="CSV path (default labels/gujarat_test_sites.csv or labels/lookalikes.csv)")
+    ap.add_argument("--kind", choices=["gujarat", "lookalike", "extra"], required=True)
+    ap.add_argument("--out", help="CSV path (default labels/gujarat_test_sites.csv, lookalikes.csv or extra_sites.csv)")
     ap.add_argument("--holdout", default="IN-GJ")
     args = ap.parse_args()
 
@@ -134,6 +136,11 @@ def main():
             if iso != args.holdout:
                 problems.append(f"outside {args.holdout} ({iso or 'no state'}): {name!r}")
             rows.append({"test_id": f"GJ{len(rows) + 1:02d}", "city": city, "site_name": site, **base})
+        elif args.kind == "extra":
+            if iso == args.holdout:
+                problems.append(f"inside the held-out region, row left out (add it to gujarat_test instead): {name!r}")
+                continue
+            rows.append({"site_id": f"ex{len(rows) + 1:04d}", "name": name, **base})
         else:
             cls = lookalike_class(name)
             if cls is None:
@@ -148,6 +155,9 @@ def main():
         cols = ["test_id", "city", "site_name", "lat", "lon", "area_ha", "geometry", "state_iso", "state_method",
                 "folder", "notes"]
         out = Path(args.out or REPO / "labels" / "gujarat_test_sites.csv")
+    elif args.kind == "extra":
+        cols = ["site_id", "name", "state_iso", "lat", "lon", "area_ha", "geometry", "state_method", "folder", "notes"]
+        out = Path(args.out or REPO / "labels" / "extra_sites.csv")
     else:
         cols = ["lookalike_id", "class", "name", "state_iso", "lat", "lon", "area_ha", "geometry", "state_method",
                 "folder", "notes"]

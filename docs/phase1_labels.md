@@ -40,6 +40,10 @@ Sites of 1 ha or more come first in the order (1 ha is about one native Landsat 
 4. Fill `decision`, `reason`, `imagery_date` (for example `2024-04`) and `notes`, if needed.
 5. Stop at the end of the time box. Don't start the list again from the top.
 
+The CSV is the record, so keep it as CSV when you save (Excel will ask; choose Keep Current Format). Don't sort or delete rows. Format the `imagery_date` column as Text before typing, or Excel turns `2024-04` into a date.
+
+**Landfills that aren't on the list.** If you see one while screening, pin it in a Google Earth Pro folder named `extra_sites`; draw an outline where you can. The same 2024 rule applies, and the name can be anything. Don't go looking for them, and skip anything that's just part of a site already on the list (note it in that row instead). One found inside Gujarat goes in `gujarat_test`, not here. Save as `labels/extra_sites.kml`, then run `python scripts/kml_to_csv.py labels/extra_sites.kml --kind extra`.
+
 | decision | When |
 | --- | --- |
 | `keep` | Active dumping visible in the 2024 image |
