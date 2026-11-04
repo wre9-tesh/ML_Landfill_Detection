@@ -52,9 +52,11 @@ The CSV is the record, so keep it as CSV when you save (Excel will ask; choose K
 | `drop` | Anything else; give a `reason` |
 | `unsure` | Can't tell. These are left out of both positives and negatives |
 
-Mines count as `quarry`; fly-ash ponds next to coal power plants are `ash_pond`.
+Anything dug out of the ground (quarries, mines, mine spoil, ore dumps) is `quarry`. Fly-ash ponds at power plants are `ash_pond`. Stored material and other industrial by-products (coal piles, coal and ore stockyards, slag, red mud, gypsum) are `industrial`. Many of the largest OSM polygons are one of these three: when the name or tags say flyash, ash, coal, ore, slag or spoil, a glance to confirm is enough.
 
-Drop reasons: `not_visible`, `inactive` (capped, vegetated or built over), `mislocated`, `too_small`, `quarry`, `kiln`, `bare_soil`, `construction`, `riverbed`, `ash_pond`, `other`. A site dropped as `quarry`, `kiln`, `bare_soil`, `construction`, `riverbed` or `ash_pond` is also a hand-checked look-alike, so it counts towards step 4.
+Rows with the same `group_id` lie within 500 m of each other and are usually one place. Use Data > Filter on `group_id` (filter, not sort) to decide them together, then clear the filter.
+
+Drop reasons: `not_visible`, `inactive` (capped, vegetated or built over), `mislocated`, `too_small`, `quarry`, `kiln`, `bare_soil`, `construction`, `riverbed`, `ash_pond`, `industrial`, `other`. A site dropped as `quarry`, `kiln`, `bare_soil`, `construction`, `riverbed`, `ash_pond` or `industrial` is also a hand-checked look-alike, so it counts towards step 4.
 
 ## 3. Build and seal the Gujarat test list
 
@@ -71,7 +73,7 @@ python scripts/kml_to_csv.py labels/gujarat_test.kml --kind gujarat
 
 ## 4. Pin look-alikes outside Gujarat
 
-1. Make a folder named `lookalikes`. Each placemark's name starts with its class: `quarry`, `kiln`, `bare_soil`, `construction`, `riverbed`, `ash_pond` or `other` (for example `kiln 12`).
+1. Make a folder named `lookalikes`. Each placemark's name starts with its class: `quarry`, `kiln`, `bare_soil`, `construction`, `riverbed`, `ash_pond`, `industrial` or `other` (for example `kiln 12`).
 2. Pin them as you come across them while screening, in training states only. Any pin inside Gujarat is left out.
 3. Save as `labels/lookalikes.kml`, then run:
 
