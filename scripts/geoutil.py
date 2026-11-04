@@ -12,6 +12,17 @@ EARTH_R = 6371008.8
 REPO = Path(__file__).resolve().parent.parent
 STATES_GEOJSON = REPO / "data" / "boundaries" / "geoBoundaries-IND-ADM1_simplified.geojson"
 
+# Zonal Councils of India, the fallback regions if too few states have enough sites for
+# their own validation fold. The island territories attend the Southern council.
+ZONAL_COUNCILS = {
+    **dict.fromkeys(["IN-HR", "IN-HP", "IN-PB", "IN-RJ", "IN-DL", "IN-CH", "IN-JK", "IN-LA"], "Northern"),
+    **dict.fromkeys(["IN-CT", "IN-UT", "IN-UP", "IN-MP"], "Central"),
+    **dict.fromkeys(["IN-BR", "IN-JH", "IN-OR", "IN-WB"], "Eastern"),
+    **dict.fromkeys(["IN-GA", "IN-GJ", "IN-MH", "IN-DH"], "Western"),
+    **dict.fromkeys(["IN-AP", "IN-KA", "IN-KL", "IN-TN", "IN-TG", "IN-PY", "IN-AN", "IN-LD"], "Southern"),
+    **dict.fromkeys(["IN-AS", "IN-AR", "IN-MN", "IN-ML", "IN-MZ", "IN-NL", "IN-SK", "IN-TR"], "North-Eastern"),
+}
+
 
 def haversine_m(lon1, lat1, lon2, lat2):
     p1, p2 = math.radians(lat1), math.radians(lat2)
@@ -134,3 +145,46 @@ class StateIndex:
         if best[2] <= self.max_snap_m:
             return best[0], best[1], "snapped"
         return None, None, "none"
+
+
+class RingIndex:
+    """Point-in-ring test that only checks edges in the point's latitude band.
+
+    Same answer as point_in_ring, but fast enough to place thousands of random
+    points inside state outlines with thousands of vertices.
+    """
+
+    def __init__(self, ring, nbands=512):
+        ys = [p[1] for p in ring]
+        self.y0, self.y1 = min(ys), max(ys)
+        self.h = (self.y1 - self.y0) / nbands or 1e-12
+        self.bands = [[] for _ in range(nbands)]
+        for a, b in zip(ring, ring[1:] + ring[:1]):
+            lo, hi = sorted((a[1], b[1]))
+            for k in range(self.band(lo), self.band(hi) + 1):
+                self.bands[k].append((a[0], a[1], b[0], b[1]))
+
+    def band(self, y):
+        return min(max(int((y - self.y0) / self.h), 0), len(self.bands) - 1)
+
+    def contains(self, x, y):
+        if not self.y0 <= y <= self.y1:
+            return False
+        inside = False
+        for x1, y1, x2, y2 in self.bands[self.band(y)]:
+            if (y1 > y) != (y2 > y) and x < (x2 - x1) * (y - y1) / (y2 - y1) + x1:
+                inside = not inside
+        return inside
+
+
+class PolygonIndex:
+    """Fast containment for a list of polygons (outer ring first, then holes)."""
+
+    def __init__(self, polys):
+        self.parts = [(RingIndex(p[0]), [RingIndex(h) for h in p[1:]]) for p in polys]
+        xs = [q[0] for p in polys for q in p[0]]
+        ys = [q[1] for p in polys for q in p[0]]
+        self.bbox = (min(xs), min(ys), max(xs), max(ys))
+
+    def contains(self, x, y):
+        return any(o.contains(x, y) and not any(h.contains(x, y) for h in holes) for o, holes in self.parts)
