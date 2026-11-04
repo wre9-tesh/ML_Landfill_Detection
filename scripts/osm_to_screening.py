@@ -146,7 +146,8 @@ def write_kml(path, title, rows, label):
 
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("geojson", help="overpass-turbo export (Export > GeoJSON)")
+    ap.add_argument("geojson", nargs="?", default=str(REPO / "data/raw/osm_landfill_india.geojson"),
+                help="overpass-turbo export (Export > GeoJSON)")
     ap.add_argument("--out", default=str(REPO / "labels"))
     ap.add_argument("--holdout", default="IN-GJ", help="state ISO code held out as the test region")
     ap.add_argument("--buffer-states", default="IN-DH",
