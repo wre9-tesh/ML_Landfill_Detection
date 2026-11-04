@@ -44,13 +44,19 @@ The CSV is the record, so keep it as CSV when you save (Excel will ask; choose K
 
 **Landfills that aren't on the list.** If you see one while screening, pin it in a Google Earth Pro folder named `extra_sites`; draw an outline where you can. The same 2024 rule applies, and the name can be anything. Don't go looking for them, and skip anything that's just part of a site already on the list (note it in that row instead). One found inside Gujarat goes in `gujarat_test`, not here. Save as `labels/extra_sites.kml`, then run `python scripts/kml_to_csv.py labels/extra_sites.kml --kind extra`.
 
+**Outline in the wrong place.** Training pixels are drawn inside the outline, so the outline has to sit on the waste. If most of it does, `keep` and say what's off in `notes`. If most of it doesn't, `drop` it as `mislocated`; if the real dump is clearly nearby, draw its outline in `extra_sites` and name it `fix <screen_order>` (for example `fix 0010`) so the two rows stay linked.
+
 | decision | When |
 | --- | --- |
 | `keep` | Active dumping visible in the 2024 image |
 | `drop` | Anything else; give a `reason` |
 | `unsure` | Can't tell. These are left out of both positives and negatives |
 
-Drop reasons: `not_visible`, `inactive` (capped, vegetated or built over), `mislocated`, `too_small`, `quarry`, `kiln`, `bare_soil`, `construction`, `riverbed`, `other`. A site dropped as `quarry`, `kiln`, `bare_soil`, `construction` or `riverbed` is also a hand-checked look-alike, so it counts towards step 4.
+Anything dug out of the ground (quarries, mines, mine spoil, ore dumps) is `quarry`. Fly-ash ponds at power plants are `ash_pond`. Stored material and other industrial by-products (coal piles, coal and ore stockyards, slag, red mud, gypsum) are `industrial`. Many of the largest OSM polygons are one of these three: when the name or tags say flyash, ash, coal, ore, slag or spoil, a glance to confirm is enough.
+
+Rows with the same `group_id` lie within 500 m of each other and are usually one place. Use Data > Filter on `group_id` (filter, not sort) to decide them together, then clear the filter.
+
+Drop reasons: `not_visible`, `inactive` (capped, vegetated or built over), `mislocated`, `too_small`, `quarry`, `kiln`, `bare_soil`, `construction`, `riverbed`, `ash_pond`, `industrial`, `other`. A site dropped as `quarry`, `kiln`, `bare_soil`, `construction`, `riverbed`, `ash_pond` or `industrial` is also a hand-checked look-alike, so it counts towards step 4.
 
 ## 3. Build and seal the Gujarat test list
 
@@ -67,7 +73,7 @@ python scripts/kml_to_csv.py labels/gujarat_test.kml --kind gujarat
 
 ## 4. Pin look-alikes outside Gujarat
 
-1. Make a folder named `lookalikes`. Each placemark's name starts with its class: `quarry`, `kiln`, `bare_soil`, `construction`, `riverbed` or `other` (for example `kiln 12`).
+1. Make a folder named `lookalikes`. Each placemark's name starts with its class: `quarry`, `kiln`, `bare_soil`, `construction`, `riverbed`, `ash_pond`, `industrial` or `other` (for example `kiln 12`).
 2. Pin them as you come across them while screening, in training states only. Any pin inside Gujarat is left out.
 3. Save as `labels/lookalikes.kml`, then run:
 
