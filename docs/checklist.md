@@ -103,6 +103,7 @@ Two days is enough because by now there are no decisions left, only a run. Gate 
 - [ ] Pick the one model you will report as primary, based on leave-one-state-out results alone, using the selection rule fixed in Phase 2.
 - [ ] Fix its hyperparameters, its decision threshold, and the feature list.
 - [ ] Fix how a Gujarat site counts as found: a flagged pixel inside its outline, or within a stated radius of its pin.
+- [ ] Apply the same 1 ha minimum to Gujarat: sites under 1 ha stay on the list but are left out of the recall count and reported separately.
 - [ ] Commit all of it. Tag the commit and push the tag before scoring Gujarat. The tag is your evidence at the viva that the freeze happened before the test, and the push gives it a GitHub timestamp.
 - [ ] Write down, now, what result would count as failure. Deciding this after seeing Gujarat is how a negative result gets quietly reframed as a success.
 

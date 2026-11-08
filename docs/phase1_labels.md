@@ -56,7 +56,7 @@ Anything dug out of the ground (quarries, mines, mine spoil, ore dumps) is `quar
 
 Rows with the same `group_id` lie within 500 m of each other and are usually one place. Use Data > Filter on `group_id` (filter, not sort) to decide them together, then clear the filter.
 
-Drop reasons: `not_visible`, `inactive` (capped, vegetated or built over), `mislocated`, `too_small`, `quarry`, `kiln`, `bare_soil`, `construction`, `riverbed`, `ash_pond`, `industrial`, `other`. A site dropped as `quarry`, `kiln`, `bare_soil`, `construction`, `riverbed`, `ash_pond` or `industrial` is also a hand-checked look-alike, so it counts towards step 4.
+Drop reasons: `not_visible`, `inactive` (capped, vegetated or built over), `mislocated`, `too_small`, `quarry`, `kiln`, `bare_soil`, `construction`, `riverbed`, `ash_pond`, `industrial`, `other`. `too_small` means the waste you can see covers less than 1 ha (about 100 m × 100 m), measured on the waste itself rather than the compound wall around it. Below 1 ha, the 15 m edge inset leaves fewer than 20 sample points, and the site is smaller than one native Landsat thermal pixel (100 m). When you search for new sites, look for ones of 2 ha or more first; they give the full 40–50 points. A site dropped as `quarry`, `kiln`, `bare_soil`, `construction`, `riverbed`, `ash_pond` or `industrial` is also a hand-checked look-alike, so it counts towards step 4.
 
 ## 3. Build and seal the Gujarat test list
 
