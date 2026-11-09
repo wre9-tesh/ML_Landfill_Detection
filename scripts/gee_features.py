@@ -6,14 +6,15 @@
     python scripts/gee_features.py --project YOUR-CLOUD-PROJECT
 
 Reads data/samples/points.csv and writes data/features/features.csv (the points plus
-the ten feature columns) and data/features/features_meta.json (every setting used).
+the twelve feature columns) and data/features/features_meta.json (every setting used).
 Fetched points are kept in data/features/cache.csv, so a run that stops can simply be
 started again, and later runs fetch only points that are new.
 
 Features, all from the 2024 pre-monsoon window (1 March to 31 May 2024):
-  B3 B4 B8 B11  Sentinel-2 surface reflectance: median of scenes under 10% cloud, with
+  B2 B3 B4 B8 B11  Sentinel-2 surface reflectance: median of scenes under 10% cloud, with
                 cloud, shadow, cirrus, snow and defective pixels masked (scene classification)
-  NDVI NDBI     from the median bands: (B8 - B4) / (B8 + B4) and (B11 - B8) / (B11 + B8)
+  NDVI NDBI BSI from the median bands: (B8 - B4) / (B8 + B4), (B11 - B8) / (B11 + B8) and
+                ((B11 + B4) - (B8 + B2)) / ((B11 + B4) + (B8 + B2)), the bare soil index
   LST           Landsat 8/9 surface temperature in deg C: median of scenes under 30% cloud,
                 with cloud and shadow pixels masked, bilinear to 10 m
   LST_anom      LST minus the mean LST of land within 2 km, computed at 100 m (about the
@@ -33,7 +34,7 @@ from pathlib import Path
 
 from geoutil import REPO
 
-BANDS = ["B3", "B4", "B8", "B11", "NDVI", "NDBI", "LST", "LST_anom", "elev", "slope"]
+BANDS = ["B2", "B3", "B4", "B8", "B11", "NDVI", "NDBI", "BSI", "LST", "LST_anom", "elev", "slope"]
 PARAMS = {
     "start": "2024-03-01",
     "end": "2024-06-01",  # exclusive
@@ -53,12 +54,12 @@ TRANSIENT = ("Too many concurrent", "rate limit", "Rate Limit", "Quota exceeded"
 
 
 def feature_image(ee, region, p=PARAMS):
-    """The ten-band feature stack over region (any geometry the scenes must touch)."""
+    """The twelve-band feature stack over region (any geometry the scenes must touch)."""
 
     def s2_prep(img):
         masked = p["s2_masked_scl_classes"]
         clear = img.select("SCL").remap(masked, [0] * len(masked), 1)
-        return img.select(["B3", "B4", "B8", "B11"]).divide(10000).updateMask(clear)
+        return img.select(["B2", "B3", "B4", "B8", "B11"]).divide(10000).updateMask(clear)
 
     def landsat_prep(img):
         clear = img.select("QA_PIXEL").bitwiseAnd(0b11110).eq(0)  # bits 1-4: dilated cloud, cirrus, cloud, shadow
@@ -69,6 +70,9 @@ def feature_image(ee, region, p=PARAMS):
           .filter(ee.Filter.lt("CLOUDY_PIXEL_PERCENTAGE", p["s2_max_scene_cloud_pct"])).map(s2_prep).median())
     s2 = s2.addBands(s2.normalizedDifference(["B8", "B4"]).rename("NDVI"))
     s2 = s2.addBands(s2.normalizedDifference(["B11", "B8"]).rename("NDBI"))
+    s2 = s2.addBands(s2.select("B11").add(s2.select("B4")).rename("soil")
+                     .addBands(s2.select("B8").add(s2.select("B2")).rename("veg"))
+                     .normalizedDifference(["soil", "veg"]).rename("BSI"))
 
     l8, l9 = (ee.ImageCollection(c) for c in p["landsat_collections"])
     lst = (l8.merge(l9).filterDate(p["start"], p["end"]).filterBounds(region)
@@ -140,7 +144,8 @@ def main():
                  f"'{args.project}' is the Cloud project registered for Earth Engine.")
 
     p = dict(PARAMS, lst_background_radius_m=args.lst_radius_m)
-    phash = hashlib.sha1(json.dumps(p, sort_keys=True).encode()).hexdigest()[:10]
+    # The band list is part of the hash, so adding a feature refetches every point.
+    phash = hashlib.sha1(json.dumps(dict(p, bands=BANDS), sort_keys=True).encode()).hexdigest()[:10]
     with open(args.points, newline="", encoding="utf-8") as f:
         points = list(csv.DictReader(f))
     point_cols = list(points[0].keys()) if points else []

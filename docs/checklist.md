@@ -87,6 +87,7 @@ Rules fixed on Nov 4, before any results:
 
 - [ ] Leave-one-state-out as the headline. A state with at least 10 kept places (distinct `group_id`s) is its own validation fold; smaller states are in the training data of every fold and are never scored. If fewer than five states qualify, the folds are the Zonal Council regions instead (Northern, Central, Eastern, Western, Southern, North-Eastern), so no grouping is chosen after seeing results.
 - [ ] Random-pixel split and site-grouped split computed too, reported only as contrast. These are the first two rungs of the Phase 4 ablation, so compute them now while the pipeline is open.
+- [ ] Features: the twelve in `docs/phase2_features.md` (B2, B3, B4, B8, B11, NDVI, NDBI, BSI, LST, LST_anom, elev, slope). BSI and B2 were added on Nov 9, before any model was run. Every model in the comparison uses all twelve; the feature sets in the Phase 4 feature ablation are fixed here and are never used to choose the primary model.
 - [ ] Report precision, recall and F1 per fold, not just the mean. Fold variance is a result in itself.
 - [ ] Selection rule for the primary model: the best mean leave-one-state-out F1. If a simpler model is within one standard deviation (across folds) of the best, take the simpler one. Simplest first: published threshold rule, recalibrated threshold rule, logistic regression, decision tree, bagged trees, random forest, AdaBoost, gradient boosting.
 
@@ -125,7 +126,15 @@ Four pages including references, two columns, the course LaTeX template adapted 
 
 ### Depth analysis
 
-- [ ] Split ablation. Same model, four evaluation designs: random pixel, held-out site, held-out state, Gujarat. One table or one chart showing the metric falling as validation gets honest. Prioritise this — it is the result that makes the paper interesting whether or not the model works. Run it for every model, so the drop from random pixel to held-out state can be compared between bagging and boosting, and add the random forest's out-of-bag score as an extra rung: it is a random-pixel estimate in disguise.
+- [ ] Split ablation. Here the thing changed is the evaluation, not the model. Same model, four evaluation designs: random pixel, held-out site, held-out state, Gujarat. One table or one chart showing the metric falling as validation gets honest. Prioritise this — it is the result that makes the paper interesting whether or not the model works. Run it for every model, so the drop from random pixel to held-out state can be compared between bagging and boosting, and add the random forest's out-of-bag score as an extra rung: it is a random-pixel estimate in disguise.
+- [ ] Feature ablation. An ablation removes one part of the method and re-measures, so you can say what each part contributes. Retrain the frozen primary model, with the same settings, on each feature set below and report leave-one-state-out F1 (mean and SD across folds) next to the full model. Gujarat numbers for these rows are post-hoc and select nothing; the frozen full model stays the reported result.
+  - A0 full: all twelve features (the frozen model)
+  - A1 published: NDVI, NDBI, LST only, the inputs of the published threshold rule
+  - A2 published + BSI: NDVI, NDBI, BSI, LST
+  - A3 no BSI: full minus BSI and B2, the original ten
+  - A4 no thermal: full minus LST and LST_anom
+  - A5 no terrain: full minus elev and slope
+  If time is short, keep A0, A1 and A4: they answer whether more features than the published three help, and whether the expensive thermal features earn their place.
 - [ ] Precision versus prevalence. Derive what your measured TPR and FPR imply for precision at realistic dumpsite prevalence, and contrast with precision measured on a balanced test set. Use pixel counts rather than percentages — it reads more clearly.
 - [ ] Threshold sensitivity on Gujarat, post-hoc, explicitly selecting nothing.
 - [ ] Failure audit. Break the false positives down by look-alike class and by region, using the class column from Phase 1.

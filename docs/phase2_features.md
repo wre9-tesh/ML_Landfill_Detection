@@ -1,6 +1,6 @@
 # Phase 2: sample points and Earth Engine features
 
-Two scripts turn the screening decisions into the training table. `build_samples.py` picks sample points from your decisions and needs no internet; `gee_features.py` reads the ten features at those points from Earth Engine. Run both after each screening session: points already drawn and features already fetched are reused, so each run only adds what is new.
+Two scripts turn the screening decisions into the training table. `build_samples.py` picks sample points from your decisions and needs no internet; `gee_features.py` reads the twelve features at those points from Earth Engine. Run both after each screening session: points already drawn and features already fetched are reused, so each run only adds what is new.
 
 ## One-time setup
 
@@ -48,12 +48,15 @@ All from the 2024 pre-monsoon window, 1 March to 31 May 2024.
 
 | Feature | Source and processing |
 | --- | --- |
-| `B3`, `B4`, `B8`, `B11` | Sentinel-2 surface reflectance: median of scenes under 10% cloud, with cloud, shadow, cirrus, snow and defective pixels masked by the scene classification layer |
+| `B2`, `B3`, `B4`, `B8`, `B11` | Sentinel-2 surface reflectance: median of scenes under 10% cloud, with cloud, shadow, cirrus, snow and defective pixels masked by the scene classification layer |
 | `NDVI`, `NDBI` | From the median bands: (B8 − B4) / (B8 + B4) and (B11 − B8) / (B11 + B8) |
+| `BSI` | Bare soil index from the median bands: ((B11 + B4) − (B8 + B2)) / ((B11 + B4) + (B8 + B2)). NDBI is high for both roofs and bare or disturbed ground; BSI is lower on roofs and paving, so the pair helps separate dumps from built-up land. It is also high on quarries, bare soil and dry riverbeds, so it does not separate dumps from those. Added Nov 9, before any features were fetched or any model was run |
 | `LST` | Landsat 8/9 surface temperature in °C: median of scenes under 30% cloud, with cloud and shadow pixels masked, bilinear to 10 m |
 | `LST_anom` | LST minus the mean LST of land within 2 km, computed at 100 m, about the native thermal resolution. Permanent water (JRC Global Surface Water, at least 50% occurrence) is left out of the mean, so coastal sites are not made to look hotter than they are |
 | `elev`, `slope` | SRTM elevation (m) and slope (degrees), slope computed at the native 30 m |
 
 The Landsat scene filter is looser than the Sentinel-2 one because there are fewer thermal scenes (one every 8 days from the two satellites, against one every 5 days); cloudy pixels are masked either way. A point whose pixel is masked in every scene comes back empty: `features.csv` keeps the row, and the modelling step reports and drops it.
+
+The band list is part of the settings hash, so adding a feature makes the next run refetch every point.
 
 Every setting is written to `data/features/features_meta.json` with the run, and `gee_features.feature_image()` builds the same stack when Gujarat is scored in Phase 3.
