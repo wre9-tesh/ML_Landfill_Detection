@@ -1,33 +1,33 @@
 # Dumpsite project — checklist to Nov 17
 
-Oct 27, 2026 · @VXCIO · revised Nov 3, 2026 for the late start
+Oct 27, 2026 · @VXCIO · revised Nov 3, 2026 for the late start and Nov 4, 2026 for Gate 1 and the model rules
 
 > Exported 31 Oct 2026 from the Claude Docs checklist (revision 7): https://claude.ai/artifact/G9CZC7b3Ew6kSD9A16DLLP. The doc still has the original Oct 27 dates; this file has the revised ones.
 
-Work started on Nov 3 rather than Oct 27, leaving 15 days instead of 22. Phase 2 shrinks to two days because its code is written during Phase 1; the rest of the time comes from the scope cuts under Slack.
+Work started on Nov 3 rather than Oct 27, leaving 15 days instead of 22. Phase 2 shrinks because its code is written during Phase 1; the rest of the time comes from the scope cuts under Slack. On Nov 4, Gate 1 moved to Fri Nov 6, which leaves Phase 2 a single day.
 
 | Phase | Dates | Gate |
 | --- | --- | --- |
-| 1 Labels | Tue Nov 3 – Thu Nov 5 | Thu Nov 5: Gujarat list sealed and pushed; India screening stops wherever it has reached |
-| 2 Features and models | Fri Nov 6 – Sat Nov 7 | Sat Nov 7: leave-one-state-out results for every model |
+| 1 Labels | Tue Nov 3 – Fri Nov 6 | Fri Nov 6: Gujarat list sealed and pushed; India screening stops wherever it has reached |
+| 2 Features and models | Sat Nov 7 | Sat Nov 7: leave-one-state-out results for every model |
 | Diwali | Sun Nov 8 | |
 | 3 Freeze, then Gujarat | Mon Nov 9 – Tue Nov 10 | Tue Nov 10: results frozen and not revisited |
 | 4 Depth analysis and paper | Wed Nov 11 – Sat Nov 14 | |
 | 5 Site, repo, submit | Sun Nov 15 – Tue Nov 17 | Submit Tue Nov 17 |
 
-## Phase 1 — labels (Nov 3 – 5)
+## Phase 1 — labels (Nov 3 – 6)
 
-The only input nothing downstream can fix. Gate 1 is Thu Nov 5, 2026: the Gujarat list is sealed and pushed, and India screening stops wherever it has reached. Step-by-step instructions are in [phase1_labels.md](phase1_labels.md).
+The only input nothing downstream can fix. Gate 1 is Fri Nov 6, 2026: the Gujarat list is sealed and pushed, and India screening stops wherever it has reached. Step-by-step instructions are in [phase1_labels.md](phase1_labels.md).
 
 ### India training labels
 
-- [ ] Export OSM `landuse=landfill` nodes, ways and relations for India with the query in [phase1_labels.md](phase1_labels.md). Overpass is blocked from Claude's workspace, so run it in your browser at overpass-turbo.eu and upload the GeoJSON, or run `scripts/osm_to_screening.py` yourself.
+- [x] Export OSM `landuse=landfill` nodes, ways and relations for India with the query in [phase1_labels.md](phase1_labels.md). Overpass is blocked from Claude's workspace, so run it in your browser at overpass-turbo.eu and upload the GeoJSON, or run `scripts/osm_to_screening.py` yourself.
 - [ ] Check `labels/osm_excluded.csv`: the script drops anything tagged disused, abandoned or with an end date, anything with "quarry" in its name, and sites in Dadra and Nagar Haveli and Daman and Diu.
 - [ ] Check the Agrawal et al. (2026) supplementary file for the Appendix B 80-site list, 15 minutes at most. Don't email the author: a reply would not arrive in time.
 - [ ] Add the 53 Madhya Pradesh sites from Bhajantri & Mandpe (2026).
 - [ ] Move every Gujarat site found in any of these sources into the test set, not the training set. The script already does this for OSM.
 - [ ] Screen each remaining site by eye in Google Earth Pro, in `screen_order`, against the imagery closest to March–May 2024. Record a keep/drop decision per site in `labels/india_screening.csv` — this file is a paper figure later.
-- [ ] Screen until Thursday evening; there is no fixed target. Note the per-state counts; leave-one-state-out needs at least four or five states with real coverage.
+- [ ] Screen until Friday evening; there is no fixed target. Note the per-state counts; leave-one-state-out needs at least four or five states with real coverage.
 
 ### Negatives
 
@@ -39,23 +39,26 @@ The only input nothing downstream can fix. Gate 1 is Thu Nov 5, 2026: the Gujara
 - [ ] Put your 14 known sites across 10 cities into a `gujarat_test` folder in Google Earth Pro, named `City | site name`, with outlines where you can.
 - [ ] Get to 20+ from the GPCB annual report under the SWM Rules, NGT filings, the SBM-U / DRAP dashboards and `labels/gujarat_osm_candidates.kml`.
 - [ ] Confirm each one by eye.
-- [ ] Save as `labels/gujarat_test.kml`, convert it with `scripts/kml_to_csv.py --kind gujarat`, commit both files and push by Thu Nov 5. Do not open them again until Nov 9.
+- [ ] Save as `labels/gujarat_test.kml`, convert it with `scripts/kml_to_csv.py --kind gujarat`, commit both files and push by Fri Nov 6. Do not open them again until Nov 9.
 
 ### In parallel: code (Claude)
 
-- [ ] Earth Engine feature export for the Phase 2 stack, sampled at points.
-- [ ] Model and validation code: the five models below, leave-one-state-out, random-pixel and site-grouped splits, per-fold metrics.
-- [ ] Dry run on the first screened sites, Thu Nov 5, so Phase 2 only has to run.
+- [x] `scripts/build_samples.py`: screening decisions to sample points (written Nov 4; see [phase2_features.md](phase2_features.md)).
+- [x] `scripts/gee_features.py`: the Phase 2 feature stack, sampled at those points (written Nov 4).
+- [ ] First real run on about 100 screened rows, Thu Nov 5: you run both scripts and push `data/samples/` and `data/features/`.
+- [ ] Model and validation code: the nine models, the three splits, per-fold metrics and the selection rule below; dry run on the Nov 5 features.
 
 ### Fallback
 
-If you reach Thursday evening, Nov 5, with fewer than 200 screened India sites, stop screening and proceed anyway. Report the number you got and treat the shortfall as a stated limitation. Do not let this phase eat into Phase 2.
+If you reach Friday evening, Nov 6, with fewer than 200 screened India sites, stop screening and proceed anyway. Report the number you got and treat the shortfall as a stated limitation. Do not let this phase eat into Phase 2.
 
-## Phase 2 — features and models (Nov 6 – 7)
+## Phase 2 — features and models (Nov 7)
 
-Two days, which works only because the code was written and dry-run during Phase 1. Gate 2 is Sat Nov 7, 2026: leave-one-state-out results in hand for every model.
+One day, which works only because the code is written and dry-run during Phase 1. Gate 2 is Sat Nov 7, 2026: leave-one-state-out results in hand for every model.
 
 ### Feature stack in GEE
+
+Implemented in `scripts/gee_features.py`; the processing details are in [phase2_features.md](phase2_features.md).
 
 - [ ] Sentinel-2 surface reflectance, 2024 pre-monsoon, cloud filter under 10%, median composite. Bands 3, 4, 8, 11.
 - [ ] NDVI and NDBI computed from those bands.
@@ -66,17 +69,27 @@ Two days, which works only because the code was written and dry-run during Phase
 
 ### Models
 
+Fixed on Nov 4, before any results. No hyperparameter tuning: scikit-learn defaults except where stated, with class-balanced weights so that every model is compared at a 0.5 probability threshold.
+
 - [ ] Flag-nothing reference. Trivial, but it anchors the precision discussion and takes five minutes.
 - [ ] Threshold rule using the published Madhya Pradesh cut-offs (NDBI > 0.028, NDVI < 0.15, LST > 37.0 °C), cited to Bhajantri & Mandpe (2026).
-- [ ] The same rule recalibrated on your training states.
-- [ ] Logistic regression.
-- [ ] Random forest.
+- [ ] The same rule recalibrated on your training states: the three cut-offs refitted inside each round.
+- [ ] Logistic regression on standardised features.
+- [ ] Decision tree, fully grown: the single-tree reference, low bias and high variance.
+- [ ] Bagged trees: 200 fully grown trees.
+- [ ] Random forest: 500 trees; also record its out-of-bag score.
+- [ ] AdaBoost: 200 stumps (scikit-learn's SAMME).
+- [ ] Gradient boosting: scikit-learn defaults (100 trees of depth 3, learning rate 0.1). Its leaf values are the single Newton step derived in the course notes.
 
 ### Validation
 
-- [ ] Leave-one-state-out as the headline. One fold per state with enough sites.
+Rules fixed on Nov 4, before any results:
+
+- [ ] Leave-one-state-out as the headline. A state with at least 10 kept places (distinct `group_id`s) is its own validation fold; smaller states are in the training data of every fold and are never scored. If fewer than five states qualify, the folds are the Zonal Council regions instead (Northern, Central, Eastern, Western, Southern, North-Eastern), so no grouping is chosen after seeing results.
 - [ ] Random-pixel split and site-grouped split computed too, reported only as contrast. These are the first two rungs of the Phase 4 ablation, so compute them now while the pipeline is open.
+- [ ] Features: the twelve in `docs/phase2_features.md` (B2, B3, B4, B8, B11, NDVI, NDBI, BSI, LST, LST_anom, elev, slope). BSI and B2 were added on Nov 9, before any model was run. Every model in the comparison uses all twelve; the feature sets in the Phase 4 feature ablation are fixed here and are never used to choose the primary model.
 - [ ] Report precision, recall and F1 per fold, not just the mean. Fold variance is a result in itself.
+- [ ] Selection rule for the primary model: the best mean leave-one-state-out F1. If a simpler model is within one standard deviation (across folds) of the best, take the simpler one. Simplest first: published threshold rule, recalibrated threshold rule, logistic regression, decision tree, bagged trees, random forest, AdaBoost, gradient boosting.
 
 ### Risks this week
 
@@ -88,9 +101,10 @@ Two days is enough because by now there are no decisions left, only a run. Gate 
 
 ### Freeze checklist (Nov 9, before anything else)
 
-- [ ] Pick the one model you will report as primary, based on leave-one-state-out results alone.
+- [ ] Pick the one model you will report as primary, based on leave-one-state-out results alone, using the selection rule fixed in Phase 2.
 - [ ] Fix its hyperparameters, its decision threshold, and the feature list.
 - [ ] Fix how a Gujarat site counts as found: a flagged pixel inside its outline, or within a stated radius of its pin.
+- [ ] Apply the same 1 ha minimum to Gujarat: sites under 1 ha stay on the list but are left out of the recall count and reported separately.
 - [ ] Commit all of it. Tag the commit and push the tag before scoring Gujarat. The tag is your evidence at the viva that the freeze happened before the test, and the push gives it a GitHub timestamp.
 - [ ] Write down, now, what result would count as failure. Deciding this after seeing Gujarat is how a negative result gets quietly reframed as a success.
 
@@ -112,7 +126,15 @@ Four pages including references, two columns, the course LaTeX template adapted 
 
 ### Depth analysis
 
-- [ ] Split ablation. Same model, four evaluation designs: random pixel, held-out site, held-out state, Gujarat. One table or one chart showing the metric falling as validation gets honest. Prioritise this — it is the result that makes the paper interesting whether or not the model works.
+- [ ] Split ablation. Here the thing changed is the evaluation, not the model. Same model, four evaluation designs: random pixel, held-out site, held-out state, Gujarat. One table or one chart showing the metric falling as validation gets honest. Prioritise this — it is the result that makes the paper interesting whether or not the model works. Run it for every model, so the drop from random pixel to held-out state can be compared between bagging and boosting, and add the random forest's out-of-bag score as an extra rung: it is a random-pixel estimate in disguise.
+- [ ] Feature ablation. An ablation removes one part of the method and re-measures, so you can say what each part contributes. Retrain the frozen primary model, with the same settings, on each feature set below and report leave-one-state-out F1 (mean and SD across folds) next to the full model. Gujarat numbers for these rows are post-hoc and select nothing; the frozen full model stays the reported result.
+  - A0 full: all twelve features (the frozen model)
+  - A1 published: NDVI, NDBI, LST only, the inputs of the published threshold rule
+  - A2 published + BSI: NDVI, NDBI, BSI, LST
+  - A3 no BSI: full minus BSI and B2, the original ten
+  - A4 no thermal: full minus LST and LST_anom
+  - A5 no terrain: full minus elev and slope
+  If time is short, keep A0, A1 and A4: they answer whether more features than the published three help, and whether the expensive thermal features earn their place.
 - [ ] Precision versus prevalence. Derive what your measured TPR and FPR imply for precision at realistic dumpsite prevalence, and contrast with precision measured on a balanced test set. Use pixel counts rather than percentages — it reads more clearly.
 - [ ] Threshold sensitivity on Gujarat, post-hoc, explicitly selecting nothing.
 - [ ] Failure audit. Break the false positives down by look-alike class and by region, using the class column from Phase 1.
@@ -152,11 +174,11 @@ Submission is Tue Nov 17, 2026. Sun Nov 15 is for the results map and the repo, 
 
 No fixed date, but each one blocks something if left.
 
-- [ ] Put the GEE project on the Contributor tier (1,000 EECU-hours a month). Do this on Nov 3; Phase 2 starts Nov 6.
+- [ ] Put the GEE project on the Contributor tier (1,000 EECU-hours a month). Do this before the first Earth Engine run on Nov 5.
 - [ ] Check the registered project title still matches the proposal as submitted. If it does not, ask the course staff now rather than at submission.
 - [ ] Keep a running note of AI tools used and what for, so the disclosure is not reconstructed from memory on Nov 14.
 - [ ] Update the project plan doc, which still describes the earlier replication design and a Nov 10 deadline.
 
 ### Slack
 
-The late start has already used up the first round of cuts: no 300-site target, about 100 look-alikes instead of 300, no email for Appendix B, and Claude builds the results map. Nov 8 is Diwali, and Mon Nov 16 is the only spare day. If a gate slips by more than a day, cut further rather than spending Nov 16: drop the recalibrated threshold rule, drop the second figure, or reduce the blind eye check from 100 candidates to 50. Do not cut the split ablation or the freeze.
+The late start has already used up the first round of cuts: no 300-site target, about 100 look-alikes instead of 300, no email for Appendix B, and Claude builds the results map. Gate 1 then moved a day, to Fri Nov 6, leaving Phase 2 a single day; that only works if both scripts have run on real data by Nov 5. Nov 8 is Diwali, and Mon Nov 16 is the only spare day. If a gate slips by more than a day, cut further rather than spending Nov 16: drop the recalibrated threshold rule, drop the second figure, or reduce the blind eye check from 100 candidates to 50. Do not cut the split ablation or the freeze.

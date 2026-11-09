@@ -5,7 +5,9 @@
     python scripts/kml_to_csv.py extra_sites.kml --kind extra
 
 Accepts .kml or .kmz, points or drawn polygons (a polygon gives its centroid
-and area). Naming rules, set in docs/phase1_labels.md:
+and area). Writes the CSV and, next to it, a GeoJSON with the same rows and
+their outlines, which scripts/build_samples.py samples from. Naming rules, set
+in docs/phase1_labels.md:
   gujarat    "City | site name", source in the description
   lookalike  name starts with the class: quarry, kiln, bare_soil, construction, riverbed, ash_pond, industrial, other
   extra      active landfills found while screening that are not in the OSM list; any name
@@ -16,6 +18,7 @@ left out, because training labels must come from outside it.
 """
 import argparse
 import csv
+import json
 import re
 import sys
 import zipfile
@@ -61,7 +64,7 @@ def read_kml(path):
 
 
 def placemarks(root):
-    """Yield (folder path, name, description, lon, lat, area_ha, geometry kind)."""
+    """Yield one dict per placemark: folder, name, desc, lon, lat, area_ha, geometry and polys."""
 
     def walk(el, folders):
         for child in el:
@@ -100,13 +103,26 @@ def placemarks(root):
                             rings.append(ring)
                 if rings:
                     polys.append(rings)
+        base = {"folder": " / ".join(folders), "name": name, "desc": desc}
         if polys:
             area, (lon, lat) = area_centroid(polys)
-            yield " / ".join(folders), name, desc, lon, lat, round(area, 3), "polygon"
+            yield {**base, "lon": lon, "lat": lat, "area_ha": round(area, 3), "geometry": "polygon", "polys": polys}
         elif point:
-            yield " / ".join(folders), name, desc, point[0], point[1], "", "point"
+            yield {**base, "lon": point[0], "lat": point[1], "area_ha": "", "geometry": "point", "polys": []}
 
     yield from walk(root, [])
+
+
+def write_geojson(path, rows, geoms):
+    feats = []
+    for r, (polys, lon, lat) in zip(rows, geoms):
+        if polys:
+            g = {"type": "MultiPolygon", "coordinates": [[[list(p) for p in ring] for ring in poly] for poly in polys]}
+        else:
+            g = {"type": "Point", "coordinates": [lon, lat]}
+        feats.append({"type": "Feature", "properties": r, "geometry": g})
+    with open(path, "w", encoding="utf-8") as f:
+        json.dump({"type": "FeatureCollection", "features": feats}, f, ensure_ascii=False)
 
 
 def lookalike_class(name):
@@ -126,11 +142,13 @@ def main():
     args = ap.parse_args()
 
     states = StateIndex()
-    rows, problems = [], []
-    for folder, name, desc, lon, lat, area, kind in placemarks(read_kml(Path(args.kml))):
+    rows, geoms, problems = [], [], []
+    for pm in placemarks(read_kml(Path(args.kml))):
+        name, lon, lat = pm["name"], pm["lon"], pm["lat"]
         iso, sname, method = states.lookup(lon, lat)
-        base = {"lat": round(lat, 6), "lon": round(lon, 6), "area_ha": area, "geometry": kind,
-                "state_iso": iso or "", "state_method": method, "folder": folder, "notes": desc}
+        base = {"lat": round(lat, 6), "lon": round(lon, 6), "area_ha": pm["area_ha"], "geometry": pm["geometry"],
+                "state_iso": iso or "", "state_method": method, "folder": pm["folder"], "notes": pm["desc"]}
+        n_before = len(rows)
         if args.kind == "gujarat":
             city, sep, site = (p.strip() for p in name.partition("|"))
             if not sep:
@@ -153,6 +171,8 @@ def main():
                 problems.append(f"inside the held-out region, row left out: {name!r}")
                 continue
             rows.append({"lookalike_id": f"la{len(rows) + 1:04d}", "class": cls, "name": name, **base})
+        if len(rows) > n_before:
+            geoms.append((pm["polys"], lon, lat))
 
     if args.kind == "gujarat":
         cols = ["test_id", "city", "site_name", "lat", "lon", "area_ha", "geometry", "state_iso", "state_method",
@@ -170,8 +190,9 @@ def main():
         w = csv.DictWriter(f, fieldnames=cols)
         w.writeheader()
         w.writerows(rows)
+    write_geojson(out.with_suffix(".geojson"), rows, geoms)
 
-    print(f"{len(rows)} rows written to {out}")
+    print(f"{len(rows)} rows written to {out} and {out.with_suffix('.geojson').name}")
     if args.kind == "lookalike":
         counts = {}
         for r in rows:
