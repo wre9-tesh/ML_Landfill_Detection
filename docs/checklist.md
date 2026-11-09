@@ -105,7 +105,7 @@ Two days is enough because by now there are no decisions left, only a run. Gate 
 - [ ] Fix its hyperparameters, its decision threshold, and the feature list.
 - [ ] Fix how a Gujarat site counts as found: a flagged pixel inside its outline, or within a stated radius of its pin.
 - [ ] Apply the same 1 ha minimum to Gujarat: sites under 1 ha stay on the list but are left out of the recall count and reported separately.
-- [ ] Commit all of it. Tag the commit and push the tag before scoring Gujarat. The tag is your evidence at the viva that the freeze happened before the test, and the push gives it a GitHub timestamp.
+- [ ] Commit all of it. Tag the commit and push the tag before scoring Gujarat. The tag is your evidence, on the website and in the paper, that the freeze happened before the test, and the push gives it a GitHub timestamp.
 - [ ] Write down, now, what result would count as failure. Deciding this after seeing Gujarat is how a negative result gets quietly reframed as a success.
 
 ### The Gujarat pass (Nov 9 – 10)
@@ -148,15 +148,22 @@ Four pages including references, two columns, the course LaTeX template adapted 
 - [ ] State the AI tools used and the kinds of assistance, as the course requires.
 - [ ] Cite Bhajantri & Mandpe (2026) where their cut-offs serve as the baseline, and every other external source.
 
-## Phase 5 — site, repo, submit (Nov 15 – 17)
+## Phase 5 — website, repo, submit (Nov 15 – 17)
 
 Submission is Tue Nov 17, 2026. Sun Nov 15 is for the results map and the repo, Mon Nov 16 for the clean-clone check and otherwise spare.
 
-### Results map
+### Presentation website
 
-- [ ] Static page, GitHub Pages plus Leaflet, built from the frozen Phase 3 output. No backend, no live inference.
-- [ ] Gujarat candidates as a GeoJSON. Click a point for the Sentinel-2 chip, the model score, NDVI / NDBI / LST values, and the blind-check verdict.
-- [ ] Claude builds it on Nov 15 and you check it. It is not in the rubric except as reproducibility support, and the paper comes first.
+There is no viva. The work is presented through a website, alongside the four-page paper, which is still required.
+
+- [ ] Static site on GitHub Pages, built from the frozen Phase 3 output. No backend, no live inference, so nothing can break during the presentation.
+- [ ] No image upload. The model reads 12 values per 10 m pixel (Sentinel-2 bands including shortwave infrared, Landsat temperature, terrain), which a screenshot does not contain; an image classifier would be a different, unevaluated model.
+- [ ] Map: the model score over the Gujarat test districts, the sealed test sites marked found or missed, and the top alarms with their blind-check verdicts. Clicking a spot or pasting coordinates shows the score, the 12 feature values and what is on the ground.
+- [ ] Call the number a model score, not a confidence or probability, and show next to it what precision it implies at realistic prevalence.
+- [ ] Story sections: the question; the freeze and the held-out state; the split ablation chart; a precision-versus-prevalence slider; a gallery of look-alikes the model confused with dumps.
+- [ ] The Gujarat scoring step exports the score map as tiles for the site.
+- [ ] Claude builds the site; you write the text and check it. The paper comes first if time runs short.
+- [ ] Stretch, only if everything else is done: an Earth Engine App that scores any clicked point in India live.
 
 ### Repository
 
@@ -168,7 +175,7 @@ Submission is Tue Nov 17, 2026. Sun Nov 15 is for the results map and the repo, 
 
 - [ ] Paper PDF, source and reproducibility materials, through the portal.
 - [ ] Re-read the submission page for anything the proposal form did not mention.
-- [ ] Prepare for the individual defense: be ready to say exactly when the freeze happened and why the ablation matters.
+- [ ] Website link in the submission. Rehearse the walkthrough: when the freeze happened, why the split ablation matters, and why most high scores are still false alarms at real prevalence.
 
 ## Standing items
 
@@ -181,4 +188,4 @@ No fixed date, but each one blocks something if left.
 
 ### Slack
 
-The late start has already used up the first round of cuts: no 300-site target, about 100 look-alikes instead of 300, no email for Appendix B, and Claude builds the results map. Gate 1 then moved a day, to Fri Nov 6, leaving Phase 2 a single day; that only works if both scripts have run on real data by Nov 5. Nov 8 is Diwali, and Mon Nov 16 is the only spare day. If a gate slips by more than a day, cut further rather than spending Nov 16: drop the recalibrated threshold rule, drop the second figure, or reduce the blind eye check from 100 candidates to 50. Do not cut the split ablation or the freeze.
+The late start has already used up the first round of cuts: no 300-site target, about 100 look-alikes instead of 300, no email for Appendix B, and Claude builds the website. Gate 1 then moved a day, to Fri Nov 6, leaving Phase 2 a single day; that only works if both scripts have run on real data by Nov 5. Nov 8 is Diwali, and Mon Nov 16 is the only spare day. If a gate slips by more than a day, cut further rather than spending Nov 16: drop the recalibrated threshold rule, drop the second figure, or reduce the blind eye check from 100 candidates to 50. Do not cut the split ablation or the freeze.
