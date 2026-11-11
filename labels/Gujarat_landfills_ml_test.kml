@@ -1,0 +1,951 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2" xmlns:gx="http://www.google.com/kml/ext/2.2" xmlns:kml="http://www.opengis.net/kml/2.2" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:ex="http://earth.google.com/kml/ext">
+<Document id="1-KZTjwWnVwCkr3AtZBjlbU8GUk5NVJ58">
+	<ex:extension>base64;Co4BCoEBCn8KAggBEnkKdwokCiAKAwjQDxoHCNLtZRD_ASEAAAAAAADwPykAAAAAAAAAABgAEg8KCAitgO8HEP8BEKAfGAAaGgoHCP___wcQQBIICK2A7wcQ_wEYoB8gACgAIgkIARIFCP___wcqFwgBEggI____BxD_ARkAAAAAAADwPyAAEgQIARAAGgIIAA</ex:extension>
+	<name>Gujarat_landfills_ml</name>
+	<gx:CascadingStyle kml:id="__managed_style_1E24E6A095430195768B_normal">
+		<ex:extension>base64;EgIYAQ</ex:extension>
+		<Style>
+			<IconStyle>
+				<Icon>
+					<href>https://earth.google.com/earth/document/icon?color=1976d2&amp;id=2000&amp;scale=4</href>
+				</Icon>
+				<hotSpot x="64" y="128" xunits="pixels" yunits="insetPixels"/>
+			</IconStyle>
+			<LabelStyle>
+			</LabelStyle>
+			<LineStyle>
+				<color>ff2f2fd3</color>
+				<width>2.42424</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>00ffffff</color>
+			</PolyStyle>
+			<BalloonStyle>
+			</BalloonStyle>
+		</Style>
+	</gx:CascadingStyle>
+	<gx:CascadingStyle kml:id="__managed_style_13CE763297430195768C_highlight">
+		<ex:extension>base64;EgIYAQ</ex:extension>
+		<Style>
+			<IconStyle>
+				<scale>1.2</scale>
+				<Icon>
+					<href>https://earth.google.com/earth/document/icon?color=1976d2&amp;id=2000&amp;scale=4</href>
+				</Icon>
+				<hotSpot x="64" y="128" xunits="pixels" yunits="insetPixels"/>
+			</IconStyle>
+			<LabelStyle>
+			</LabelStyle>
+			<LineStyle>
+				<color>ff2f2fd3</color>
+				<width>3.63636</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>00ffffff</color>
+			</PolyStyle>
+			<BalloonStyle>
+			</BalloonStyle>
+		</Style>
+	</gx:CascadingStyle>
+	<gx:CascadingStyle kml:id="__managed_style_13CE763297430195768C_normal">
+		<ex:extension>base64;EgIYAQ</ex:extension>
+		<Style>
+			<IconStyle>
+				<Icon>
+					<href>https://earth.google.com/earth/document/icon?color=1976d2&amp;id=2000&amp;scale=4</href>
+				</Icon>
+				<hotSpot x="64" y="128" xunits="pixels" yunits="insetPixels"/>
+			</IconStyle>
+			<LabelStyle>
+			</LabelStyle>
+			<LineStyle>
+				<color>ff2f2fd3</color>
+				<width>2.42424</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>00ffffff</color>
+			</PolyStyle>
+			<BalloonStyle>
+			</BalloonStyle>
+		</Style>
+	</gx:CascadingStyle>
+	<StyleMap id="__managed_style_13CE763297430195768C">
+		<Pair>
+			<key>normal</key>
+			<styleUrl>#__managed_style_13CE763297430195768C_normal</styleUrl>
+		</Pair>
+		<Pair>
+			<key>highlight</key>
+			<styleUrl>#__managed_style_13CE763297430195768C_highlight</styleUrl>
+		</Pair>
+	</StyleMap>
+	<gx:CascadingStyle kml:id="__managed_style_0DB8E5B1C44301957688_highlight">
+		<ex:extension>base64;EgIYAQ</ex:extension>
+		<Style>
+			<IconStyle>
+				<scale>1.2</scale>
+				<Icon>
+					<href>https://earth.google.com/earth/document/icon?color=1976d2&amp;id=2000&amp;scale=4</href>
+				</Icon>
+				<hotSpot x="64" y="128" xunits="pixels" yunits="insetPixels"/>
+			</IconStyle>
+			<LabelStyle>
+			</LabelStyle>
+			<LineStyle>
+				<color>ff0000ff</color>
+				<width>1.10182</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>40ffffff</color>
+			</PolyStyle>
+			<BalloonStyle>
+			</BalloonStyle>
+		</Style>
+	</gx:CascadingStyle>
+	<gx:CascadingStyle kml:id="__managed_style_0DB8E5B1C44301957688_normal">
+		<ex:extension>base64;EgIYAQ</ex:extension>
+		<Style>
+			<IconStyle>
+				<Icon>
+					<href>https://earth.google.com/earth/document/icon?color=1976d2&amp;id=2000&amp;scale=4</href>
+				</Icon>
+				<hotSpot x="64" y="128" xunits="pixels" yunits="insetPixels"/>
+			</IconStyle>
+			<LabelStyle>
+			</LabelStyle>
+			<LineStyle>
+				<color>ff0000ff</color>
+				<width>0.734545</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>40ffffff</color>
+			</PolyStyle>
+			<BalloonStyle>
+			</BalloonStyle>
+		</Style>
+	</gx:CascadingStyle>
+	<StyleMap id="__managed_style_0C0BD1AF83430195768C">
+		<Pair>
+			<key>normal</key>
+			<styleUrl>#__managed_style_0C0BD1AF83430195768C_normal</styleUrl>
+		</Pair>
+		<Pair>
+			<key>highlight</key>
+			<styleUrl>#__managed_style_0C0BD1AF83430195768C_highlight</styleUrl>
+		</Pair>
+	</StyleMap>
+	<StyleMap id="__managed_style_0DB8E5B1C44301957688">
+		<Pair>
+			<key>normal</key>
+			<styleUrl>#__managed_style_0DB8E5B1C44301957688_normal</styleUrl>
+		</Pair>
+		<Pair>
+			<key>highlight</key>
+			<styleUrl>#__managed_style_0DB8E5B1C44301957688_highlight</styleUrl>
+		</Pair>
+	</StyleMap>
+	<gx:CascadingStyle kml:id="__managed_style_0C0BD1AF83430195768C_highlight">
+		<ex:extension>base64;EgIYAQ</ex:extension>
+		<Style>
+			<IconStyle>
+				<scale>1.2</scale>
+				<Icon>
+					<href>https://earth.google.com/earth/document/icon?color=1976d2&amp;id=2000&amp;scale=4</href>
+				</Icon>
+				<hotSpot x="64" y="128" xunits="pixels" yunits="insetPixels"/>
+			</IconStyle>
+			<LabelStyle>
+			</LabelStyle>
+			<LineStyle>
+				<color>ff2dc0fb</color>
+				<width>3.63636</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>40ffffff</color>
+			</PolyStyle>
+			<BalloonStyle>
+			</BalloonStyle>
+		</Style>
+	</gx:CascadingStyle>
+	<StyleMap id="__managed_style_091149BF09430195768B">
+		<Pair>
+			<key>normal</key>
+			<styleUrl>#__managed_style_091149BF09430195768B_normal</styleUrl>
+		</Pair>
+		<Pair>
+			<key>highlight</key>
+			<styleUrl>#__managed_style_091149BF09430195768B_highlight</styleUrl>
+		</Pair>
+	</StyleMap>
+	<gx:CascadingStyle kml:id="__managed_style_1E24E6A095430195768B_highlight">
+		<ex:extension>base64;EgIYAQ</ex:extension>
+		<Style>
+			<IconStyle>
+				<scale>1.2</scale>
+				<Icon>
+					<href>https://earth.google.com/earth/document/icon?color=1976d2&amp;id=2000&amp;scale=4</href>
+				</Icon>
+				<hotSpot x="64" y="128" xunits="pixels" yunits="insetPixels"/>
+			</IconStyle>
+			<LabelStyle>
+			</LabelStyle>
+			<LineStyle>
+				<color>ff2f2fd3</color>
+				<width>3.63636</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>00ffffff</color>
+			</PolyStyle>
+			<BalloonStyle>
+			</BalloonStyle>
+		</Style>
+	</gx:CascadingStyle>
+	<gx:CascadingStyle kml:id="__managed_style_091149BF09430195768B_highlight">
+		<ex:extension>base64;EgIYAQ</ex:extension>
+		<Style>
+			<IconStyle>
+				<scale>1.2</scale>
+				<Icon>
+					<href>https://earth.google.com/earth/document/icon?color=d32f2f&amp;id=2000&amp;scale=4</href>
+				</Icon>
+				<hotSpot x="64" y="128" xunits="pixels" yunits="insetPixels"/>
+			</IconStyle>
+			<LabelStyle>
+			</LabelStyle>
+			<LineStyle>
+				<color>ff2dc0fb</color>
+				<width>2.20364</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>40ffffff</color>
+			</PolyStyle>
+			<BalloonStyle>
+			</BalloonStyle>
+		</Style>
+	</gx:CascadingStyle>
+	<StyleMap id="__managed_style_0CB87A081C4301957689">
+		<Pair>
+			<key>normal</key>
+			<styleUrl>#__managed_style_0CB87A081C4301957689_normal</styleUrl>
+		</Pair>
+		<Pair>
+			<key>highlight</key>
+			<styleUrl>#__managed_style_0CB87A081C4301957689_highlight</styleUrl>
+		</Pair>
+	</StyleMap>
+	<gx:CascadingStyle kml:id="__managed_style_0CB87A081C4301957689_highlight">
+		<ex:extension>base64;EgIYAQ</ex:extension>
+		<Style>
+			<IconStyle>
+				<scale>1.2</scale>
+				<Icon>
+					<href>https://earth.google.com/earth/document/icon?color=d32f2f&amp;id=2000&amp;scale=4</href>
+				</Icon>
+				<hotSpot x="64" y="128" xunits="pixels" yunits="insetPixels"/>
+			</IconStyle>
+			<LabelStyle>
+			</LabelStyle>
+			<LineStyle>
+				<color>ff2dc0fb</color>
+				<width>2.20364</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>40ffffff</color>
+			</PolyStyle>
+			<BalloonStyle>
+			</BalloonStyle>
+		</Style>
+	</gx:CascadingStyle>
+	<StyleMap id="__managed_style_1E24E6A095430195768B">
+		<Pair>
+			<key>normal</key>
+			<styleUrl>#__managed_style_1E24E6A095430195768B_normal</styleUrl>
+		</Pair>
+		<Pair>
+			<key>highlight</key>
+			<styleUrl>#__managed_style_1E24E6A095430195768B_highlight</styleUrl>
+		</Pair>
+	</StyleMap>
+	<gx:CascadingStyle kml:id="__managed_style_091149BF09430195768B_normal">
+		<ex:extension>base64;EgIYAQ</ex:extension>
+		<Style>
+			<IconStyle>
+				<Icon>
+					<href>https://earth.google.com/earth/document/icon?color=d32f2f&amp;id=2000&amp;scale=4</href>
+				</Icon>
+				<hotSpot x="64" y="128" xunits="pixels" yunits="insetPixels"/>
+			</IconStyle>
+			<LabelStyle>
+			</LabelStyle>
+			<LineStyle>
+				<color>ff2dc0fb</color>
+				<width>1.46909</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>40ffffff</color>
+			</PolyStyle>
+			<BalloonStyle>
+			</BalloonStyle>
+		</Style>
+	</gx:CascadingStyle>
+	<gx:CascadingStyle kml:id="__managed_style_0CB87A081C4301957689_normal">
+		<ex:extension>base64;EgIYAQ</ex:extension>
+		<Style>
+			<IconStyle>
+				<Icon>
+					<href>https://earth.google.com/earth/document/icon?color=d32f2f&amp;id=2000&amp;scale=4</href>
+				</Icon>
+				<hotSpot x="64" y="128" xunits="pixels" yunits="insetPixels"/>
+			</IconStyle>
+			<LabelStyle>
+			</LabelStyle>
+			<LineStyle>
+				<color>ff2dc0fb</color>
+				<width>1.46909</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>40ffffff</color>
+			</PolyStyle>
+			<BalloonStyle>
+			</BalloonStyle>
+		</Style>
+	</gx:CascadingStyle>
+	<gx:CascadingStyle kml:id="__managed_style_0C0BD1AF83430195768C_normal">
+		<ex:extension>base64;EgIYAQ</ex:extension>
+		<Style>
+			<IconStyle>
+				<Icon>
+					<href>https://earth.google.com/earth/document/icon?color=1976d2&amp;id=2000&amp;scale=4</href>
+				</Icon>
+				<hotSpot x="64" y="128" xunits="pixels" yunits="insetPixels"/>
+			</IconStyle>
+			<LabelStyle>
+			</LabelStyle>
+			<LineStyle>
+				<color>ff2dc0fb</color>
+				<width>2.42424</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>40ffffff</color>
+			</PolyStyle>
+			<BalloonStyle>
+			</BalloonStyle>
+		</Style>
+	</gx:CascadingStyle>
+	<Placemark id="5FDF2F518A000001">
+		<name>Ahmedabad LF-1 (pirana)</name>
+		<LookAt>
+			<longitude>72.5743808286237</longitude>
+			<latitude>22.98479779063048</latitude>
+			<altitude>64.07850343375647</altitude>
+			<heading>354.9017836912573</heading>
+			<tilt>0</tilt>
+			<gx:fovy>35</gx:fovy>
+			<range>5242.392491708743</range>
+			<altitudeMode>absolute</altitudeMode>
+		</LookAt>
+		<styleUrl>#__managed_style_0CB87A081C4301957689</styleUrl>
+		<Point>
+			<coordinates>72.56547734439786,22.98046312287699,69.63776653668184</coordinates>
+		</Point>
+	</Placemark>
+	<Placemark id="5FDF2F518C000002">
+		<name>Ahmedabad LF - 2(a)</name>
+		<LookAt>
+			<longitude>72.55175822242005</longitude>
+			<latitude>22.97137804796296</latitude>
+			<altitude>65.0260539014555</altitude>
+			<heading>0.353076335107691</heading>
+			<tilt>0.4854887813953262</tilt>
+			<gx:fovy>35</gx:fovy>
+			<range>950.7417881634319</range>
+			<altitudeMode>absolute</altitudeMode>
+		</LookAt>
+		<styleUrl>#__managed_style_0CB87A081C4301957689</styleUrl>
+		<Point>
+			<coordinates>72.55158727012133,22.97138900764996,64.71394768280312</coordinates>
+		</Point>
+	</Placemark>
+	<Placemark id="5FDF2F518C000003">
+		<name>Ahmedabad LF - 3</name>
+		<LookAt>
+			<longitude>72.5465845241372</longitude>
+			<latitude>22.96016503189396</latitude>
+			<altitude>61.09229005520132</altitude>
+			<heading>0.5816046116876147</heading>
+			<tilt>0</tilt>
+			<gx:fovy>35</gx:fovy>
+			<range>2764.152341131121</range>
+			<altitudeMode>absolute</altitudeMode>
+		</LookAt>
+		<styleUrl>#__managed_style_0CB87A081C4301957689</styleUrl>
+		<Point>
+			<coordinates>72.54658735941611,22.96042224295167,61.45711498404922</coordinates>
+		</Point>
+	</Placemark>
+	<Placemark id="5FDF2F518C000004">
+		<name>Surat LF-1</name>
+		<LookAt>
+			<longitude>72.8158494162254</longitude>
+			<latitude>21.15676792606245</latitude>
+			<altitude>27.01015435218504</altitude>
+			<heading>1.893761558392725e-05</heading>
+			<tilt>0</tilt>
+			<gx:fovy>35</gx:fovy>
+			<range>938.8202508671384</range>
+			<altitudeMode>absolute</altitudeMode>
+		</LookAt>
+		<styleUrl>#__managed_style_0CB87A081C4301957689</styleUrl>
+		<Point>
+			<coordinates>72.81639464988665,21.15625551381248,29.04300680411259</coordinates>
+		</Point>
+	</Placemark>
+	<Placemark id="5FDF2F518C000005">
+		<name>Surat LF -2 (khajod)</name>
+		<LookAt>
+			<longitude>72.80570533618003</longitude>
+			<latitude>21.10607837327235</latitude>
+			<altitude>23.88152473888552</altitude>
+			<heading>305.8603595445919</heading>
+			<tilt>0</tilt>
+			<gx:fovy>35</gx:fovy>
+			<range>2686.617337807256</range>
+			<altitudeMode>absolute</altitudeMode>
+		</LookAt>
+		<styleUrl>#__managed_style_0CB87A081C4301957689</styleUrl>
+		<Point>
+			<coordinates>72.80416327088737,21.10870808520728,25.6980930089972</coordinates>
+		</Point>
+	</Placemark>
+	<Placemark id="5FDF2F518C000006">
+		<name>Surat LF -3 </name>
+		<LookAt>
+			<longitude>72.84300423357354</longitude>
+			<latitude>21.13363100942922</latitude>
+			<altitude>31.60982121103006</altitude>
+			<heading>210.2894748375365</heading>
+			<tilt>0</tilt>
+			<gx:fovy>35</gx:fovy>
+			<range>706.5880294036471</range>
+			<altitudeMode>absolute</altitudeMode>
+		</LookAt>
+		<styleUrl>#__managed_style_0CB87A081C4301957689</styleUrl>
+		<Point>
+			<coordinates>72.8429706514419,21.13434555486202,29.87858018368209</coordinates>
+		</Point>
+	</Placemark>
+	<Placemark id="5FDF2F518D000007">
+		<name>Gandhinagar LF -1 </name>
+		<LookAt>
+			<longitude>72.68064168037562</longitude>
+			<latitude>23.25111294194202</latitude>
+			<altitude>82.42991187701891</altitude>
+			<heading>9.456789234633971</heading>
+			<tilt>0</tilt>
+			<gx:fovy>35</gx:fovy>
+			<range>1309.365538193233</range>
+			<altitudeMode>absolute</altitudeMode>
+		</LookAt>
+		<styleUrl>#__managed_style_0CB87A081C4301957689</styleUrl>
+		<Point>
+			<coordinates>72.67831200122109,23.25132441062743,103.6807198911937</coordinates>
+		</Point>
+	</Placemark>
+	<Placemark id="5FDF2F518D000008">
+		<name>Vadodara LF - 1</name>
+		<LookAt>
+			<longitude>73.20765680705748</longitude>
+			<latitude>22.23228876119574</latitude>
+			<altitude>45.10294078719058</altitude>
+			<heading>359.9991117865005</heading>
+			<tilt>0</tilt>
+			<gx:fovy>35</gx:fovy>
+			<range>2311.636228805291</range>
+			<altitudeMode>absolute</altitudeMode>
+		</LookAt>
+		<styleUrl>#__managed_style_0CB87A081C4301957689</styleUrl>
+		<Point>
+			<coordinates>73.20690734701633,22.23361311564203,41.96131564359983</coordinates>
+		</Point>
+	</Placemark>
+	<Placemark id="5FDF2F518D000009">
+		<name>Vadodara LF -2 </name>
+		<LookAt>
+			<longitude>73.16663045132508</longitude>
+			<latitude>22.27829482321467</latitude>
+			<altitude>53.63055251576321</altitude>
+			<heading>246.3174138796636</heading>
+			<tilt>0</tilt>
+			<gx:fovy>35</gx:fovy>
+			<range>602.0109328683611</range>
+			<altitudeMode>absolute</altitudeMode>
+		</LookAt>
+		<styleUrl>#__managed_style_0CB87A081C4301957689</styleUrl>
+		<Point>
+			<coordinates>73.16692277947963,22.278154623092,50.77774051513095</coordinates>
+		</Point>
+	</Placemark>
+	<Placemark id="5FDF2F518D00000A">
+		<name>Rajkot LF-1</name>
+		<LookAt>
+			<longitude>70.86068262908088</longitude>
+			<latitude>22.37585344358583</latitude>
+			<altitude>162.7000361051855</altitude>
+			<heading>0.0001208534615554081</heading>
+			<tilt>0</tilt>
+			<gx:fovy>35</gx:fovy>
+			<range>1700.554000744305</range>
+			<altitudeMode>absolute</altitudeMode>
+		</LookAt>
+		<styleUrl>#__managed_style_0CB87A081C4301957689</styleUrl>
+		<Point>
+			<coordinates>70.85928133830741,22.37517877410299,159.9242207375354</coordinates>
+		</Point>
+	</Placemark>
+	<Placemark id="5FDF2F518D00000B">
+		<name>Bhavnagar LF -1 </name>
+		<LookAt>
+			<longitude>72.09222087292456</longitude>
+			<latitude>21.79743837516287</latitude>
+			<altitude>32.5733279450438</altitude>
+			<heading>-7.851550492462082</heading>
+			<tilt>13.58664922368054</tilt>
+			<gx:fovy>35</gx:fovy>
+			<range>853.7691229124903</range>
+			<altitudeMode>absolute</altitudeMode>
+		</LookAt>
+		<styleUrl>#__managed_style_0CB87A081C4301957689</styleUrl>
+		<Point>
+			<coordinates>72.09058375353746,21.7972938356767,31.87272493842378</coordinates>
+		</Point>
+	</Placemark>
+	<Placemark id="5FDF2F518D00000C">
+		<name>Jamnagar LF -1</name>
+		<LookAt>
+			<longitude>70.10621859319056</longitude>
+			<latitude>22.48106595105577</latitude>
+			<altitude>33.62622545266235</altitude>
+			<heading>359.880333065902</heading>
+			<tilt>0</tilt>
+			<gx:fovy>35</gx:fovy>
+			<range>1440.28059247139</range>
+			<altitudeMode>absolute</altitudeMode>
+		</LookAt>
+		<styleUrl>#__managed_style_0CB87A081C4301957689</styleUrl>
+		<Point>
+			<coordinates>70.10617742201535,22.48050790893467,34.79053201332182</coordinates>
+		</Point>
+	</Placemark>
+	<Placemark id="5FDF2F518D00000D">
+		<name>Bhuj LF -1</name>
+		<LookAt>
+			<longitude>69.69865434686402</longitude>
+			<latitude>23.26631364695341</latitude>
+			<altitude>104.2551837546651</altitude>
+			<heading>72.71071469016991</heading>
+			<tilt>0</tilt>
+			<gx:fovy>35</gx:fovy>
+			<range>2141.299971852859</range>
+			<altitudeMode>absolute</altitudeMode>
+		</LookAt>
+		<styleUrl>#__managed_style_0CB87A081C4301957689</styleUrl>
+		<Point>
+			<coordinates>69.69805632869043,23.26610033750058,103.9557525140501</coordinates>
+		</Point>
+	</Placemark>
+	<Placemark id="5FDF2F518D00000E">
+		<name>Mehsana LF - 1 </name>
+		<LookAt>
+			<longitude>72.39721067981108</longitude>
+			<latitude>23.58980299349357</latitude>
+			<altitude>107.3822393495215</altitude>
+			<heading>68.17331708399884</heading>
+			<tilt>0</tilt>
+			<gx:fovy>35</gx:fovy>
+			<range>1354.264720120991</range>
+			<altitudeMode>absolute</altitudeMode>
+		</LookAt>
+		<styleUrl>#__managed_style_0CB87A081C4301957689</styleUrl>
+		<Point>
+			<coordinates>72.39627800170804,23.58907203682305,106.1984629065636</coordinates>
+		</Point>
+	</Placemark>
+	<Placemark id="5FDF2F518D00000F">
+		<name>Vapi LF - 1</name>
+		<LookAt>
+			<longitude>72.88409180189457</longitude>
+			<latitude>20.3670290050821</latitude>
+			<altitude>33.93164326602897</altitude>
+			<heading>347.7372951885374</heading>
+			<tilt>0</tilt>
+			<gx:fovy>35</gx:fovy>
+			<range>514.639912638595</range>
+			<altitudeMode>absolute</altitudeMode>
+		</LookAt>
+		<styleUrl>#__managed_style_0CB87A081C4301957689</styleUrl>
+		<Point>
+			<coordinates>72.88396876965669,20.36716846899635,33.68875697474286</coordinates>
+		</Point>
+	</Placemark>
+	<Placemark id="5FDF2F518D000010">
+		<name>Ahmedabad LF -2(b)</name>
+		<LookAt>
+			<longitude>72.55566320585383</longitude>
+			<latitude>22.97185678770504</latitude>
+			<altitude>66.24952540818086</altitude>
+			<heading>0.5816046081888125</heading>
+			<tilt>0</tilt>
+			<gx:fovy>35</gx:fovy>
+			<range>1818.003982319206</range>
+			<altitudeMode>absolute</altitudeMode>
+		</LookAt>
+		<styleUrl>#__managed_style_0CB87A081C4301957689</styleUrl>
+		<Point>
+			<coordinates>72.55461569239522,22.97134743692227,65.55647263187063</coordinates>
+		</Point>
+	</Placemark>
+	<Placemark id="039896D2E34301893897">
+		<name>Anand LF-1</name>
+		<LookAt>
+			<longitude>72.94748477408932</longitude>
+			<latitude>22.58167376795844</latitude>
+			<altitude>65.06034814744569</altitude>
+			<heading>355.5636616548491</heading>
+			<tilt>0</tilt>
+			<gx:fovy>35</gx:fovy>
+			<range>760.6666068474442</range>
+			<altitudeMode>absolute</altitudeMode>
+		</LookAt>
+		<styleUrl>#__managed_style_091149BF09430195768B</styleUrl>
+		<Point>
+			<coordinates>72.94570663046193,22.58149993852379,57.68910517092778</coordinates>
+		</Point>
+	</Placemark>
+	<Placemark id="02E42A15EF43018E0C78">
+		<name>Nadiad LF-1</name>
+		<LookAt>
+			<longitude>72.85155691790739</longitude>
+			<latitude>22.71696287114408</latitude>
+			<altitude>57.48247508451986</altitude>
+			<heading>344.1031772099127</heading>
+			<tilt>0</tilt>
+			<gx:fovy>35</gx:fovy>
+			<range>1571.196666563919</range>
+			<altitudeMode>absolute</altitudeMode>
+		</LookAt>
+		<styleUrl>#__managed_style_091149BF09430195768B</styleUrl>
+		<Point>
+			<coordinates>72.85013011651668,22.71677676376516,53.98039825048151</coordinates>
+		</Point>
+	</Placemark>
+	<Folder id="5FDF2F518D000011">
+		<ex:extension>base64;GgA</ex:extension>
+		<name>Gujarat landfills </name>
+		<styleUrl>#__managed_style_0C0BD1AF83430195768C</styleUrl>
+		<Placemark id="5FDF2F518D000012">
+			<name>AHM-01 boundary</name>
+			<styleUrl>#__managed_style_0DB8E5B1C44301957688</styleUrl>
+			<Polygon>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							72.5716911,22.984932,0 72.57168609999999,22.9849651,0 72.5717226,22.98503,0 72.5719316,22.9850977,0 72.5723958,22.9853036,0 72.57242189999999,22.9867577,0 72.5723254,22.9868657,0 72.57225219999999,22.9870355,0 72.5721051,22.9871386,0 72.5719151,22.9871425,0 72.5719186,22.9868554,0 72.5716541,22.9868464,0 72.57165000000001,22.987144,0 72.5712729,22.9871408,0 72.57132129999999,22.986919,0 72.5713228,22.9867267,0 72.5712862,22.9865856,0 72.57095339999999,22.9865151,0 72.570649,22.9865497,0 72.5705847,22.98627889999999,0 72.5704819,22.9860856,0 72.5704039,22.9857495,0 72.5701364,22.9847015,0 72.5700703,22.984312,0 72.56987770000001,22.9837804,0 72.56985709999999,22.9837663,0 72.569698,22.9838235,0 72.56940280000001,22.9838979,0 72.56891709999999,22.9841224,0 72.5684112,22.9841501,0 72.5683107,22.9839426,0 72.5682686,22.9839451,0 72.5682089,22.9838265,0 72.5676287,22.9840512,0 72.5673644,22.9841609,0 72.567335,22.984165,0 72.56717860000001,22.9842256,0 72.56622059999999,22.984566,0 72.5662038,22.9845504,0 72.5660135,22.9846193,0 72.5652779,22.9830821,0 72.5655182,22.9829818,0 72.5651458,22.9823534,0 72.5649676,22.9824317,0 72.5647994,22.9821207,0 72.5645699,22.9815763,0 72.564161,22.9807081,0 72.56372210000001,22.9797713,0 72.56359310000001,22.9795681,0 72.5634544,22.979271,0 72.5632475,22.9787793,0 72.5628299,22.9779228,0 72.5621368,22.9765133,0 72.5618597,22.975912,0 72.5620062,22.975851,0 72.56250110000001,22.9756469,0 72.5629139,22.9754827,0 72.56335079999999,22.9754479,0 72.56368430000001,22.9756739,0 72.5640853,22.9760035,0 72.5642835,22.9770759,0 72.5645576,22.9779683,0 72.56438060000001,22.9784011,0 72.5643759,22.97902059999999,0 72.56530480000001,22.9790553,0 72.5654881,22.9789164,0 72.5663112,22.9790477,0 72.56647839999999,22.9790554,0 72.5671249,22.9790229,0 72.56718600000001,22.9790029,0 72.5672194,22.9787709,0 72.56741239999999,22.9787221,0 72.567465,22.9787016,0 72.5674774,22.9786453,0 72.5675408,22.9786192,0 72.56765489999999,22.9786103,0 72.5677414,22.9785587,0 72.5678984,22.978463,0 72.5681503,22.9783549,0 72.56840750000001,22.9783441,0 72.5686889,22.9783829,0 72.56899249999999,22.9784189,0 72.56905329999999,22.9786208,0 72.56907990000001,22.9786553,0 72.56912440000001,22.9788571,0 72.5691233,22.9790964,0 72.5691925,22.97921180000001,0 72.56912370000001,22.9794358,0 72.5691265,22.9794486,0 72.56907959999999,22.9795794,0 72.56906530000001,22.9796259,0 72.56898409999999,22.9798774,0 72.5689536,22.9800275,0 72.5688299,22.980385,0 72.56873,22.9807424,0 72.5687714,22.9807824,0 72.5694778,22.9809711,0 72.5700573,22.9812478,0 72.5702168,22.9813859,0 72.5703924,22.9814895,0 72.57077219999999,22.9816955,0 72.5711881,22.9819761,0 72.5712065,22.982004,0 72.5714529,22.9820524,0 72.57151880000001,22.9821806,0 72.5713532,22.9826952,0 72.57138019999999,22.9827346,0 72.5714644,22.982807,0 72.57148479999999,22.9828245,0 72.57150230000001,22.982833,0 72.5716453,22.9828674,0 72.5720201,22.9830479,0 72.5719453,22.9835403,0 72.5719489,22.9835585,0 72.57193940000001,22.9837174,0 72.5719636,22.9838587,0 72.57191779999999,22.9841209,0 72.5718548,22.9843841,0 72.5717922,22.9846899,0 72.5716911,22.984932,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark id="5FDF2F518D000013">
+			<name>AHM-02 boundary</name>
+			<styleUrl>#__managed_style_0DB8E5B1C44301957688</styleUrl>
+			<Polygon>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							72.5521103,22.9725634,0 72.5521406,22.9726677,0 72.5521847,22.9727513,0 72.55246440000001,22.9726511,0 72.55281770000001,22.9725028,0 72.55279489999999,22.9725327,0 72.55328059999999,22.9723587,0 72.5532851,22.9723705,0 72.5533681,22.9723418,0 72.55353289999999,22.9726745,0 72.55240209999999,22.9730477,0 72.5523882,22.9730659,0 72.5510972,22.9735,0 72.55056860000001,22.971886,0 72.5499677,22.9700365,0 72.5506644,22.9698265,0 72.5521375,22.9694232,0 72.55216780000001,22.9694927,0 72.5522436,22.9694797,0 72.552741,22.9705624,0 72.55279830000001,22.9707371,0 72.55273649999999,22.9709313,0 72.5528705,22.9711126,0 72.5532087,22.9718444,0 72.5533081,22.972125,0 72.5532292,22.9721539,0 72.5532293,22.9721549,0 72.5521103,22.9725634,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark id="5FDF2F518D000014">
+			<name>AHM-02 boundary</name>
+			<styleUrl>#__managed_style_0DB8E5B1C44301957688</styleUrl>
+			<Polygon>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							72.5533274,22.9713712,0 72.55346,22.9713153,0 72.55345629999999,22.9713068,0 72.5538829,22.971137,0 72.5534823,22.9701254,0 72.5534936,22.97011850000001,0 72.553468,22.9700551,0 72.5538432,22.9699052,0 72.5540316,22.9697902,0 72.554129,22.9695126,0 72.5543684,22.9693239,0 72.55417199999999,22.9687192,0 72.55468380000001,22.9685664,0 72.5550815,22.9694711,0 72.5551036,22.9694633,0 72.55606229999999,22.9716029,0 72.5562104,22.9720157,0 72.5564584,22.9725717,0 72.5564464,22.9725766,0 72.5564656,22.9726203,0 72.5542612,22.973483,0 72.55425750000001,22.9734747,0 72.55425339999999,22.9734763,0 72.5533274,22.9713712,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark id="5FDF2F518E000015">
+			<name>AHM-03 boundary</name>
+			<styleUrl>#__managed_style_0DB8E5B1C44301957688</styleUrl>
+			<Polygon>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							72.547695,22.9589959,0 72.5482895,22.9616185,0 72.5455542,22.9621294,0 72.5453364,22.96102,0 72.54521149999999,22.96051020000001,0 72.5449814,22.9594454,0 72.5463639,22.9591961,0 72.547695,22.9589959,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark id="5FDF2F518E000016">
+			<name>BHJ-01 boundary</name>
+			<styleUrl>#__managed_style_0DB8E5B1C44301957688</styleUrl>
+			<Polygon>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							69.69767589999999,23.2646368,0 69.69771950000001,23.2647751,0 69.697745,23.2648282,0 69.6977468,23.2648424,0 69.69774750000001,23.2648442,0 69.6977478,23.2648502,0 69.697751,23.2648749,0 69.6978371,23.2651483,0 69.69786259999999,23.2652839,0 69.69782669999999,23.2652969,0 69.6980622,23.2654735,0 69.6979479,23.2656395,0 69.6978991,23.2656991,0 69.6980531,23.2658077,0 69.698245,23.2658871,0 69.698814,23.2660659,0 69.6988018,23.2660841,0 69.69880430000001,23.2660849,0 69.6992506,23.266062,0 69.6993854,23.2658868,0 69.69939359999999,23.2658287,0 69.6993712,23.265767,0 69.69922819999999,23.2657059,0 69.6991105,23.2656518,0 69.6991762,23.2655682,0 69.6994517,23.2655379,0 69.6994474,23.2655183,0 69.6995441,23.2653907,0 69.6997301,23.265463,0 69.69999869999999,23.2655936,0 69.700154,23.265627,0 69.70019600000001,23.2657723,0 69.7004031,23.2659026,0 69.70056870000001,23.2662521,0 69.7004342,23.2665752,0 69.7004843,23.2665596,0 69.7006602,23.2666157,0 69.7006693,23.2667788,0 69.7006191,23.2668762,0 69.7004548,23.2668586,0 69.700394,23.2669161,0 69.70037120000001,23.267091,0 69.7001705,23.2671084,0 69.6999759,23.2674659,0 69.69967250000001,23.2674769,0 69.6994725,23.267392,0 69.69930669999999,23.2675053,0 69.6989871,23.2672773,0 69.6989736,23.2672537,0 69.6988163,23.2672356,0 69.6984752,23.2670611,0 69.6984661,23.2670428,0 69.6984599,23.2670399,0 69.698193,23.2670287,0 69.69781380000001,23.2671552,0 69.6975869,23.2671357,0 69.6974256,23.2671523,0 69.6966177,23.2670325,0 69.696623,23.2670234,0 69.696465,23.267061,0 69.6964546,23.2670175,0 69.6964268,23.2670195,0 69.6962833,23.2668714,0 69.6962329,23.2668077,0 69.6962326,23.2665772,0 69.6962327,23.2665771,0 69.69612770000001,23.2658752,0 69.69614369999999,23.2658686,0 69.69603549999999,23.2654731,0 69.6960382,23.2654728,0 69.69602329999999,23.2654434,0 69.69602500000001,23.2654434,0 69.69596110000001,23.2653142,0 69.6961678,23.2653863,0 69.69616689999999,23.2653835,0 69.6962997,23.2653543,0 69.6963818,23.2653147,0 69.69645610000001,23.2652457,0 69.6965725,23.2652944,0 69.6967089,23.2652627,0 69.69679379999999,23.2653228,0 69.6968056,23.265356,0 69.696896,23.2650156,0 69.6968789,23.2649521,0 69.6968387,23.26477270000001,0 69.6965783,23.2645987,0 69.6965637,23.2645825,0 69.69627389999999,23.2646469,0 69.6960497,23.2645906,0 69.69603859999999,23.2645742,0 69.696006,23.2646213,0 69.6959145,23.2646686,0 69.69580689999999,23.264615,0 69.6958059,23.2645428,0 69.69576379999999,23.2643411,0 69.69591459999999,23.2642607,0 69.69604769999999,23.2642377,0 69.6961498,23.264169,0 69.6962515,23.2641461,0 69.6963004,23.2641473,0 69.6963588,23.2641125,0 69.6965879,23.2640106,0 69.6966185,23.2640136,0 69.6966704,23.2640165,0 69.6967616,23.263975,0 69.6968437,23.2638713,0 69.69693599999999,23.2638363,0 69.6969747,23.2638832,0 69.6969947,23.2638696,0 69.6970992,23.2639477,0 69.69760530000001,23.2635524,0 69.69796289999999,23.2637782,0 69.69812229999999,23.263935,0 69.6981964,23.264012,0 69.69822499999999,23.2641175,0 69.6979906,23.2641946,0 69.6980485,23.2643425,0 69.6976937,23.2644129,0 69.69767589999999,23.2646368,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark id="5FDF2F518E000017">
+			<name>BHV-01 boundary</name>
+			<styleUrl>#__managed_style_0DB8E5B1C44301957688</styleUrl>
+			<Polygon>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							72.09318500000001,21.7960859,0 72.0930204,21.7962023,0 72.0930236,21.7962054,0 72.0929998,21.7963744,0 72.09278070000001,21.7963953,0 72.0927806,21.7963967,0 72.0927599,21.7963982,0 72.09276060000001,21.7964131,0 72.0928583,21.7964735,0 72.09295849999999,21.7964369,0 72.09304469999999,21.7963976,0 72.0931337,21.7961687,0 72.093242,21.7961714,0 72.0932351,21.7963631,0 72.0932979,21.7964676,0 72.0933682,21.7963861,0 72.0934713,21.7963911,0 72.093462,21.7963734,0 72.0935003,21.7962459,0 72.093734,21.7961101,0 72.0940452,21.7964467,0 72.0940847,21.7965298,0 72.0940871,21.7966422,0 72.0937119,21.7974658,0 72.0936751,21.7974567,0 72.0936303,21.7975569,0 72.0936064,21.7975473,0 72.0933661,21.7980706,0 72.09337549999999,21.7980741,0 72.0933431,21.7981785,0 72.09331950000001,21.7981722,0 72.0928873,21.7991135,0 72.09266719999999,21.7990307,0 72.0927267,21.7986724,0 72.0917702,21.7987917,0 72.0917262,21.7991471,0 72.0917256,21.7993613,0 72.0916153,21.7996506,0 72.0915622,21.7999539,0 72.09231029999999,21.8001474,0 72.0923731,21.8004299,0 72.09224949999999,21.8005992,0 72.0920605,21.8005956,0 72.0916185,21.8008924,0 72.0909181,21.8011719,0 72.0901198,21.8008028,0 72.08981439999999,21.8015711,0 72.087577,21.8006939,0 72.08806869999999,21.7996087,0 72.0880638,21.7996011,0 72.088082,21.7995794,0 72.0883615,21.7989625,0 72.0884535,21.7986259,0 72.0886058,21.798451,0 72.0885916,21.7982202,0 72.08873819999999,21.7979454,0 72.0887445,21.7979058,0 72.088814,21.7975805,0 72.08883539999999,21.7975632,0 72.0888379,21.7975448,0 72.08904219999999,21.7972739,0 72.0890812,21.7972477,0 72.08900130000001,21.7971145,0 72.088921,21.797012,0 72.0889099,21.7969622,0 72.0888558,21.7968721,0 72.0887599,21.7963027,0 72.0888029,21.7960604,0 72.08909679999999,21.7959645,0 72.0891676,21.7957339,0 72.08917169999999,21.7957167,0 72.0891728,21.7956829,0 72.0891627,21.7952294,0 72.0891697,21.7952302,0 72.08915759999999,21.7950412,0 72.08927559999999,21.795,0 72.08938139999999,21.795054,0 72.08931750000001,21.7952226,0 72.0893289,21.795248,0 72.08932950000001,21.7952481,0 72.0895151,21.7954096,0 72.0895452,21.795413,0 72.0897805,21.7953991,0 72.0899405,21.7953751,0 72.0901083,21.7953141,0 72.0901923,21.7950971,0 72.09034320000001,21.7949805,0 72.090414,21.7950401,0 72.0904848,21.795045,0 72.0905655,21.7950042,0 72.09060700000001,21.7949093,0 72.0908048,21.7950419,0 72.09096150000001,21.7949159,0 72.0911705,21.7950128,0 72.0912319,21.7957503,0 72.0911888,21.7958616,0 72.0912819,21.7959008,0 72.0912891,21.7959466,0 72.0916464,21.795948,0 72.091797,21.7959312,0 72.0920833,21.7958633,0 72.09224089999999,21.7958957,0 72.0924878,21.7959041,0 72.0930113,21.7958662,0 72.0930279,21.7959043,0 72.0932509,21.7958977,0 72.09335110000001,21.7960542,0 72.0933354,21.7961147,0 72.09318500000001,21.7960859,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark id="5FDF2F518E000018">
+			<name>GNR-01 boundary</name>
+			<styleUrl>#__managed_style_0DB8E5B1C44301957688</styleUrl>
+			<Polygon>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							72.67985969999999,23.2477258,0 72.6806021,23.247586,0 72.68079539999999,23.2476324,0 72.6808068,23.2476687,0 72.6808085,23.2476691,0 72.68081119999999,23.2476783,0 72.6809772,23.2477514,0 72.6810796,23.2483567,0 72.68112910000001,23.2484414,0 72.6810977,23.2484634,0 72.6811046,23.2485038,0 72.68090890000001,23.2486499,0 72.6807101,23.2489778,0 72.6806005,23.2488533,0 72.6803171,23.2485466,0 72.6802361,23.2485192,0 72.6801663,23.2484607,0 72.68011199999999,23.2484229,0 72.6799876,23.2483487,0 72.6798146,23.248252,0 72.6796688,23.248146,0 72.6795802,23.2479874,0 72.67985969999999,23.2477258,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark id="5FDF2F518E000019">
+			<name>GNR-01 boundary</name>
+			<styleUrl>#__managed_style_0DB8E5B1C44301957688</styleUrl>
+			<Polygon>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							72.67842330000001,23.2505105,0 72.6784222,23.2503422,0 72.6784439,23.2503041,0 72.6784703,23.250039,0 72.6784909,23.2498167,0 72.6786637,23.2497955,0 72.6787566,23.2496584,0 72.678757,23.2495619,0 72.6788622,23.2493791,0 72.679113,23.2492625,0 72.6798081,23.2493429,0 72.6800344,23.2493765,0 72.6802574,23.24936,0 72.680398,23.2489847,0 72.6807249,23.2490689,0 72.68070710000001,23.2493131,0 72.6810155,23.2494724,0 72.6808654,23.2497198,0 72.6809494,23.2499486,0 72.68113630000001,23.250061,0 72.68116329999999,23.2501575,0 72.6810953,23.2502839,0 72.68084039999999,23.2502105,0 72.6805679,23.2503436,0 72.6804662,23.2506777,0 72.680469,23.2507832,0 72.6804569,23.2508019,0 72.6805196,23.2509379,0 72.6801976,23.2513786,0 72.6801894,23.2513999,0 72.6802721,23.2517748,0 72.68012109999999,23.25221850000001,0 72.67990140000001,23.2525829,0 72.679889,23.2526199,0 72.6798833,23.2526129,0 72.6798738,23.2526287,0 72.67991550000001,23.2529257,0 72.67981469999999,23.2536204,0 72.67963520000001,23.2543643,0 72.67963399999999,23.2544777,0 72.6795596,23.2544794,0 72.6794494,23.2547237,0 72.6794828,23.2547925,0 72.6794166,23.2550378,0 72.6791496,23.2550021,0 72.6791458,23.2552746,0 72.6790453,23.2556419,0 72.67903,23.2559513,0 72.67894699999999,23.2561433,0 72.67880820000001,23.2564171,0 72.67865449999999,23.256443,0 72.6784911,23.2561655,0 72.6784203,23.2558745,0 72.6783181,23.2555359,0 72.67813990000001,23.2554005,0 72.67804270000001,23.2552187,0 72.6777939,23.2548267,0 72.67792849999999,23.2546052,0 72.6778161,23.2539306,0 72.67767720000001,23.2538408,0 72.67771020000001,23.25360480000001,0 72.6772248,23.2532204,0 72.67721539999999,23.2528405,0 72.67817599999999,23.2528042,0 72.6782072,23.2522025,0 72.67758449999999,23.252174,0 72.677547,23.2520051,0 72.6776971,23.251852,0 72.67777030000001,23.251671,0 72.6776156,23.2514099,0 72.6776555,23.2513257,0 72.67778869999999,23.2512407,0 72.6777998,23.2508029,0 72.6780455,23.2506577,0 72.67842330000001,23.2505105,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark id="5FDF2F518E00001A">
+			<name>JAM-01 boundary</name>
+			<styleUrl>#__managed_style_0DB8E5B1C44301957688</styleUrl>
+			<Polygon>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							70.10606009999999,22.4796855,0 70.1061445,22.4797657,0 70.1064329,22.4797893,0 70.1065157,22.479736,0 70.1073645,22.4797652,0 70.1073547,22.4798181,0 70.1073628,22.4798168,0 70.107349,22.4798488,0 70.10732109999999,22.4800001,0 70.1071434,22.4801098,0 70.10696489999999,22.4801043,0 70.1069622,22.4801056,0 70.10695800000001,22.4801041,0 70.1068463,22.4801006,0 70.1067536,22.480098,0 70.10675139999999,22.4800997,0 70.1067006,22.4801154,0 70.106567,22.4800933,0 70.1065684,22.4800968,0 70.1065052,22.4803511,0 70.10650459999999,22.4803539,0 70.1067937,22.4804014,0 70.1068997,22.4803894,0 70.1069976,22.4803129,0 70.1071219,22.4802798,0 70.1071372,22.4802919,0 70.1072015,22.48027,0 70.1072763,22.4803603,0 70.1072446,22.4804104,0 70.10725290000001,22.4804976,0 70.1073334,22.4806459,0 70.1073262,22.480884,0 70.1073234,22.480906,0 70.10734549999999,22.4809839,0 70.10744889999999,22.4812465,0 70.1074715,22.4813694,0 70.1074194,22.4814491,0 70.10743239999999,22.4815116,0 70.1072556,22.4814835,0 70.1072514,22.4814925,0 70.10718060000001,22.4814716,0 70.1070867,22.4814566,0 70.1070685,22.4814589,0 70.1070637,22.481453,0 70.107018,22.4814457,0 70.1068848,22.4813854,0 70.106751,22.481403,0 70.1066501,22.4813451,0 70.1065255,22.4813225,0 70.1063937,22.4813227,0 70.1063194,22.4812526,0 70.10623219999999,22.4811627,0 70.106145,22.4811325,0 70.1061426,22.4811043,0 70.1059399,22.481002,0 70.10579869999999,22.4809218,0 70.10578750000001,22.4809167,0 70.105572,22.480876,0 70.1055271,22.4808335,0 70.1054589,22.4808378,0 70.1052959,22.4807782,0 70.10529579999999,22.4807427,0 70.10526520000001,22.4807327,0 70.1052595,22.4806301,0 70.1053254,22.4795872,0 70.10543199999999,22.4794525,0 70.1056566,22.4794228,0 70.10592,22.479521,0 70.10606009999999,22.4796855,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark id="5FDF2F518E00001B">
+			<name>MEH-01 boundary</name>
+			<styleUrl>#__managed_style_0DB8E5B1C44301957688</styleUrl>
+			<Polygon>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							72.39493160000001,23.5883398,0 72.3949836,23.5883436,0 72.3949982,23.5883318,0 72.3950164,23.588346,0 72.3953763,23.5883722,0 72.3956472,23.5883862,0 72.39599370000001,23.5883895,0 72.3961992,23.5884121,0 72.3966348,23.5884372,0 72.39687720000001,23.5884519,0 72.3968981,23.5884218,0 72.39724769999999,23.5883956,0 72.3973775,23.588488,0 72.3974446,23.5887561,0 72.39733990000001,23.5888494,0 72.3973403,23.588857,0 72.39733769999999,23.5888812,0 72.397341,23.5890408,0 72.3973463,23.5892181,0 72.3973213,23.5892798,0 72.3972942,23.5892837,0 72.3972905,23.5893181,0 72.39728460000001,23.5893179,0 72.39728359999999,23.5893266,0 72.3971703,23.589333,0 72.3971418,23.5893529,0 72.3971444,23.5893731,0 72.397167,23.5894547,0 72.3971864,23.5895228,0 72.3972163,23.5895833,0 72.39725199999999,23.5897071,0 72.3972301,23.5898143,0 72.39722980000001,23.589902,0 72.3972208,23.5899335,0 72.39721400000001,23.5900251,0 72.39717640000001,23.5900727,0 72.3972261,23.5900779,0 72.3972119,23.5901641,0 72.3970544,23.5901939,0 72.396959,23.5901874,0 72.3969361,23.590158,0 72.3967516,23.5901857,0 72.3965049,23.5901512,0 72.3961405,23.5901455,0 72.39613780000001,23.5901988,0 72.3973282,23.590236,0 72.3973158,23.5903475,0 72.39711010000001,23.5903975,0 72.3963208,23.5903776,0 72.3961394,23.5903272,0 72.3949039,23.5903012,0 72.39494379999999,23.5892604,0 72.39501919999999,23.5892688,0 72.3950191,23.5892476,0 72.3951502,23.5892495,0 72.395155,23.5892207,0 72.39514819999999,23.5892151,0 72.3951431,23.5892002,0 72.3951172,23.5891969,0 72.3951156,23.5891843,0 72.3950024,23.5891739,0 72.3949738,23.5887297,0 72.394972,23.5887275,0 72.39492920000001,23.5886296,0 72.39484640000001,23.5885826,0 72.394848,23.5885718,0 72.3948359,23.5885652,0 72.39485550000001,23.5885191,0 72.3948755,23.5883789,0 72.3949148,23.5883792,0 72.39493160000001,23.5883398,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark id="5FDF2F518E00001C">
+			<name>RAJ-01 boundary</name>
+			<styleUrl>#__managed_style_0DB8E5B1C44301957688</styleUrl>
+			<Polygon>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							70.8626153,22.3730458,0 70.8627941,22.3733804,0 70.8617994,22.3740128,0 70.8617998,22.3740136,0 70.8616842,22.3740869,0 70.8615334,22.3745977,0 70.8622139,22.3759253,0 70.8614185,22.3763385,0 70.8614352,22.3763769,0 70.85944120000001,22.377369,0 70.8593667,22.3774192,0 70.85904859999999,22.3775504,0 70.8590475,22.3775488,0 70.8590459,22.3775495,0 70.8589786,22.3775471,0 70.85888509999999,22.3773607,0 70.8587825,22.3773747,0 70.8587117,22.3773336,0 70.8586765,22.3773322,0 70.85862400000001,22.377335,0 70.8586146,22.3773298,0 70.8586138,22.3773297,0 70.8584681,22.3772803,0 70.85839230000001,22.3773281,0 70.8581642,22.377472,0 70.8581374,22.3775234,0 70.85808129999999,22.3775243,0 70.8580218,22.3775618,0 70.8580149,22.3774194,0 70.8581226,22.3770238,0 70.85819859999999,22.3766196,0 70.85817780000001,22.3765719,0 70.8581016,22.3764446,0 70.8578064,22.3764384,0 70.85721409999999,22.3762959,0 70.8571858,22.3762922,0 70.8571855,22.3762922,0 70.8567323,22.3764194,0 70.8567307,22.3765132,0 70.8567326,22.3767316,0 70.8567678,22.3768337,0 70.8568293,22.3769375,0 70.8568485,22.3771142,0 70.8566964,22.3780496,0 70.856088,22.3777676,0 70.85581879999999,22.3774116,0 70.8554984,22.3770634,0 70.8553311,22.3766283,0 70.8558084,22.3761232,0 70.8565329,22.3754135,0 70.85709780000001,22.3748413,0 70.8568176,22.3744542,0 70.856759,22.3744218,0 70.8567805,22.3744031,0 70.856769,22.3743871,0 70.8587678,22.3726229,0 70.8587874,22.3726386,0 70.8596687,22.3718753,0 70.86028829999999,22.3713172,0 70.86142820000001,22.3717023,0 70.8621129,22.3713743,0 70.8621134,22.371375,0 70.8621296,22.3713673,0 70.8622117,22.371254,0 70.8625979,22.3720702,0 70.86278780000001,22.3724532,0 70.8629954,22.3728217,0 70.8626153,22.3730458,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark id="5FDF2F518E00001D">
+			<name>SUR-01 boundary</name>
+			<styleUrl>#__managed_style_0DB8E5B1C44301957688</styleUrl>
+			<Polygon>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							72.81612079999999,21.1559071,0 72.816114,21.1559858,0 72.8163036,21.1558828,0 72.8164848,21.1557932,0 72.8165735,21.155776,0 72.81707249999999,21.1560455,0 72.8173381,21.156122,0 72.8174944,21.1560856,0 72.8183173,21.1570908,0 72.81789259999999,21.1570918,0 72.8178432,21.1571503,0 72.81781789999999,21.1571407,0 72.81781359999999,21.157162,0 72.8177864,21.1571287,0 72.8173456,21.1569609,0 72.8169223,21.1568678,0 72.81649880000001,21.1567188,0 72.81636039999999,21.1566945,0 72.8163285,21.1567244,0 72.8160481,21.1566644,0 72.81530100000001,21.1564746,0 72.815667,21.156178,0 72.8157629,21.1559454,0 72.8158134,21.1557363,0 72.8159508,21.1560178,0 72.81612079999999,21.1559071,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark id="5FDF2F518E00001E">
+			<name>SUR-02 boundary</name>
+			<styleUrl>#__managed_style_0DB8E5B1C44301957688</styleUrl>
+			<Polygon>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							72.8016853,21.0979974,0 72.8019129,21.1014365,0 72.7961938,21.1012531,0 72.7956731,21.0988846,0 72.795495,21.0960506,0 72.79596170000001,21.0959008,0 72.79838839999999,21.0959786,0 72.80156479999999,21.0961168,0 72.8016853,21.0979974,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark id="5FDF2F518E00001F">
+			<name>SUR-02 boundary</name>
+			<styleUrl>#__managed_style_0DB8E5B1C44301957688</styleUrl>
+			<Polygon>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							72.80658529999999,21.0968859,0 72.8066025,21.0968847,0 72.8067978,21.0969995,0 72.8068418,21.0972885,0 72.8066838,21.0975537,0 72.8065799,21.097609,0 72.8066098,21.0978119,0 72.8064133,21.0978955,0 72.8062403,21.098062,0 72.8062881,21.0983534,0 72.8062158,21.0985688,0 72.8060115,21.0985829,0 72.8059902,21.0983576,0 72.8059396,21.0982604,0 72.8059327,21.0987392,0 72.8059307,21.1013002,0 72.80589569999999,21.1013021,0 72.8058951,21.1013429,0 72.8061766,21.1018075,0 72.8068111,21.1029065,0 72.8072547,21.1038064,0 72.8070616,21.1039642,0 72.80730819999999,21.1039191,0 72.80769650000001,21.1047064,0 72.808145,21.1056767,0 72.8060303,21.1064014,0 72.8051397,21.1067097,0 72.80486449999999,21.1067703,0 72.8046769,21.1068392,0 72.80470649999999,21.1070288,0 72.80480439999999,21.1070208,0 72.80480849999999,21.1071092,0 72.807113,21.1063916,0 72.80737139999999,21.1063164,0 72.8073953,21.1065479,0 72.8074002,21.1065687,0 72.8073979,21.1065733,0 72.80740849999999,21.1066762,0 72.80626340000001,21.108856,0 72.8062338,21.1089013,0 72.8064578,21.1094298,0 72.80614250000001,21.1101336,0 72.80596970000001,21.1105472,0 72.80581909999999,21.1107748,0 72.8055375,21.1111812,0 72.8056632,21.1114772,0 72.8055186,21.1117914,0 72.80529199999999,21.1121271,0 72.8051049,21.1124295,0 72.80489249999999,21.1127008,0 72.80460290000001,21.1126925,0 72.80423759999999,21.1126581,0 72.80387279999999,21.1126404,0 72.80350420000001,21.1126162,0 72.8032335,21.1125971,0 72.80293469999999,21.1125608,0 72.8025798,21.1124671,0 72.8025717,21.1120852,0 72.80279659999999,21.1120933,0 72.8029926,21.1121161,0 72.8030243,21.1121109,0 72.8032817,21.1120786,0 72.8032923,21.1119577,0 72.8032947,21.111769,0 72.8032958,21.1115932,0 72.8028625,21.1115688,0 72.8027951,21.1120859,0 72.802571,21.1120786,0 72.8025355,21.1115518,0 72.80251199999999,21.1112534,0 72.80401689999999,21.1112116,0 72.8038598,21.1110648,0 72.8038196,21.1109215,0 72.80379240000001,21.1109093,0 72.8037997,21.1112074,0 72.8032053,21.1112199,0 72.80314199999999,21.1106337,0 72.8026555,21.1106625,0 72.802655,21.1106293,0 72.8026079,21.1106339,0 72.8026405,21.1101029,0 72.8031865,21.1100836,0 72.8031498,21.1097832,0 72.8026788,21.1097876,0 72.8027146,21.1094199,0 72.8025842,21.1094288,0 72.8024751,21.1085687,0 72.80247420000001,21.1082089,0 72.80250650000001,21.1078176,0 72.8024994,21.1072081,0 72.8028126,21.1071826,0 72.80280980000001,21.1070623,0 72.8036748,21.107,0 72.8038786,21.1069426,0 72.80397290000001,21.1070884,0 72.804632,21.1070348,0 72.8045911,21.1068305,0 72.8044574,21.1068599,0 72.8044101,21.1063887,0 72.80450039999999,21.106378,0 72.804368,21.1057172,0 72.80569199999999,21.1055287,0 72.8060768,21.1059226,0 72.80612929999999,21.1059729,0 72.80618389999999,21.1058099,0 72.8067242,21.1057424,0 72.806668,21.105371,0 72.8061106,21.1054438,0 72.804981,21.1055709,0 72.8047601,21.1044185,0 72.80443320000001,21.1048574,0 72.8043931,21.1049681,0 72.80407099999999,21.1051317,0 72.8035074,21.1051102,0 72.8034404,21.1054494,0 72.8031505,21.1053784,0 72.8031446,21.1050963,0 72.80295630000001,21.1050891,0 72.80297469999999,21.1040978,0 72.80282800000001,21.1039421,0 72.8026314,21.1032667,0 72.8025427,21.1026851,0 72.802513,21.102609,0 72.8023568,21.1026068,0 72.80236669999999,21.1022345,0 72.8023455,21.1021803,0 72.802217,21.1021947,0 72.80196050000001,21.098445,0 72.8018838,21.0984411,0 72.8018763,21.0983193,0 72.8018359,21.0976452,0 72.80181469999999,21.0976005,0 72.8018153,21.0973003,0 72.8017466,21.0961533,0 72.8018033,21.0961467,0 72.80180009999999,21.0961,0 72.80225799999999,21.096109,0 72.8022825,21.0961075,0 72.8026067,21.096113,0 72.80302880000001,21.0961241,0 72.80420669999999,21.0961471,0 72.80485640000001,21.0963384,0 72.8052746,21.096426,0 72.80531619999999,21.0964738,0 72.8065938,21.09685,0 72.80658529999999,21.0968859,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark id="5FDF2F518E000020">
+			<name>VAD-01 boundary</name>
+			<styleUrl>#__managed_style_0DB8E5B1C44301957688</styleUrl>
+			<Polygon>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							73.2066347,22.2345127,0 73.20643370000001,22.2344165,0 73.206228,22.2341904,0 73.2059963,22.2339798,0 73.2058555,22.2339452,0 73.2057659,22.23381,0 73.2058827,22.2337134,0 73.20592929999999,22.2335837,0 73.2059436,22.23341,0 73.2058297,22.2332767,0 73.20576920000001,22.2332568,0 73.20571150000001,22.2332721,0 73.20565740000001,22.2332231,0 73.2056783,22.2331051,0 73.20570960000001,22.2330664,0 73.2059794,22.2325419,0 73.2062219,22.2321395,0 73.2065085,22.231153,0 73.2062487,22.2310015,0 73.2060949,22.2309118,0 73.20600640000001,22.2309983,0 73.20599009999999,22.2310014,0 73.20590989999999,22.2310651,0 73.205809,22.2311009,0 73.20563780000001,22.2310265,0 73.2055427,22.2310265,0 73.2054783,22.2311072,0 73.2050629,22.2309745,0 73.2046071,22.2308969,0 73.2044868,22.2307931,0 73.2044516,22.230627,0 73.2043613,22.2305281,0 73.20409309999999,22.2303901,0 73.2040415,22.2303648,0 73.20401409999999,22.2303231,0 73.2040327,22.2302185,0 73.2041856,22.2301751,0 73.2042878,22.2302577,0 73.20436050000001,22.2302492,0 73.204424,22.2301925,0 73.2044602,22.2302427,0 73.20460490000001,22.2302245,0 73.20463359999999,22.2301322,0 73.2047257,22.2301379,0 73.2047378,22.2299133,0 73.2050277,22.2298889,0 73.2052281,22.2298885,0 73.20525960000001,22.2298901,0 73.20529310000001,22.229873,0 73.20532540000001,22.2298157,0 73.205309,22.2295539,0 73.2052966,22.2293266,0 73.2051536,22.22932,0 73.2049787,22.2292426,0 73.2048616,22.2292451,0 73.2046536,22.2292387,0 73.2045111,22.2292116,0 73.2044107,22.22918,0 73.2043486,22.2290099,0 73.2043556,22.2289842,0 73.2043142,22.228894,0 73.20435809999999,22.228799,0 73.2044897,22.2286609,0 73.20471209999999,22.2285355,0 73.2048119,22.228446,0 73.2049189,22.228461,0 73.20497930000001,22.2284497,0 73.20501179999999,22.2284738,0 73.20500800000001,22.2285165,0 73.20497450000001,22.2285543,0 73.2050727,22.2285358,0 73.2053066,22.2285619,0 73.20531099999999,22.228559,0 73.20531870000001,22.2285113,0 73.20535289999999,22.2284845,0 73.2053986,22.228502,0 73.20547980000001,22.2285789,0 73.2055972,22.2286445,0 73.2056426,22.2286521,0 73.2056872,22.2286364,0 73.2057635,22.2286367,0 73.2058121,22.2286521,0 73.2058318,22.2286748,0 73.2058531,22.2286791,0 73.20586350000001,22.2286914,0 73.20587740000001,22.2286941,0 73.2059198,22.2287505,0 73.2059211,22.2287512,0 73.2060314,22.2287855,0 73.20615909999999,22.2288212,0 73.2061916,22.2288312,0 73.20629219999999,22.2288145,0 73.20632639999999,22.2287702,0 73.2064503,22.2287372,0 73.206558,22.2286861,0 73.2067473,22.2285933,0 73.20686910000001,22.2285514,0 73.206934,22.228533,0 73.206964,22.2285503,0 73.2069867,22.2285452,0 73.2071073,22.2285663,0 73.20722550000001,22.2286655,0 73.2072632,22.2288819,0 73.2073171,22.2290404,0 73.2075131,22.2292417,0 73.20768649999999,22.2294238,0 73.2078338,22.2295464,0 73.20792520000001,22.2296733,0 73.2079401,22.2298142,0 73.2078796,22.2299174,0 73.2077323,22.2300413,0 73.20767410000001,22.2301424,0 73.20768320000001,22.2302616,0 73.2076076,22.2303453,0 73.207455,22.2305287,0 73.2074875,22.2306853,0 73.2074566,22.230882,0 73.20741839999999,22.2311554,0 73.2074338,22.2313244,0 73.2075162,22.231497,0 73.207515,22.231533,0 73.207532,22.2315948,0 73.20748209999999,22.2317467,0 73.20745909999999,22.2318348,0 73.207482,22.2320885,0 73.207447,22.2322905,0 73.20735120000001,22.2323681,0 73.2072471,22.2324149,0 73.2072328,22.2324783,0 73.2071334,22.2325804,0 73.20713360000001,22.2326009,0 73.207374,22.2328448,0 73.2074633,22.2328054,0 73.2075559,22.2328825,0 73.20759459999999,22.2328896,0 73.2078247,22.2325704,0 73.2079117,22.2325214,0 73.2079928,22.2326457,0 73.20813440000001,22.2326611,0 73.20813819999999,22.2327814,0 73.20804440000001,22.232793,0 73.20800060000001,22.2328739,0 73.2080833,22.2330318,0 73.2079995,22.2333494,0 73.2080034,22.2333532,0 73.2080414,22.2333832,0 73.2080455,22.2333852,0 73.2080495,22.2333896,0 73.2081728,22.2334868,0 73.20834290000001,22.2336817,0 73.20842949999999,22.2337873,0 73.2084967,22.2339187,0 73.2085318,22.2339703,0 73.2085498,22.2340451,0 73.20857359999999,22.2341074,0 73.20860620000001,22.2342638,0 73.2086125,22.2343557,0 73.2085119,22.234448,0 73.20833570000001,22.2345386,0 73.2080799,22.2346266,0 73.20778,22.2346838,0 73.20758859999999,22.2346821,0 73.20750219999999,22.2346891,0 73.2074097,22.2346799,0 73.2071306,22.2346676,0 73.2068618,22.2346134,0 73.2066347,22.2345127,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark id="5FDF2F518E000021">
+			<name>VAD-02 boundary</name>
+			<styleUrl>#__managed_style_0DB8E5B1C44301957688</styleUrl>
+			<Polygon>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							73.1670149,22.2780456,0 73.16701569999999,22.2780435,0 73.16696810000001,22.2775472,0 73.1666386,22.2775582,0 73.1666646,22.27793,0 73.1666342,22.2779299,0 73.1666439,22.2780695,0 73.1668533,22.2780692,0 73.16685289999999,22.2781591,0 73.1667638,22.2782581,0 73.1664463,22.2782774,0 73.1663484,22.2781776,0 73.1663518,22.2781653,0 73.16617309999999,22.2781803,0 73.166172,22.2780599,0 73.1663145,22.2779902,0 73.1663051,22.2778505,0 73.1662737,22.2776071,0 73.1662748,22.2774994,0 73.1662465,22.2773739,0 73.1662171,22.2771903,0 73.1662932,22.2772039,0 73.16632559999999,22.2771842,0 73.16666960000001,22.2773126,0 73.16668180000001,22.2773398,0 73.16677110000001,22.2773784,0 73.1667861,22.2773712,0 73.1668588,22.2773892,0 73.16686780000001,22.2773863,0 73.1670438,22.2774319,0 73.16704350000001,22.2774351,0 73.1671092,22.2774514,0 73.1672138,22.277467,0 73.1672459,22.277477,0 73.1672702,22.2774629,0 73.16735540000001,22.2774846,0 73.16743080000001,22.2775194,0 73.1674316,22.2775314,0 73.1674878,22.2775453,0 73.16750500000001,22.2778632,0 73.16750999999999,22.277926,0 73.16750860000001,22.2779287,0 73.1675139,22.2780266,0 73.16752700000001,22.2781896,0 73.1675621,22.2783416,0 73.1675584,22.2787748,0 73.1675606,22.2788269,0 73.1675587,22.2788278,0 73.16756719999999,22.2788686,0 73.1675714,22.2789634,0 73.1675714,22.2790136,0 73.1675838,22.2792888,0 73.1676006,22.2792992,0 73.1676023,22.2793265,0 73.16761769999999,22.2793121,0 73.1676171,22.2795139,0 73.1671248,22.2795421,0 73.16711530000001,22.2795427,0 73.16711530000001,22.2795426,0 73.16620260000001,22.2795949,0 73.16617100000001,22.2793603,0 73.16623130000001,22.2792996,0 73.1662809,22.2792372,0 73.166428,22.2790689,0 73.1664375,22.2789941,0 73.16643089999999,22.2789848,0 73.16643999999999,22.2789738,0 73.1664665,22.278764,0 73.1665477,22.278844,0 73.1665543,22.2788361,0 73.16684739999999,22.2788027,0 73.1668675,22.2788781,0 73.16712200000001,22.2788686,0 73.1671632,22.2788553,0 73.16714380000001,22.2788018,0 73.1669436,22.2788048,0 73.1669429,22.2787979,0 73.1669412,22.2787979,0 73.1668987,22.2783093,0 73.1668876,22.2781864,0 73.16690800000001,22.2781851,0 73.16688480000001,22.2781262,0 73.16689340000001,22.2780381,0 73.1670149,22.2780456,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark id="5FDF2F518E000022">
+			<name>VAD-02 boundary</name>
+			<styleUrl>#__managed_style_0DB8E5B1C44301957688</styleUrl>
+			<Polygon>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							73.1695994,22.2775587,0 73.17002189999999,22.2775448,0 73.1700682,22.2775212,0 73.1706758,22.2772948,0 73.17121299999999,22.2771322,0 73.1715543,22.2770965,0 73.171611,22.2772691,0 73.1719179,22.2777378,0 73.1720974,22.278156,0 73.1720352,22.2787836,0 73.1719361,22.2790804,0 73.1718869,22.279414,0 73.17166640000001,22.2795551,0 73.17150030000001,22.2796061,0 73.1710817,22.2798506,0 73.170812,22.2799345,0 73.1705078,22.2800933,0 73.1703055,22.2800144,0 73.1701316,22.279813,0 73.170061,22.2796711,0 73.1700515,22.2793401,0 73.1700353,22.2793415,0 73.17003630000001,22.2792017,0 73.16999130000001,22.2789923,0 73.1699855,22.2786332,0 73.1699157,22.278146,0 73.1698653,22.278018,0 73.16943259999999,22.2780948,0 73.169434,22.2780606,0 73.1692761,22.2780762,0 73.16944359999999,22.2778391,0 73.1695994,22.2775587,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark id="5FDF2F518E000023">
+			<name>VAP-01 boundary</name>
+			<styleUrl>#__managed_style_0DB8E5B1C44301957688</styleUrl>
+			<Polygon>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							72.8841171,20.36601,0 72.8841104,20.3660508,0 72.88414330000001,20.3660459,0 72.8841583,20.3660183,0 72.8841688,20.3660421,0 72.8841749,20.3660412,0 72.8842082,20.3661033,0 72.8842003,20.3661136,0 72.8842034,20.3661208,0 72.8844636,20.3660758,0 72.8844515,20.3661886,0 72.8844776,20.3662754,0 72.8844903,20.3663208,0 72.8845003,20.366339,0 72.88451550000001,20.3662621,0 72.8845252,20.3661924,0 72.88453610000001,20.3661136,0 72.8845342,20.3660666,0 72.8845398,20.3660572,0 72.8845468,20.3660549,0 72.8845513,20.3660198,0 72.8846851,20.3661091,0 72.8846806,20.366118,0 72.8846783,20.3661296,0 72.8846637,20.3661535,0 72.8846614,20.3661567,0 72.8846327,20.3662145,0 72.88462370000001,20.3663531,0 72.8846234,20.3663608,0 72.8846233,20.3663851,0 72.8846269,20.3664148,0 72.8846297,20.366462,0 72.8846324,20.3665229,0 72.8846309,20.3665887,0 72.8846496,20.3666221,0 72.8847269,20.3666757,0 72.8847308,20.3666794,0 72.8847878,20.3667118,0 72.8848034,20.3667452,0 72.8848192,20.3667945,0 72.8848351,20.3668318,0 72.8848519,20.3669328,0 72.8848474,20.3669483,0 72.88484800000001,20.3669554,0 72.8848406,20.3669713,0 72.884804,20.3670946,0 72.8847526,20.3671873,0 72.88474530000001,20.3672128,0 72.88473759999999,20.3672143,0 72.88473140000001,20.3672255,0 72.8846255,20.3672367,0 72.8843801,20.3674615,0 72.8843719,20.3674744,0 72.8843488,20.3675607,0 72.8843468,20.3675727,0 72.88433620000001,20.3676197,0 72.8843222,20.3676382,0 72.8843045,20.367685,0 72.88362720000001,20.3675696,0 72.8835368,20.367522,0 72.8835091,20.3675118,0 72.8835081,20.3675069,0 72.883506,20.3675058,0 72.8835067,20.3674999,0 72.8835002,20.3674674,0 72.8834734,20.3674588,0 72.8836175,20.3665421,0 72.88386370000001,20.3654713,0 72.88396349999999,20.3656753,0 72.88396640000001,20.3659256,0 72.8841171,20.36601,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark id="025270EC6943018B5A04">
+			<name>Anand-01 boundary</name>
+			<LookAt>
+				<longitude>72.94581645288986</longitude>
+				<latitude>22.58141187374241</latitude>
+				<altitude>58.10646786229456</altitude>
+				<heading>-11.41542341515547</heading>
+				<tilt>0.4994546301728258</tilt>
+				<gx:fovy>35</gx:fovy>
+				<range>814.3805542981136</range>
+				<altitudeMode>absolute</altitudeMode>
+			</LookAt>
+			<styleUrl>#__managed_style_13CE763297430195768C</styleUrl>
+			<Polygon>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							72.94528947779106,22.5808101978074,0 72.94577239073996,22.58074907806004,0 72.94621220518657,22.5803704224584,0 72.9467355902068,22.58042781043462,0 72.946913750318,22.58071384869143,0 72.94666409281881,22.58089672461983,0 72.94625822968145,22.5807743563472,0 72.94603742059719,22.58146852268582,0 72.94574073024019,22.58160498529534,0 72.94567708248887,22.58206277410921,0 72.94574895039078,22.5821801237235,0 72.94543725316352,22.58235555865624,0 72.94499152609843,22.58228041733501,0 72.94470692587684,22.5819521059427,0 72.94455371923668,22.58155888813419,0 72.94456965258473,22.58102076310186,0 72.94528947779106,22.5808101978074,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark id="097FAB3EC6430182DCD8">
+			<name>Dwarka-01 boundary</name>
+			<LookAt>
+				<longitude>68.98592645159488</longitude>
+				<latitude>22.24020242756933</latitude>
+				<altitude>30.09749565961706</altitude>
+				<heading>172.9233657293674</heading>
+				<tilt>0.1165934036583418</tilt>
+				<gx:fovy>35</gx:fovy>
+				<range>572.7588555579861</range>
+				<altitudeMode>absolute</altitudeMode>
+			</LookAt>
+			<styleUrl>#__managed_style_1E24E6A095430195768B</styleUrl>
+			<Polygon>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							68.98607368227199,22.24138300906908,0 68.98606656386673,22.24131099862598,0 68.98631443544856,22.24124166528341,0 68.98646907998574,22.2410395245655,0 68.98643669460215,22.24083699220854,0 68.98635576410445,22.24070255216267,0 68.98626460743186,22.24060883853782,0 68.98622440923749,22.24039952732132,0 68.98630008770303,22.24027722365031,0 68.98655273902068,22.24023236561399,0 68.98667088349715,22.2401665020479,0 68.98668093107015,22.23997318339021,0 68.98741846616711,22.23998423514001,0 68.98766963627112,22.23995691954631,0 68.98774859021758,22.23993366921351,0 68.98767734406029,22.2397285659379,0 68.98796333370839,22.23976690832356,0 68.98796108040587,22.24021724571105,0 68.98790838578049,22.24026442977518,0 68.9877755319025,22.24007543182564,0 68.98742296873772,22.24017260721865,0 68.98697195566608,22.24024293239388,0 68.98697852050664,22.24044713411979,0 68.98686884068663,22.24067668005423,0 68.9868626548748,22.24105318757482,0 68.98685527679527,22.24129939758704,0 68.98666950468751,22.24139973219975,0 68.9863740795349,22.24138613371604,0 68.98607368227199,22.24138300906908,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark id="052692373D43018DAE04">
+			<name>Nadiad-01 boundary</name>
+			<LookAt>
+				<longitude>72.8503008333019</longitude>
+				<latitude>22.7172068367297</latitude>
+				<altitude>56.44240684781022</altitude>
+				<heading>344.1001436936194</heading>
+				<tilt>0</tilt>
+				<gx:fovy>35</gx:fovy>
+				<range>761.0841744775098</range>
+				<altitudeMode>absolute</altitudeMode>
+			</LookAt>
+			<styleUrl>#__managed_style_13CE763297430195768C</styleUrl>
+			<Polygon>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							72.85065127580231,22.71593819155212,0 72.85169104926362,22.71621197640137,0 72.85180395007725,22.71661030446636,0 72.85155743571471,22.71686599479111,0 72.85114659670026,22.71764584908614,0 72.85065719515696,22.71753371914521,0 72.84962968318327,22.71764714387795,0 72.8488290323679,22.71727705515704,0 72.8491266049971,22.71599804022262,0 72.84951797539166,22.71633071031569,0 72.85010296389956,22.71599550622878,0 72.85065127580231,22.71593819155212,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+	</Folder>
+</Document>
+</kml>
