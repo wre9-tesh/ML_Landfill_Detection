@@ -22,6 +22,9 @@ Sampling design (each is a flag):
   - A pin with no outline stands for a disc of 20 m radius.
   - Random points: as many as site points, split across states in proportion to their
     site points, never within 500 m of any mapped landfill, extra site or look-alike.
+  - Extra outlines within 500 m of each other are one place; a place under 1 ha gives no
+    points; where an extra outline and a kept OSM site are the same landfill, the extra
+    outline is the one sampled.
   - Each place and each state has its own seeded random stream, so adding decisions
     later leaves the points already drawn unchanged.
 Blank and unsure rows, and drops for other reasons (not_visible, inactive, mislocated,
@@ -38,7 +41,8 @@ import sys
 from collections import Counter, defaultdict
 from pathlib import Path
 
-from geoutil import REPO, ZONAL_COUNCILS, PolygonIndex, StateIndex, point_in_polygon, polygons
+from geoutil import (REPO, ZONAL_COUNCILS, PolygonIndex, StateIndex, area_centroid, point_in_polygon, polygons,
+                     shape_distance_m)
 from kml_to_csv import lookalike_class
 from osm_to_screening import osm_identity
 
@@ -192,6 +196,8 @@ def main():
     ap.add_argument("--pin-radius-m", type=float, default=20, help="disc radius for pins without an outline")
     ap.add_argument("--random-ratio", type=float, default=1.0, help="random points per site point")
     ap.add_argument("--exclude-m", type=float, default=500, help="random points stay this far from known sites")
+    ap.add_argument("--merge-m", type=float, default=500, help="extra outlines this close are one place")
+    ap.add_argument("--min-ha", type=float, default=1.0, help="extra places smaller than this give no points")
     ap.add_argument("--min-fold-places", type=int, default=10, help="kept places a state needs for its own fold")
     ap.add_argument("--holdout", default="IN-GJ")
     ap.add_argument("--buffer-states", default="IN-DH")
@@ -241,14 +247,63 @@ def main():
         p["polys"] += polys
         p["pins"] += pins
 
-    # Extra sites and pinned look-alikes from Google Earth Pro.
-    for props, polys, pins in load_kml_geojson(Path(args.extra)):
-        m = re.match(r"\s*fix\s*#?\s*(\d+)", props.get("name", ""), re.I)
-        src = by_order.get(str(int(m.group(1)))) if m else None
-        group = src["group_id"] if src else props["site_id"]
-        places[("site", props["site_id"], "")] = {
-            "kind": "site", "class": "", "source": "extra", "group_id": group, "site_ids": [props["site_id"]],
-            "states": Counter([props.get("state_iso", "")]), "polys": polys, "pins": pins}
+    # Extra sites from Google Earth Pro. Outlines within merge_m of each other are one place.
+    # A place under min_ha gives no points. A place within merge_m of a kept OSM site is the
+    # same landfill drawn twice: the hand-drawn outline is used and the OSM one set aside.
+    extras = load_kml_geojson(Path(args.extra))
+    parent = list(range(len(extras)))
+
+    def find(i):
+        while parent[i] != i:
+            parent[i] = parent[parent[i]]
+            i = parent[i]
+        return i
+
+    def close(a, b):
+        (ax, ay), (bx, by) = a[0], b[0]
+        return abs(ax - bx) < 0.5 and abs(ay - by) < 0.5 and shape_distance_m(a[1], b[1]) <= args.merge_m
+
+    def located(polys, pins):
+        pts = [q for poly in polys for q in poly[0]] + list(pins)
+        return (pts[0][0], pts[0][1]), (polys, pins)
+
+    ex_shapes = [located(polys, pins) for _, polys, pins in extras]
+    for i in range(len(extras)):
+        for j in range(i):
+            if close(ex_shapes[i], ex_shapes[j]):
+                parent[find(i)] = find(j)
+    members = defaultdict(list)
+    for i in range(len(extras)):
+        members[find(i)].append(i)
+    set_aside = []  # shapes that give no points but still keep random points away
+    for idx in members.values():
+        props = [extras[i][0] for i in idx]
+        polys = [poly for i in idx for poly in extras[i][1]]
+        pins = [pin for i in idx for pin in extras[i][2]]
+        ids = [pr["site_id"] for pr in props]
+        names = " + ".join(pr.get("name", "") for pr in props)
+        if len(idx) > 1:
+            log.append(f"merged into one place: {names}")
+        area = area_centroid(polys)[0] if polys else 0.0
+        if polys and area < args.min_ha:
+            log.append(f"too_small, no points: {names} ({area:.2f} ha)")
+            set_aside.append((polys, pins))
+            continue
+        group = ids[0]
+        m = re.match(r"\s*fix\s*#?\s*(\d+)", props[0].get("name", ""), re.I)
+        if m and str(int(m.group(1))) in by_order:
+            group = by_order[str(int(m.group(1)))]["group_id"]
+        shape = located(polys, pins)
+        for key in [k for k, pl in places.items() if k[0] == "site" and pl["source"] == "osm"]:
+            if close(shape, located(places[key]["polys"], places[key]["pins"])):
+                gone = places.pop(key)
+                group = gone["group_id"]
+                set_aside.append((gone["polys"], gone["pins"]))
+                log.append(f"check: {names} is also kept OSM site {', '.join(gone['site_ids'])}; "
+                           f"used the hand-drawn outline, not the OSM one")
+        places[("site", ids[0], "")] = {
+            "kind": "site", "class": "", "source": "extra", "group_id": group, "site_ids": ids,
+            "states": Counter(pr.get("state_iso", "") for pr in props), "polys": polys, "pins": pins}
     for props, polys, pins in load_kml_geojson(Path(args.lookalikes)):
         places[("lookalike", props["lookalike_id"], props["class"])] = {
             "kind": "lookalike", "class": props["class"], "source": "lookalikes", "group_id": props["lookalike_id"],
@@ -276,7 +331,7 @@ def main():
 
     # Random background points, in proportion to site points per state.
     site_pts = Counter(pt["state_iso"] for pt in points if pt["kind"] == "site")
-    shapes = list(osm.values()) + [(p["polys"], p["pins"]) for p in places.values()]
+    shapes = list(osm.values()) + [(p["polys"], p["pins"]) for p in places.values()] + set_aside
     known = KnownSites(shapes, args.exclude_m)
     states = {s["iso"]: s for s in StateIndex().states}
     alloc = split_by_share(round(args.random_ratio * sum(site_pts.values())), site_pts) if site_pts else {}

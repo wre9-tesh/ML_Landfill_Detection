@@ -1,0 +1,43 @@
+Screening rows: 843; decisions: (blank) 736, drop 93, keep 13, unsure 1
+Points: 9530 (site 3865, lookalike 1800, random 3865)
+Site places: 86 (OSM 11, extra 75)
+Look-alike places by class: ash_pond 32, bare_soil 16, quarry 12
+Look-alike points by class: ash_pond 960, bare_soil 480, quarry 360
+
+Kept places per state (own validation fold needs >= 10):
+  IN-MH    15  fold
+  IN-PB     7  training only
+  IN-RJ     6  training only
+  IN-WB     6  training only
+  IN-UP     6  training only
+  IN-MP     5  training only
+  IN-JH     4  training only
+  IN-TN     4  training only
+  IN-DL     4  training only
+  IN-HR     3  training only
+  IN-KA     3  training only
+  IN-OR     3  training only
+  IN-UT     3  training only
+  IN-KL     2  training only
+  IN-AP     2  training only
+  IN-AS     2  training only
+  IN-CT     2  training only
+  IN-JK     1  training only
+  IN-BR     1  training only
+  IN-AR     1  training only
+  IN-CH     1  training only
+  IN-TR     1  training only
+  IN-NL     1  training only
+  IN-TG     1  training only
+  IN-PY     1  training only
+  IN-LA     1  training only
+States with their own fold: 1 -> fewer than 5, so folds become Zonal Council regions: Central 16, Eastern 14, North-Eastern 5, Northern 23, Southern 13, Western 15
+check: Bathinda, Punjab is also kept OSM site osm_w995275339; used the hand-drawn outline, not the OSM one
+check: Chandigarh Landfill is also kept OSM site osm_w920244696; used the hand-drawn outline, not the OSM one
+too_small, no points: Faridabad, Haryana (0.96 ha)
+too_small, no points: Jalore, Rajasthan (0.63 ha)
+too_small, no points: Tura, Meghalaya (1.00 ha)
+merged into one place: Landfill 1 Pune, Maharashtra + Landfill 2 Pune,Maharastra
+merged into one place: Chengalpattu Landfill 1, Tamil Nadu + Chengalpattu Landfill 2, Tamil Nadu
+merged into one place: pallikaranai landfill 1 Chennai, Tamil Nadu + pallikaranai landfill 2 Chennai, Tamil Nadu
+merged into one place: Dhapa Landfill 2 ,Kolkata, West Bengal + Dhapa Landfill 1, Kolkata, West bengal

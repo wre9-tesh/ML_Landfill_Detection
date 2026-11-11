@@ -1,6 +1,6 @@
 # Project context
 
-Hand-off notes for picking this project up in a new session. Written Tue Nov 10, 2026, evening. The plan of record is `docs/checklist.md`; this file says where things stand and why.
+Hand-off notes for picking this project up in a new session. Written Tue Nov 10, 2026; status updated Wed Nov 11. The plan of record is `docs/checklist.md`; this file says where things stand and why.
 
 ## The project
 
@@ -23,12 +23,12 @@ ES 678, graduate track, solo. Detect landfills and dumpsites in Gujarat from fre
 
 | Item | Status |
 | --- | --- |
-| OSM screening | Done, pushed to main (commit `6b95c7d`). 12 kept sites in 10 states; 72 drops, of which 45 are look-alikes (ash_pond 27, quarry 10, bare_soil 8). The rows under 1 ha were deleted, which is fine. Row 855 is junk (an "a" in several columns) and must be deleted. |
-| Own training sites | About 75 outlined in Google Earth, outside Gujarat. To be sent as `labels/extra_sites.kml` on Nov 11. With the OSM 12, about 87 sites, inside the 80–120 target. |
-| Gujarat test list | 14 own sites in 10 cities plus 2 from OSM (Pirana in Ahmedabad, and Vadodara). Target 20 or more. To be sent as `labels/gujarat_test.kml` on Nov 11. The rest of the 47 OSM Gujarat candidates were fly-ash ponds and coal piles. |
-| Earth Engine | Works on the user's Windows machine. The `--limit 50` test passed on Nov 10: all 12 features filled (B2 mean 0.109, LST 41.5 °C, LST_anom mean −0.65 because the first points were mostly ash ponds). |
+| OSM screening | Done. 13 kept sites; 93 drops, of which 60 are look-alikes (ash_pond 32, bare_soil 16, quarry 12). The junk row is removed. Two kept sites (Bathinda, Chandigarh) were also hand-drawn, so 11 OSM outlines are sampled. |
+| Own training sites | Done. 82 outlines in the `Extra_Sites` folder of `labels/ML landfill detection_india_screening.kml`, converted to `labels/extra_sites.csv` and `.geojson`. Four pairs merge into one place each and three are under 1 ha (Faridabad, Jalore, Tura), leaving 75 places. With the OSM 11, 86 places. |
+| Gujarat test list | Sealed in commit `8711855`: `labels/gujarat_test_sites.csv` and `.geojson`, from `labels/Gujarat_landfills_ml_test.kml`. 17 outlined sites in 12 cities, all 1 ha or more, plus one pin with no outline (Surat LF-3), which cannot be scored. Under the 20 target. |
+| Earth Engine | Works on the user's Windows machine. The `--limit 50` test passed on Nov 10. The full fetch on the 9,530 points has not been run yet. |
 | Model script | Not written yet. Claude writes it on Nov 11 while the full feature fetch runs. |
-| Outline merging | Not written yet: extra sites within 500 m of each other become one place, and any within 500 m of a kept OSM site are flagged so the user picks one outline. |
+| Sample points | Done: `data/samples/points.csv`, 9,530 points (site 3,865, look-alike 1,800, random 3,865). Outline merging is in `scripts/build_samples.py`. Only Maharashtra has 10 or more places, so the folds are the Zonal Council regions (Northern 23, Central 16, Western 15, Eastern 14, Southern 13, North-Eastern 5). |
 | Gujarat scoring script | Not written yet. The approach and the scoring area are open (see below). |
 | Website, README, depth analysis | Not started. |
 
@@ -103,15 +103,14 @@ Call the number a "model score", not a confidence. A live Earth Engine App is a 
 ## Working setup
 
 - **Repo:** `wre9-tesh/ML_Landfill_Detection`.
-  - The user pushes to `main`. Claude works on `claude/pensive-mayer-93qak9`, and the user gets those changes with `git pull origin claude/pensive-mayer-93qak9`. PRs #1–#6 are merged.
-  - The branch's last commit (`8012784`, website in the checklist) is not on main yet, and main's `6b95c7d` is not on the branch.
+  - The user pushes to `main`. Claude works on `claude/dazzling-mayer-jw7pqk`, and the user gets those changes with `git pull origin claude/dazzling-mayer-jw7pqk`. PRs #1–#7 are merged.
 - **User's machine:** Windows PowerShell, repo at `D:\COursework\ML\project\ML_Landfill_Detection`.
   - The `earthengine` command is not on PATH. Use `python -m pip install earthengine-api` and `python -c "import ee; ee.Authenticate()"`.
   - Feature fetch: `python scripts/gee_features.py --project <id>`. It caches fetched points in `data/features/cache.csv`.
 - **Run order:**
   1. `scripts/osm_to_screening.py` (done)
-  2. `scripts/kml_to_csv.py <file> --kind gujarat|extra|lookalike`
-  3. `scripts/build_samples.py`
+  2. `scripts/kml_to_csv.py <file> --kind gujarat|extra|lookalike` (done; extras need `--folder Extra_Sites`)
+  3. `scripts/build_samples.py` (done)
   4. `scripts/gee_features.py`
   5. Models (to come)
   6. Freeze
