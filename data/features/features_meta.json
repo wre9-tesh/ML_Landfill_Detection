@@ -1,0 +1,48 @@
+{
+  "created_utc": "2026-11-11T20:51:39+00:00",
+  "earthengine_api": "1.7.52",
+  "params": {
+    "start": "2024-03-01",
+    "end": "2024-06-01",
+    "s2_collection": "COPERNICUS/S2_SR_HARMONIZED",
+    "s2_max_scene_cloud_pct": 10,
+    "s2_masked_scl_classes": [
+      1,
+      3,
+      8,
+      9,
+      10,
+      11
+    ],
+    "landsat_collections": [
+      "LANDSAT/LC08/C02/T1_L2",
+      "LANDSAT/LC09/C02/T1_L2"
+    ],
+    "landsat_max_scene_cloud_pct": 30,
+    "lst_background_radius_m": 2000,
+    "lst_background_scale_m": 100,
+    "water": "JRC/GSW1_4/GlobalSurfaceWater",
+    "water_min_occurrence_pct": 50,
+    "dem": "USGS/SRTMGL1_003",
+    "scale_m": 10
+  },
+  "params_hash": "ded361e1bb",
+  "points_file": "points.csv",
+  "points_sha256": "a67d657357c8a8a29208866ba160a0af863cfea0a7edfda4bc221c6ed383760a",
+  "n_points": 9530,
+  "n_fetched": 9530,
+  "n_missing_by_band": {
+    "B2": 58,
+    "B3": 58,
+    "B4": 58,
+    "B8": 58,
+    "B11": 58,
+    "NDVI": 58,
+    "NDBI": 58,
+    "BSI": 58,
+    "LST": 3,
+    "LST_anom": 3,
+    "elev": 0,
+    "slope": 0
+  }
+}
