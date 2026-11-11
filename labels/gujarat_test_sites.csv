@@ -1,0 +1,19 @@
+﻿test_id,city,site_name,lat,lon,area_ha,geometry,state_iso,state_method,folder,notes,parts,in_recall
+AHM-01,Ahmedabad,Ahmedabad LF-1 (pirana),22.981435,72.567433,47.485,polygon,IN-GJ,inside,Gujarat landfills ,,1,yes
+AHM-02,Ahmedabad,Ahmedabad LF - 2(a) + Ahmedabad LF -2(b),22.971364,72.553201,19.171,polygon,IN-GJ,inside,Gujarat landfills ,,2,yes
+AHM-03,Ahmedabad,Ahmedabad LF - 3,22.960545,72.546628,8.56,polygon,IN-GJ,inside,Gujarat landfills ,,1,yes
+BHJ-01,Bhuj,Bhuj LF -1,23.265903,69.698013,10.272,polygon,IN-GJ,inside,Gujarat landfills ,,1,yes
+BHV-01,Bhavnagar,Bhavnagar LF -1,21.798211,72.090658,28.002,polygon,IN-GJ,inside,Gujarat landfills ,,1,yes
+GNR-01,Gandhinagar,Gandhinagar LF -1,23.251923,72.679161,17.037,polygon,IN-GJ,inside,Gujarat landfills ,,2,yes
+JAM-01,Jamnagar,Jamnagar LF -1,22.480461,70.106332,3.348,polygon,IN-GJ,inside,Gujarat landfills ,,1,yes
+MEH-01,Mehsana,Mehsana LF - 1,23.589351,72.396112,5.122,polygon,IN-GJ,inside,Gujarat landfills ,,1,yes
+RAJ-01,Rajkot,Rajkot LF-1,22.37463,70.859496,30.183,polygon,IN-GJ,inside,Gujarat landfills ,,1,yes
+SUR-01,Surat,Surat LF-1,21.156448,72.816826,2.302,polygon,IN-GJ,inside,Gujarat landfills ,,1,yes
+SUR-02,Surat,Surat LF -2 (khajod),21.102044,72.802534,107.535,polygon,IN-GJ,inside,Gujarat landfills ,,2,yes
+VAD-01,Vadodara,Vadodara LF - 1,22.231412,73.206548,15.209,polygon,IN-GJ,inside,Gujarat landfills ,,1,yes
+VAD-02,Vadodara,Vadodara LF -2,22.278512,73.169729,8.454,polygon,IN-GJ,inside,Gujarat landfills ,,2,yes
+VAP-01,Vapi,Vapi LF - 1,20.366796,72.884112,2.024,polygon,IN-GJ,inside,Gujarat landfills ,,1,yes
+Anand-01,Anand,Anand LF-1,22.581329,72.945499,2.519,polygon,IN-GJ,inside,Gujarat landfills ,,1,yes
+Dwarka-01,Dwarka,Dwarka-01,22.240535,68.986854,1.13,polygon,IN-GJ,inside,Gujarat landfills ,,1,yes
+Nadiad-01,Nadiad,Nadiad LF-1,22.716802,72.850292,4.363,polygon,IN-GJ,inside,Gujarat landfills ,,1,yes
+PIN-01,Surat,Surat LF -3,21.134346,72.842971,,point,IN-GJ,inside,,,0,no_outline

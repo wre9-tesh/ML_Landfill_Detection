@@ -100,6 +100,38 @@ def point_in_polygon(lon, lat, poly):
     return point_in_ring(lon, lat, poly[0]) and not any(point_in_ring(lon, lat, h) for h in poly[1:])
 
 
+def shape_distance_m(a, b):
+    """Shortest distance in metres between two shapes, 0 if they touch or overlap.
+
+    A shape is (polys, pins): polygons as lists of rings, plus bare (lon, lat) pins.
+    """
+    pts = [q for poly in a[0] for q in poly[0]] + list(a[1])
+    lon0, lat0 = pts[0][0], pts[0][1]
+    kx = math.radians(1) * EARTH_R * math.cos(math.radians(lat0))
+    ky = math.radians(1) * EARTH_R
+
+    def xy(q):
+        return (q[0] - lon0) * kx, (q[1] - lat0) * ky
+
+    def seg_dist(px, py, ax, ay, bx, by):
+        dx, dy = bx - ax, by - ay
+        t = 0.0 if dx == dy == 0 else max(0.0, min(1.0, ((px - ax) * dx + (py - ay) * dy) / (dx * dx + dy * dy)))
+        return math.hypot(px - ax - t * dx, py - ay - t * dy)
+
+    shapes = [([[[xy(q) for q in ring] for ring in poly] for poly in polys], [xy(q) for q in pins]) for polys, pins in (a, b)]
+    best = float("inf")
+    for (polys, pins), (opolys, opins) in (shapes, shapes[::-1]):
+        segs = [(u[0], u[1], v[0], v[1]) for poly in opolys for ring in poly for u, v in zip(ring, ring[1:] + ring[:1])]
+        for x, y in [q for poly in polys for q in poly[0]] + pins:
+            if any(point_in_polygon(x, y, poly) for poly in opolys):
+                return 0.0
+            for sg in segs:
+                best = min(best, seg_dist(x, y, *sg))
+            for ox, oy in opins:
+                best = min(best, math.hypot(x - ox, y - oy))
+    return best
+
+
 class StateIndex:
     """Point-in-state lookup over the geoBoundaries ADM1 file.
 
