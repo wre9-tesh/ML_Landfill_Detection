@@ -26,10 +26,10 @@ ES 678, graduate track, solo. Detect landfills and dumpsites in Gujarat from fre
 | OSM screening | Done. 13 kept sites; 93 drops, of which 60 are look-alikes (ash_pond 32, bare_soil 16, quarry 12). The junk row is removed. Two kept sites (Bathinda, Chandigarh) were also hand-drawn, so 11 OSM outlines are sampled. |
 | Own training sites | Done. 82 outlines in the `Extra_Sites` folder of `labels/ML landfill detection_india_screening.kml`, converted to `labels/extra_sites.csv` and `.geojson`. Four pairs merge into one place each and three are under 1 ha (Faridabad, Jalore, Tura), leaving 75 places. With the OSM 11, 86 places. |
 | Gujarat test list | Sealed in commit `8711855`: `labels/gujarat_test_sites.csv` and `.geojson`, from `labels/Gujarat_landfills_ml_test.kml`. 17 outlined sites in 12 cities, all 1 ha or more, plus one pin with no outline (Surat LF-3), which cannot be scored. Under the 20 target. |
-| Earth Engine | Works on the user's Windows machine. The `--limit 50` test passed on Nov 10. The full fetch on the 9,530 points has not been run yet. |
-| Model script | Written: `scripts/run_models.py`. Dry-run on made-up feature values only; it has not seen real features. It writes `data/results/` (fold metrics, summary, held-out scores, the selected model, `results.md`). Takes about 3 minutes. |
+| Earth Engine | Full fetch done Nov 11: all 9,530 points, 60 random points without values (snow in the Himalayan states). |
+| Models | Run on Nov 11: `data/results/`. Provisional pick is logistic regression (held-out-region F1 0.848; gradient boosting is best at 0.865). `docs/freeze_draft.md` has the draft. The user is still adding sites and everything is rerun before the freeze. |
 | Sample points | Done: `data/samples/points.csv`, 9,530 points (site 3,865, look-alike 1,800, random 3,865). Outline merging is in `scripts/build_samples.py`. Only Maharashtra has 10 or more places, so the folds are the Zonal Council regions (Northern 23, Central 16, Western 15, Eastern 14, Southern 13, North-Eastern 5). |
-| Gujarat scoring script | Not written yet. The approach and the scoring area are open (see below). |
+| Gujarat scoring | Scoring area decided: a box 15 km beyond each city's test sites, scored locally. `scripts/gee_export_gujarat.py` exports the features to Google Drive (13 boxes, about 6 GB uncompressed); it has not been run against Earth Engine yet. The local scoring script is not written. |
 | Website, README, depth analysis | Not started. |
 
 ## Schedule
@@ -81,7 +81,7 @@ These were fixed before any results and must not change after seeing them.
 
 - Which model, its features and threshold (from the selection rule).
 - How a Gujarat site counts as found. The proposal is any flagged pixel inside its outline.
-- **The scoring area.** The plan says every pixel of the test districts, which is tens of gigabytes if exported. There are two options:
+- **The scoring area** was decided on Nov 11: 15 km boxes scored locally (the second option). The plan said every pixel of the test districts, which is tens of gigabytes if exported. There are two options:
   - Convert the model into Earth Engine and score whole districts there. This is easy for tree ensembles and logistic regression, harder for gradient boosting and AdaBoost.
   - Export the 12 features for a buffer of about 10 km around each test city and score them locally. This works for any model, at roughly 75 MB per city.
 
@@ -112,9 +112,9 @@ Call the number a "model score", not a confidence. A live Earth Engine App is a 
   2. `scripts/kml_to_csv.py <file> --kind gujarat|extra|lookalike` (done; extras need `--folder Extra_Sites`)
   3. `scripts/build_samples.py` (done)
   4. `scripts/gee_features.py`
-  5. `scripts/run_models.py`
+  5. `scripts/run_models.py` (run; rerun if sites are added)
   6. Freeze
-  7. Gujarat scoring (to come)
+  7. `scripts/gee_export_gujarat.py`, then the local scoring script (to come)
 - **Docs:**
   - `docs/checklist.md`: the plan of record.
   - `docs/phase1_labels.md`: labelling rules.

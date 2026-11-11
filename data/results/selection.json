@@ -1,0 +1,98 @@
+{
+  "headline_split": "held_out_region",
+  "folds": {
+    "Central": 1821,
+    "Eastern": 1652,
+    "North-Eastern": 350,
+    "Northern": 2352,
+    "Southern": 1553,
+    "Western": 1742
+  },
+  "kept_places_per_state": {
+    "IN-MH": 15,
+    "IN-PB": 7,
+    "IN-RJ": 6,
+    "IN-UP": 6,
+    "IN-WB": 6,
+    "IN-MP": 5,
+    "IN-DL": 4,
+    "IN-TN": 4,
+    "IN-JH": 4,
+    "IN-HR": 3,
+    "IN-UT": 3,
+    "IN-OR": 3,
+    "IN-KA": 3,
+    "IN-KL": 2,
+    "IN-AS": 2,
+    "IN-CT": 2,
+    "IN-AP": 2,
+    "IN-AR": 1,
+    "IN-JK": 1,
+    "IN-CH": 1,
+    "IN-BR": 1,
+    "IN-LA": 1,
+    "IN-NL": 1,
+    "IN-PY": 1,
+    "IN-TG": 1,
+    "IN-TR": 1
+  },
+  "best_mean_f1": "gradient_boosting",
+  "one_sd_floor": 0.807,
+  "selected": "logistic_regression",
+  "random_forest_oob_accuracy": 0.9604,
+  "recalibrated_cutoffs_per_fold": {
+    "Central": {
+      "NDBI": 0.06039986386895174,
+      "NDVI": 0.22096679210662837,
+      "LST": 35.55385284423828
+    },
+    "Eastern": {
+      "NDBI": 0.06111474893987178,
+      "NDVI": 0.210682425647974,
+      "LST": 32.99076251983643
+    },
+    "North-Eastern": {
+      "NDBI": 0.06272279098629947,
+      "NDVI": 0.21590244919061657,
+      "LST": 36.34916458129883
+    },
+    "Northern": {
+      "NDBI": 0.07546155191957943,
+      "NDVI": 0.20926260650157924,
+      "LST": 35.37723083496094
+    },
+    "Southern": {
+      "NDBI": 0.06429285556077949,
+      "NDVI": 0.21685823202133175,
+      "LST": 35.88004760742188
+    },
+    "Western": {
+      "NDBI": 0.05076104030013081,
+      "NDVI": 0.20221672356128692,
+      "LST": 35.009590530395506
+    }
+  },
+  "published_cutoffs": {
+    "NDBI": 0.028,
+    "NDVI": 0.15,
+    "LST": 37.0
+  },
+  "features": [
+    "B2",
+    "B3",
+    "B4",
+    "B8",
+    "B11",
+    "NDVI",
+    "NDBI",
+    "BSI",
+    "LST",
+    "LST_anom",
+    "elev",
+    "slope"
+  ],
+  "threshold": 0.5,
+  "seed": 678,
+  "points_used": 9470,
+  "points_missing_features": 60
+}
