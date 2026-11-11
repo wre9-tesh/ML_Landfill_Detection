@@ -29,7 +29,7 @@ ES 678, graduate track, solo. Detect landfills and dumpsites in Gujarat from fre
 | Earth Engine | Full fetch done Nov 11: all 9,530 points, 60 random points without values (snow in the Himalayan states). |
 | Models | Run on Nov 11: `data/results/`. Provisional pick is logistic regression (held-out-region F1 0.848; gradient boosting is best at 0.865). `docs/freeze_draft.md` has the draft. The user is still adding sites and everything is rerun before the freeze. |
 | Sample points | Done: `data/samples/points.csv`, 9,530 points (site 3,865, look-alike 1,800, random 3,865). Outline merging is in `scripts/build_samples.py`. Only Maharashtra has 10 or more places, so the folds are the Zonal Council regions (Northern 23, Central 16, Western 15, Eastern 14, Southern 13, North-Eastern 5). |
-| Gujarat scoring | Scoring area decided: a box 15 km beyond each city's test sites, scored locally. `scripts/gee_export_gujarat.py` exports the features to Google Drive (13 boxes, about 6 GB uncompressed); it has not been run against Earth Engine yet. The local scoring script is not written. |
+| Gujarat scoring | Scoring area decided: a box 15 km beyond each city's test sites, scored locally. The 13 exports were started on Nov 11 (`scripts/gee_export_gujarat.py`, Drive folder `landfill_gujarat`); the files go in `data/gujarat/`. `scripts/freeze_model.py` saves the selected model and `scripts/score_gujarat.py` scores the boxes; both are tested on made-up rasters only, and scoring refuses to run without a freeze tag. |
 | Website, README, depth analysis | Not started. |
 
 ## Schedule
@@ -113,8 +113,8 @@ Call the number a "model score", not a confidence. A live Earth Engine App is a 
   3. `scripts/build_samples.py` (done)
   4. `scripts/gee_features.py`
   5. `scripts/run_models.py` (run; rerun if sites are added)
-  6. Freeze
-  7. `scripts/gee_export_gujarat.py`, then the local scoring script (to come)
+  6. `scripts/freeze_model.py`, then tag
+  7. `scripts/gee_export_gujarat.py` (started), then `scripts/score_gujarat.py`
 - **Docs:**
   - `docs/checklist.md`: the plan of record.
   - `docs/phase1_labels.md`: labelling rules.
