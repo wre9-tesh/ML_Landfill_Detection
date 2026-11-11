@@ -18,12 +18,15 @@ The primary model's held-out-region precision is 0.832 and recall 0.883. It flag
 
 ## Still to decide before the tag
 
-- [ ] **How a Gujarat site counts as found.** Proposal: at least one flagged pixel inside its outline. The share of each outline that is flagged is reported next to it either way.
+- [ ] **How a Gujarat site counts as found.** The earlier proposal, one flagged pixel inside the outline, is too easy: the model flags about 5% of ordinary background pixels, so an 8 ha outline (about 850 pixels) would contain a flagged pixel by chance almost every time. Recommended instead: a site is found when at least half of its outline's scored pixels are flagged (`--min-found-share 0.5`). The share flagged is reported for every site either way.
+- [ ] **What an alarm is.** Proposal: a patch of touching flagged pixels of at least 1 ha outside the sealed outlines, ranked by mean score; the top 100 go to the blind check.
 - [ ] **Surat LF-3** has a pin and no outline, so it cannot be scored. Outline it, or leave it out and say so.
 - [ ] **What counts as failure**, in one sentence, written by you: ______
 - [ ] Approve the table above, or rerun after adding sites.
 
 ## Tagging
+
+Run `python scripts/freeze_model.py` first and commit `data/results/model.joblib` and `model.json`; the tag goes on that commit. `scripts/score_gujarat.py` refuses to run on a commit without a freeze tag.
 
 ```bash
 git tag -a freeze-v1 -m "Freeze before Gujarat scoring"

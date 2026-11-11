@@ -1,0 +1,43 @@
+@page { size: A4; margin: 20mm 18mm 20mm 18mm; }
+:root { --ink:#1c2430; --muted:#5b6675; --rule:#d5dbe3; --accent:#1f5f8b; --tint:#eef4f9; --warn:#8a4b00; --warn-tint:#fdf4e3; --ok:#1e6b3a; --ok-tint:#e9f5ec; }
+* { box-sizing: border-box; }
+body { font-family: "Inter", "DejaVu Sans", sans-serif; font-size: 10.2pt; line-height: 1.5; color: var(--ink); margin: 0; }
+h1 { font-size: 24pt; line-height: 1.15; margin: 0 0 6pt; letter-spacing: -0.01em; }
+.subtitle { font-size: 12.5pt; color: var(--muted); margin: 0 0 14pt; }
+.meta { font-size: 9pt; color: var(--muted); border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); padding: 6pt 0; margin-bottom: 16pt; }
+h2 { font-size: 15pt; margin: 22pt 0 6pt; padding-top: 8pt; border-top: 2px solid var(--accent); color: var(--accent); break-after: avoid; }
+h2 .num { color: var(--muted); font-weight: 500; margin-right: 6pt; }
+h3 { font-size: 11.5pt; margin: 14pt 0 4pt; break-after: avoid; }
+h4 { font-size: 10.2pt; margin: 10pt 0 2pt; break-after: avoid; }
+p { margin: 0 0 7pt; }
+ul, ol { margin: 0 0 8pt; padding-left: 16pt; }
+li { margin-bottom: 3pt; }
+table { border-collapse: collapse; width: 100%; margin: 6pt 0 11pt; font-size: 9.2pt; }
+th { text-align: left; background: var(--tint); border-bottom: 1.5px solid var(--accent); padding: 4pt 6pt; vertical-align: bottom; }
+td { border-bottom: 1px solid var(--rule); padding: 4pt 6pt; vertical-align: top; }
+table { break-inside: avoid; }
+tr { break-inside: avoid; }
+td.n, th.n { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+tr.pick td { background: var(--ok-tint); font-weight: 600; }
+code { font-family: "DejaVu Sans Mono", monospace; font-size: 8.6pt; background: #f2f4f7; padding: 0 2pt; border-radius: 2pt; }
+pre { font-family: "DejaVu Sans Mono", monospace; font-size: 8.4pt; background: #f2f4f7; padding: 6pt 8pt; border-radius: 3pt; margin: 4pt 0 9pt; white-space: pre-wrap; break-inside: avoid; }
+.box { border-left: 3pt solid var(--accent); background: var(--tint); padding: 7pt 10pt; margin: 8pt 0 11pt; break-inside: avoid; }
+.box p:last-child, .box ul:last-child { margin-bottom: 0; }
+.box .label { font-size: 8.2pt; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--accent); display: block; margin-bottom: 2pt; }
+.box.why { border-color: var(--ok); background: var(--ok-tint); } .box.why .label { color: var(--ok); }
+.box.warn { border-color: var(--warn); background: var(--warn-tint); } .box.warn .label { color: var(--warn); }
+.box.def { border-color: #6b5ca5; background: #f1eff8; } .box.def .label { color: #4f4188; }
+.toc { columns: 2; column-gap: 22pt; font-size: 9.6pt; padding-left: 0; list-style: none; margin-bottom: 4pt; }
+.toc li { break-inside: avoid; margin-bottom: 2.5pt; }
+.toc .num { display: inline-block; width: 18pt; color: var(--muted); }
+.flow { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6pt; margin: 8pt 0 6pt; }
+.step { border: 1px solid var(--rule); border-top: 3pt solid var(--muted); border-radius: 3pt; padding: 5pt 7pt; font-size: 8.8pt; line-height: 1.35; break-inside: avoid; }
+.step b { display: block; font-size: 9.4pt; }
+.step .st { font-size: 7.6pt; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: var(--muted); }
+.step.done { border-top-color: var(--ok); } .step.done .st { color: var(--ok); }
+.step.now { border-top-color: var(--warn); } .step.now .st { color: var(--warn); }
+.small { font-size: 8.8pt; color: var(--muted); }
+.pb { break-before: page; }
+dl.gloss { columns: 2; column-gap: 22pt; }
+dl.gloss dt { font-weight: 700; margin-top: 6pt; break-after: avoid; }
+dl.gloss dd { margin: 0 0 2pt 0; break-before: avoid; }
