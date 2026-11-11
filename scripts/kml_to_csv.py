@@ -4,11 +4,16 @@
     python scripts/kml_to_csv.py lookalikes.kml --kind lookalike
     python scripts/kml_to_csv.py extra_sites.kml --kind extra
 
+    python scripts/kml_to_csv.py screening.kml --kind extra --folder Extra_Sites
+
 Accepts .kml or .kmz, points or drawn polygons (a polygon gives its centroid
-and area). Writes the CSV and, next to it, a GeoJSON with the same rows and
+and area). --folder takes only the placemarks in the Google Earth folder of that name. Writes the CSV and, next to it, a GeoJSON with the same rows and
 their outlines, which scripts/build_samples.py samples from. Naming rules, set
 in docs/phase1_labels.md:
-  gujarat    "City | site name", source in the description
+  gujarat    "City | site name", source in the description; or a pin per site
+             ("Surat LF-2 (khajod)") with outlines named "SUR-02 boundary", where
+             outlines sharing a name are parts of one site and each pin goes to
+             the outline it sits in or lies within 1 km of
   lookalike  name starts with the class: quarry, kiln, bare_soil, construction, riverbed, ash_pond, industrial, other
   extra      active landfills found while screening that are not in the OSM list; any name
 
@@ -25,7 +30,7 @@ import zipfile
 from pathlib import Path
 from xml.etree import ElementTree
 
-from geoutil import REPO, StateIndex, area_centroid
+from geoutil import REPO, StateIndex, area_centroid, shape_distance_m
 
 LOOKALIKE_CLASSES = {
     "quarry": "quarry", "mine": "quarry", "ore": "quarry", "spoil": "quarry",
@@ -133,23 +138,81 @@ def lookalike_class(name):
     return None
 
 
+def group_gujarat(pms, pin_m=1000):
+    """Merge "CODE boundary" outlines that share a name and attach the pins that mark them.
+
+    Returns placemarks in the shape placemarks() gives, with extra keys test_id, city, site
+    and parts. Used when the Gujarat list was not named "City | site name".
+    """
+    sites = {}
+    for pm in pms:
+        if pm["geometry"] == "polygon":
+            code = re.sub(r"\s*boundary\s*$", "", pm["name"], flags=re.I).strip()
+            s = sites.setdefault(code, {"test_id": code, "polys": [], "pins": [], "folder": pm["folder"], "desc": []})
+            s["polys"] += pm["polys"]
+            if pm["desc"]:
+                s["desc"].append(pm["desc"])
+    loose = []
+    for pm in pms:
+        if pm["geometry"] != "point":
+            continue
+        pin = ([], [(pm["lon"], pm["lat"])])
+        d, code = min(((shape_distance_m(pin, (s["polys"], [])), c) for c, s in sites.items()), default=(1e18, None))
+        if d <= pin_m:
+            sites[code]["pins"].append(pm)
+        else:
+            loose.append(pm)
+    out = []
+    for code, s in sites.items():
+        area, (lon, lat) = area_centroid(s["polys"])
+        names = [p["name"] for p in s["pins"]]
+        city = re.split(r"\s*LF\b", names[0], flags=re.I)[0].strip() if names else re.sub(r"[-\s]*\d+$", "", code)
+        notes = "; ".join(s["desc"] + [p["desc"] for p in s["pins"] if p["desc"]])
+        out.append({"test_id": code, "city": city, "site": " + ".join(names) or code, "name": code, "lon": lon,
+                    "lat": lat, "area_ha": round(area, 3), "geometry": "polygon", "polys": s["polys"],
+                    "parts": len(s["polys"]), "folder": s["folder"], "desc": notes})
+    for k, pm in enumerate(loose, 1):
+        city = re.split(r"\s*LF\b", pm["name"], flags=re.I)[0].strip()
+        out.append({**pm, "test_id": f"PIN-{k:02d}", "city": city, "site": pm["name"], "parts": 0})
+    return out
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("kml")
     ap.add_argument("--kind", choices=["gujarat", "lookalike", "extra"], required=True)
     ap.add_argument("--out", help="CSV path (default labels/gujarat_test_sites.csv, lookalikes.csv or extra_sites.csv)")
+    ap.add_argument("--folder", help="take only placemarks in the Google Earth folder with this name")
     ap.add_argument("--holdout", default="IN-GJ")
     args = ap.parse_args()
 
     states = StateIndex()
     rows, geoms, problems = [], [], []
-    for pm in placemarks(read_kml(Path(args.kml))):
+    pms = list(placemarks(read_kml(Path(args.kml))))
+    if args.folder:
+        want = args.folder.strip().lower()
+        skipped = [pm for pm in pms if want not in [f.strip().lower() for f in pm["folder"].split(" / ")]]
+        pms = [pm for pm in pms if pm not in skipped]
+        print(f"{len(pms)} placemarks in folder {args.folder!r}, {len(skipped)} outside it left out")
+    grouped = args.kind == "gujarat" and not any("|" in pm["name"] for pm in pms)
+    if grouped:
+        pms = group_gujarat(pms)
+    for pm in pms:
         name, lon, lat = pm["name"], pm["lon"], pm["lat"]
         iso, sname, method = states.lookup(lon, lat)
         base = {"lat": round(lat, 6), "lon": round(lon, 6), "area_ha": pm["area_ha"], "geometry": pm["geometry"],
                 "state_iso": iso or "", "state_method": method, "folder": pm["folder"], "notes": pm["desc"]}
         n_before = len(rows)
-        if args.kind == "gujarat":
+        if grouped:
+            if iso != args.holdout:
+                problems.append(f"outside {args.holdout} ({iso or 'no state'}): {name!r}")
+            if pm["geometry"] == "point":
+                problems.append(f"pin with no outline, cannot be scored until it has one: {name!r}")
+            small = pm["geometry"] == "polygon" and pm["area_ha"] < 1
+            rows.append({"test_id": pm["test_id"], "city": pm["city"], "site_name": pm["site"], **base,
+                         "parts": pm["parts"],
+                         "in_recall": "no_outline" if pm["geometry"] == "point" else "under_1ha" if small else "yes"})
+        elif args.kind == "gujarat":
             city, sep, site = (p.strip() for p in name.partition("|"))
             if not sep:
                 problems.append(f"name has no 'City | site' separator, kept as site name: {name!r}")
@@ -176,7 +239,7 @@ def main():
 
     if args.kind == "gujarat":
         cols = ["test_id", "city", "site_name", "lat", "lon", "area_ha", "geometry", "state_iso", "state_method",
-                "folder", "notes"]
+                "folder", "notes"] + (["parts", "in_recall"] if grouped else [])
         out = Path(args.out or REPO / "labels" / "gujarat_test_sites.csv")
     elif args.kind == "extra":
         cols = ["site_id", "name", "state_iso", "lat", "lon", "area_ha", "geometry", "state_method", "folder", "notes"]
