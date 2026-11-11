@@ -1,0 +1,420 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Landfill detection in Gujarat: project guide</title>
+<link rel="stylesheet" href="guide.css">
+</head>
+<body>
+
+<h1>Landfill detection in Gujarat: project guide</h1>
+<p class="subtitle">Working version: what has been done, how and why, where the project stands, and what remains</p>
+<p class="meta">ES 678, graduate track, solo project · Due Tuesday 17 November 2026 · Status as of Wednesday 11 November 2026 · Repository: <code>wre9-tesh/ML_Landfill_Detection</code></p>
+
+<ul class="toc">
+<li><span class="num">1</span>The project at a glance</li>
+<li><span class="num">2</span>The question and the design</li>
+<li><span class="num">3</span>Step 1: labels</li>
+<li><span class="num">4</span>Step 2: sample points</li>
+<li><span class="num">5</span>Step 3: features</li>
+<li><span class="num">6</span>Step 4: the nine models</li>
+<li><span class="num">7</span>Step 5: validation and selection</li>
+<li><span class="num">8</span>Results so far</li>
+<li><span class="num">9</span>Step 6: the freeze</li>
+<li><span class="num">10</span>Step 7: scoring Gujarat</li>
+<li><span class="num">11</span>Step 8: depth analysis</li>
+<li><span class="num">12</span>Step 9: paper, website, repository</li>
+<li><span class="num">13</span>What remains, day by day</li>
+<li><span class="num">14</span>Decisions already fixed</li>
+<li><span class="num">15</span>Known limitations</li>
+<li><span class="num">16</span>Run order and file map</li>
+</ul>
+
+<h2><span class="num">1</span>The project at a glance</h2>
+
+<p>The project asks whether a model that has never seen Gujarat can find Gujarat's landfills and dumpsites from free satellite data. The model is trained only on Indian sites outside Gujarat. Every choice is then frozen in a tagged commit, and the frozen model is tested on Gujarat once.</p>
+
+<p>There are four deliverables: a four-page paper in the course LaTeX template, the repository (reproducible from a clean clone), the depth analysis required by the graduate track, and a presentation website that replaces the viva. If time runs short, the paper comes first.</p>
+
+<h3>Where the project stands</h3>
+
+<div class="flow">
+<div class="step done"><span class="st">Done</span><b>1 Labels</b>86 landfill places, 60 look-alike places, 17 sealed Gujarat sites</div>
+<div class="step done"><span class="st">Done</span><b>2 Sample points</b>9,530 points</div>
+<div class="step done"><span class="st">Done</span><b>3 Features</b>12 values per point from Earth Engine</div>
+<div class="step done"><span class="st">Done, provisional</span><b>4–5 Models and validation</b>Nine models, three splits; rule picks logistic regression</div>
+<div class="step now"><span class="st">In progress</span><b>6 Freeze</b>Draft written; four items open; no tag yet</div>
+<div class="step now"><span class="st">In progress</span><b>7 Gujarat scoring</b>13 exports running; scripts written, not run on real data</div>
+<div class="step"><span class="st">To do</span><b>8 Depth analysis</b>Ablations, prevalence, failure audit</div>
+<div class="step"><span class="st">To do</span><b>9 Paper, website, repo</b>Not started</div>
+</div>
+
+<div class="box warn"><span class="label">Provisional results</span>
+<p>You plan to keep adding sites. Until the freeze tag is pushed, the model results in this guide are provisional and will be rerun. After the tag, nothing changes: no site, feature, model or threshold.</p>
+</div>
+
+<h2><span class="num">2</span>The question and the design</h2>
+
+<h3>Research questions</h3>
+<ol>
+<li><b>Transfer.</b> Does a model trained outside Gujarat find Gujarat's dumpsites?</li>
+<li><b>Validation design.</b> How much does the score change as the test gets harder: random pixel, then held-out site, then held-out state, then Gujarat?</li>
+<li><b>Rarity.</b> What precision does the model have when dumpsites are rare? The proposal's example is a published 93% on a balanced test, which becomes about 12% precision if 1 pixel in 100 is a dumpsite.</li>
+</ol>
+
+<h3>Why the design looks the way it does</h3>
+<p>Most published landfill detectors are tested on pixels drawn from the same sites, or the same region, that they were trained on. That measures memory of those places more than the ability to find new ones. This project is built around three safeguards against that.</p>
+<ul>
+<li><b>A held-out state.</b> Nothing from Gujarat is ever used in training. The Gujarat list was sealed in its own commit (<code>8711855</code>) before any model was run on it.</li>
+<li><b>Rules fixed before results.</b> The features, the nine models, the validation folds and the rule for choosing the primary model were written down on 4 and 9 November, before any model was trained. No choice can be bent towards a number that has already been seen.</li>
+<li><b>A freeze.</b> The chosen model, threshold and scoring rules are committed and tagged, and the tag is pushed, before Gujarat is scored. The tag's GitHub timestamp is the evidence that the test was run once.</li>
+</ul>
+<p>The consequence is that a poor Gujarat result is still a valid result. It is written up as it is; nothing is retuned afterwards.</p>
+
+<h2><span class="num">3</span>Step 1: labels</h2>
+
+<p>Labels are the one input nothing downstream can fix. Three sets were built: landfill sites outside Gujarat (positives), look-alikes and background outside Gujarat (negatives), and the sealed Gujarat test list.</p>
+
+<h3>3.1 OpenStreetMap candidates</h3>
+<p><b>How.</b> Every object tagged <code>landuse=landfill</code> in India was exported from OpenStreetMap (OSM) with an Overpass query on 3 November. <code>scripts/osm_to_screening.py</code> turned the 917 objects into a screening list.</p>
+<table>
+<tr><th>Stage</th><th class="n">Count</th><th>Note</th></tr>
+<tr><td>OSM objects exported</td><td class="n">917</td><td></td></tr>
+<tr><td>Excluded before screening</td><td class="n">13</td><td>Tagged disused or abandoned, or "quarry" in the name</td></tr>
+<tr><td>Inside Gujarat</td><td class="n">47</td><td>Set aside; used only to help build the test list</td></tr>
+<tr><td>Training candidates</td><td class="n">857</td><td>416 of them 1 ha or larger</td></tr>
+</table>
+<p><b>Why OSM.</b> It is free, covers the whole country, and gives outlines, not just pins. Its weakness is that the tag is used loosely: many of the largest "landfills" are fly-ash ponds, mine spoil or ore yards. That is why every site is checked by eye.</p>
+
+<h3>3.2 Screening by eye</h3>
+<p><b>How.</b> Each candidate was opened in Google Earth Pro with historical imagery set as close as possible to March–May 2024, the window the satellite features come from. The decision went into <code>labels/india_screening.csv</code>: <code>keep</code> (active dumping visible), <code>drop</code> with a reason, or <code>unsure</code>.</p>
+<p><b>Why the 2024 window.</b> A label must describe the ground at the time the satellite measured it. A site capped in 2022 or opened in 2025 would teach the model the wrong thing.</p>
+<table>
+<tr><th>Decision</th><th class="n">Rows</th><th>What happens to them</th></tr>
+<tr><td>Keep</td><td class="n">13</td><td>Landfill positives. Two were also hand-drawn (Bathinda, Chandigarh), so 11 OSM outlines are sampled</td></tr>
+<tr><td>Drop: ash pond, bare soil, quarry</td><td class="n">60</td><td>Become look-alike negatives (ash pond 32, bare soil 16, quarry 12)</td></tr>
+<tr><td>Drop: not visible, inactive, mislocated, other</td><td class="n">33</td><td>Give no points</td></tr>
+<tr><td>Unsure</td><td class="n">1</td><td>Gives no points, positive or negative</td></tr>
+<tr><td>Never screened</td><td class="n">736</td><td>Give no points; random background points stay 500 m away from them</td></tr>
+</table>
+<p>Only 107 of 843 rows were screened. Screening was time-boxed, and the yield was low: 13 usable landfills from 107 rows. That is the reason for the next step.</p>
+
+<h3>3.3 Your own outlines</h3>
+<p><b>How.</b> You drew 82 outlines of known municipal dumpsites outside Gujarat in Google Earth Pro (the <code>Extra_Sites</code> folder). <code>scripts/kml_to_csv.py</code> converted them to <code>labels/extra_sites.csv</code> and <code>.geojson</code>, and <code>scripts/build_samples.py</code> merged them into places.</p>
+<table>
+<tr><th>Step</th><th class="n">Count</th><th>Detail</th></tr>
+<tr><td>Outlines drawn</td><td class="n">82</td><td>Five are named <code>fix NNNN</code>: a corrected outline for an OSM row dropped as mislocated</td></tr>
+<tr><td>Merged pairs</td><td class="n">4</td><td>Pune 1+2, Pallikaranai 1+2, Dhapa 1+2, Chengalpattu 1+2: outlines within 500 m count as one place</td></tr>
+<tr><td>Under 1 ha, no points</td><td class="n">3</td><td>Faridabad (0.96 ha), Jalore (0.63 ha), Tura (0.999 ha)</td></tr>
+<tr><td>Places used</td><td class="n">75</td><td>With the 11 OSM sites: <b>86 landfill places</b>, inside the 80–120 target</td></tr>
+</table>
+<div class="box why"><span class="label">Why merge, and why 1 ha</span>
+<p>Two outlines 100 m apart are one landfill. Counting them twice would let the same site sit on both sides of a validation split. The 1 ha minimum exists because 1 ha is about one native Landsat thermal pixel (100 m), and because a smaller outline leaves fewer than 20 sample points once the 15 m edge inset is applied.</p>
+</div>
+
+<h3>3.4 Labelling rules</h3>
+<ul>
+<li>A site counts if active dumping is visible in March–May 2024 imagery. If only 2023 and 2025 images exist, it is kept when active in both, and only the area that is waste in both is outlined.</li>
+<li>The 1 ha minimum is measured on the visible waste, not on the compound wall.</li>
+<li>Biomining areas count while waste is still there. Finished, levelled ground does not.</li>
+<li>Small green patches stay inside an outline. Large ones are routed around or split off.</li>
+<li>A site in both OSM and your list is entered once.</li>
+<li>Look-alike classes: quarry (includes mines and spoil), kiln, bare soil, construction, riverbed, ash pond, industrial (slag, coal, stockyards).</li>
+</ul>
+
+<h3>3.5 Negatives</h3>
+<p>The model needs examples of what is not a landfill. Two kinds are used, for different reasons.</p>
+<ul>
+<li><b>Look-alikes</b> are places a detector is likely to confuse with a dump: ash ponds, bare soil and quarries. They come from the OSM rows dropped during screening, so each one was checked by eye. They make the training problem hard in the right way, and their class column drives the failure audit later.</li>
+<li><b>Random background</b> points are drawn anywhere in the states that supply sites. They represent ordinary land: fields, forest, towns, water.</li>
+</ul>
+
+<h3>3.6 The sealed Gujarat test list</h3>
+<p><b>How.</b> You marked Gujarat dumpsites with pins and outlines in <code>labels/Gujarat_landfills_ml_test.kml</code>. Outlines that share a name (for example the two parts of <code>AHM-02</code>) are parts of one site. The converted list, <code>labels/gujarat_test_sites.csv</code> and <code>.geojson</code>, was committed on its own as the seal.</p>
+<p><b>Result.</b> 17 outlined sites in 13 cities, all at least 1 ha, from 1.1 ha (Dwarka) to 107.5 ha (Surat, Khajod). One more site, Surat LF-3, has a pin and no outline, so it cannot be scored. The target was 20 or more.</p>
+<p><b>Why sealed.</b> If the list could change after the model's map is seen, sites the model happened to find could be added and missed ones quietly dropped. A separate, timestamped commit removes that possibility.</p>
+
+<h2><span class="num">4</span>Step 2: sample points</h2>
+
+<p>A model is trained on pixels, not on outlines. <code>scripts/build_samples.py</code> turns the labels into 9,530 points in <code>data/samples/points.csv</code>.</p>
+<table>
+<tr><th>Kind</th><th class="n">Label</th><th class="n">Points</th><th>Taken from</th></tr>
+<tr><td>Site</td><td class="n">1</td><td class="n">3,865</td><td>Inside the 86 landfill places, up to 50 per place</td></tr>
+<tr><td>Look-alike</td><td class="n">0</td><td class="n">1,800</td><td>Inside the 60 look-alike places, up to 30 per place (ash pond 960, bare soil 480, quarry 360)</td></tr>
+<tr><td>Random</td><td class="n">0</td><td class="n">3,865</td><td>Anywhere in the states that supply sites</td></tr>
+</table>
+<table>
+<tr><th>Design choice</th><th>Why</th></tr>
+<tr><td>At most 50 points per landfill place, 30 per look-alike</td><td>One 300 ha landfill must not outweigh thirty 3 ha ones</td></tr>
+<tr><td>Points at least 15 m inside the outline</td><td>Outlines are approximate, and edge pixels mix waste with whatever surrounds it</td></tr>
+<tr><td>Points at least 15 m apart</td><td>No 10 m pixel is sampled twice</td></tr>
+<tr><td>As many random points as site points, split by each state's share of site points</td><td>Every held-out region then has a similar balance of landfill and background</td></tr>
+<tr><td>Random points at least 500 m from any mapped landfill, extra site or look-alike</td><td>An unscreened landfill cannot end up labelled as background</td></tr>
+<tr><td>Each place and each state has its own seeded random stream</td><td>Adding sites later leaves the points already drawn where they were, so cached features are reused</td></tr>
+</table>
+
+<h2><span class="num">5</span>Step 3: features</h2>
+
+<p><code>scripts/gee_features.py</code> reads twelve values at every point from Google Earth Engine. All come from the 2024 pre-monsoon window, 1 March to 31 May 2024, when cloud is low and vegetation is at its driest.</p>
+<table>
+<tr><th>Feature</th><th>Source and processing</th><th>Why it is included</th></tr>
+<tr><td><code>B2 B3 B4 B8 B11</code></td><td>Sentinel-2 surface reflectance at 10–20 m: blue, green, red, near infrared, shortwave infrared. Median of scenes under 10% cloud, with cloud, shadow, cirrus and snow pixels masked</td><td>The raw colour of the surface, including two infrared bands the eye cannot see</td></tr>
+<tr><td><code>NDVI</code></td><td>(B8 − B4) / (B8 + B4)</td><td>High on healthy vegetation, low on waste</td></tr>
+<tr><td><code>NDBI</code></td><td>(B11 − B8) / (B11 + B8)</td><td>High on built-up and disturbed ground</td></tr>
+<tr><td><code>BSI</code></td><td>((B11 + B4) − (B8 + B2)) / ((B11 + B4) + (B8 + B2))</td><td>Bare soil index. Lower on roofs and paving than NDBI, so the pair helps separate dumps from built-up land</td></tr>
+<tr><td><code>LST</code></td><td>Landsat 8/9 surface temperature in °C. Median of scenes under 30% cloud, resampled to 10 m</td><td>Decomposing waste and dark bare surfaces run hot</td></tr>
+<tr><td><code>LST_anom</code></td><td>LST minus the mean LST of land within 2 km, water excluded</td><td>"Hotter than its surroundings" should transfer between climates better than an absolute temperature</td></tr>
+<tr><td><code>elev slope</code></td><td>SRTM elevation (m) and slope (degrees)</td><td>Terrain context; separates plains from hills and mine faces</td></tr>
+</table>
+<p><b>Why medians.</b> A median over three months removes clouds, shadows and one-off events that a single image would carry.</p>
+<p><b>Why BSI and B2 were added late.</b> They were added on 9 November, before any feature was fetched or any model run, so the addition could not be tuned to results.</p>
+<p><b>Outcome.</b> The full fetch ran on 11 November. All 9,530 points were fetched; 60 random points came back without Sentinel-2 values (snow in Uttarakhand, Ladakh and Jammu and Kashmir) and are left out, leaving 9,470.</p>
+<table>
+<tr><th>Mean value</th><th class="n">Landfill</th><th class="n">Look-alike</th><th class="n">Random</th></tr>
+<tr><td>NDVI</td><td class="n">0.149</td><td class="n">0.141</td><td class="n">0.344</td></tr>
+<tr><td>NDBI</td><td class="n">0.155</td><td class="n">0.067</td><td class="n">0.033</td></tr>
+<tr><td>BSI</td><td class="n">0.169</td><td class="n">0.113</td><td class="n">0.085</td></tr>
+<tr><td>LST (°C)</td><td class="n">46.6</td><td class="n">41.9</td><td class="n">41.2</td></tr>
+<tr><td>LST anomaly (°C)</td><td class="n">+4.7</td><td class="n">+0.2</td><td class="n">−0.1</td></tr>
+</table>
+<p>Landfill points are on average 4.7 °C hotter than their surroundings, while look-alikes are not. Vegetation (NDVI) does not separate landfills from look-alikes at all. This is the first sign that the thermal features carry real information.</p>
+
+<h2><span class="num">6</span>Step 4: the nine models</h2>
+
+<p>All nine were fixed on 4 November. They use scikit-learn defaults except where stated, class-balanced weights, and a 0.5 threshold. There is no hyperparameter tuning. <code>scripts/run_models.py</code> runs them.</p>
+<table>
+<tr><th>Model</th><th>Settings</th><th>Why it is in the comparison</th></tr>
+<tr><td>Flag nothing</td><td>Predicts "not a landfill" everywhere</td><td>The floor: anchors the precision discussion</td></tr>
+<tr><td>Published rule</td><td>NDBI &gt; 0.028, NDVI &lt; 0.15, LST &gt; 37.0 °C (Madhya Pradesh cut-offs, Bhajantri &amp; Mandpe)</td><td>The published baseline, applied as it stands</td></tr>
+<tr><td>Recalibrated rule</td><td>Same three conditions, cut-offs refitted on the training data in each round</td><td>Shows how much of the gap is the cut-offs and how much is the rule's form</td></tr>
+<tr><td>Logistic regression</td><td>On standardised features</td><td>The simplest learned model: one weight per feature</td></tr>
+<tr><td>Decision tree</td><td>Fully grown</td><td>Single-tree reference: low bias, high variance</td></tr>
+<tr><td>Bagged trees</td><td>200 fully grown trees</td><td>Shows what averaging does to variance</td></tr>
+<tr><td>Random forest</td><td>500 trees; out-of-bag score recorded</td><td>Bagging plus random feature choice</td></tr>
+<tr><td>AdaBoost</td><td>200 stumps, SAMME</td><td>Boosting with the weakest learner</td></tr>
+<tr><td>Gradient boosting</td><td>100 trees, depth 3, learning rate 0.1</td><td>The strongest standard tabular method</td></tr>
+</table>
+<div class="box why"><span class="label">Why no tuning, and why class weights</span>
+<p>Tuning nine models needs a second layer of validation, and with six folds it would mostly fit noise. Defaults make the comparison about the method, not about search effort. Class-balanced weights make landfill and non-landfill points count equally in training, so all models can be compared at the same 0.5 threshold.</p>
+</div>
+<p>Two details the checklist left open were settled in the script before any real result: the recalibrated rule takes the cut-offs with the best training F1, searched over each feature's 5th to 95th percentiles; and "one standard deviation" in the selection rule is the sample SD across folds.</p>
+
+<h2><span class="num">7</span>Step 5: validation and selection</h2>
+
+<h3>Three splits</h3>
+<table>
+<tr><th>Split</th><th>What is held out</th><th>What it measures</th></tr>
+<tr><td>Random pixel</td><td>A random fifth of all points, five times</td><td>Almost nothing new: other pixels of the same landfill are in training</td></tr>
+<tr><td>Held-out site</td><td>A fifth of the places, five times; every point of a place stays together</td><td>New sites in regions the model already knows</td></tr>
+<tr><td><b>Held-out region</b> (headline)</td><td>One whole region at a time</td><td>New sites in a region the model has never seen: the closest rehearsal for Gujarat</td></tr>
+</table>
+
+<h3>Why regions and not states</h3>
+<p>The rule fixed on 4 November was leave-one-state-out, with a state needing at least 10 kept places to be its own fold, and a fallback to the Zonal Council regions if fewer than five states qualified. Only Maharashtra (15 places) qualifies, so the fallback applies. The grouping was fixed in advance, so it was not chosen after seeing results.</p>
+<table>
+<tr><th>Fold</th><th class="n">Landfill places</th><th class="n">Points</th><th>States and territories with data</th></tr>
+<tr><td>Northern</td><td class="n">23</td><td class="n">2,352</td><td>Punjab, Rajasthan, Delhi, Haryana, Chandigarh, Jammu and Kashmir, Ladakh</td></tr>
+<tr><td>Central</td><td class="n">16</td><td class="n">1,821</td><td>Uttar Pradesh, Madhya Pradesh, Uttarakhand, Chhattisgarh</td></tr>
+<tr><td>Western</td><td class="n">15</td><td class="n">1,742</td><td>Maharashtra (Gujarat is excluded; Goa has look-alikes only)</td></tr>
+<tr><td>Eastern</td><td class="n">14</td><td class="n">1,652</td><td>West Bengal, Jharkhand, Odisha, Bihar</td></tr>
+<tr><td>Southern</td><td class="n">13</td><td class="n">1,553</td><td>Tamil Nadu, Karnataka, Kerala, Andhra Pradesh, Telangana, Puducherry</td></tr>
+<tr><td>North-Eastern</td><td class="n">5</td><td class="n">350</td><td>Assam, Arunachal Pradesh, Tripura, Nagaland</td></tr>
+</table>
+
+<h3>Metrics</h3>
+<ul>
+<li><b>Precision:</b> of the points the model flags, the share that are landfill.</li>
+<li><b>Recall:</b> of the landfill points, the share the model flags.</li>
+<li><b>F1:</b> the harmonic mean of the two; it is high only when both are.</li>
+</ul>
+<p>All three are reported per fold as well as on average, because the spread between folds is a result in itself.</p>
+
+<h3>Selection rule</h3>
+<p>The primary model is the one with the best mean held-out-region F1, unless a simpler model is within one standard deviation of it; then the simplest such model is taken. The order from simplest is: published rule, recalibrated rule, logistic regression, decision tree, bagged trees, random forest, AdaBoost, gradient boosting.</p>
+<p><b>Why.</b> With six folds, a difference smaller than the fold-to-fold spread is not evidence that one model is better. Between models that cannot be told apart, the simpler one is easier to explain, to audit and to apply elsewhere.</p>
+
+<h2><span class="num">8</span>Results so far</h2>
+
+<p>These come from the 11 November data and are provisional. Full tables are in <code>data/results/results.md</code>.</p>
+
+<h3>Headline: held-out region</h3>
+<table>
+<tr><th>Model</th><th class="n">Precision</th><th class="n">Recall</th><th class="n">F1</th><th class="n">SD of F1</th></tr>
+<tr><td>Flag nothing</td><td class="n">0</td><td class="n">0</td><td class="n">0</td><td class="n">0</td></tr>
+<tr><td>Published rule</td><td class="n">0.690</td><td class="n">0.548</td><td class="n">0.571</td><td class="n">0.205</td></tr>
+<tr><td>Recalibrated rule</td><td class="n">0.706</td><td class="n">0.825</td><td class="n">0.740</td><td class="n">0.059</td></tr>
+<tr class="pick"><td>Logistic regression (selected)</td><td class="n">0.832</td><td class="n">0.883</td><td class="n">0.848</td><td class="n">0.037</td></tr>
+<tr><td>Decision tree</td><td class="n">0.871</td><td class="n">0.749</td><td class="n">0.797</td><td class="n">0.069</td></tr>
+<tr><td>Bagged trees</td><td class="n">0.905</td><td class="n">0.779</td><td class="n">0.828</td><td class="n">0.086</td></tr>
+<tr><td>Random forest</td><td class="n">0.911</td><td class="n">0.797</td><td class="n">0.840</td><td class="n">0.097</td></tr>
+<tr><td>AdaBoost</td><td class="n">0.847</td><td class="n">0.881</td><td class="n">0.857</td><td class="n">0.033</td></tr>
+<tr><td>Gradient boosting (best)</td><td class="n">0.879</td><td class="n">0.866</td><td class="n">0.865</td><td class="n">0.058</td></tr>
+</table>
+<p><b>Selection.</b> Gradient boosting is best at 0.865 with an SD of 0.058, so any model at 0.807 or above is within one SD. Walking up from the simplest, the published rule (0.571) and the recalibrated rule (0.740) fall short, and logistic regression (0.848) clears the bar. Logistic regression is the provisional primary model.</p>
+
+<h3>The same models under the three splits (mean F1)</h3>
+<table>
+<tr><th>Model</th><th class="n">Random pixel</th><th class="n">Held-out site</th><th class="n">Held-out region</th><th class="n">Drop, pixel to region</th></tr>
+<tr><td>Published rule</td><td class="n">0.650</td><td class="n">0.648</td><td class="n">0.571</td><td class="n">0.079</td></tr>
+<tr><td>Recalibrated rule</td><td class="n">0.759</td><td class="n">0.759</td><td class="n">0.740</td><td class="n">0.019</td></tr>
+<tr><td>Logistic regression</td><td class="n">0.878</td><td class="n">0.867</td><td class="n">0.848</td><td class="n">0.030</td></tr>
+<tr><td>Decision tree</td><td class="n">0.906</td><td class="n">0.823</td><td class="n">0.797</td><td class="n">0.109</td></tr>
+<tr><td>Bagged trees</td><td class="n">0.948</td><td class="n">0.861</td><td class="n">0.828</td><td class="n">0.120</td></tr>
+<tr><td>Random forest</td><td class="n">0.948</td><td class="n">0.873</td><td class="n">0.840</td><td class="n">0.108</td></tr>
+<tr><td>AdaBoost</td><td class="n">0.893</td><td class="n">0.877</td><td class="n">0.857</td><td class="n">0.036</td></tr>
+<tr><td>Gradient boosting</td><td class="n">0.937</td><td class="n">0.898</td><td class="n">0.865</td><td class="n">0.072</td></tr>
+</table>
+<p>This table is already an answer to research question 2. On random pixels the tree ensembles look best by a wide margin (0.95). Under an honest split they lose 0.11 to 0.12 and fall level with logistic regression, which loses only 0.03. The fully grown trees memorise individual sites; the random-pixel split rewards that, and the held-out split does not. The random forest's out-of-bag accuracy of 0.960 is the same optimistic view in another form.</p>
+
+<h3>Logistic regression, fold by fold</h3>
+<table>
+<tr><th>Held-out region</th><th class="n">Precision</th><th class="n">Recall</th><th class="n">F1</th><th class="n">Look-alike points flagged</th></tr>
+<tr><td>Central</td><td class="n">0.844</td><td class="n">0.954</td><td class="n">0.896</td><td class="n">22%</td></tr>
+<tr><td>Eastern</td><td class="n">0.801</td><td class="n">0.974</td><td class="n">0.879</td><td class="n">31%</td></tr>
+<tr><td>North-Eastern</td><td class="n">0.912</td><td class="n">0.705</td><td class="n">0.795</td><td class="n">none in fold</td></tr>
+<tr><td>Northern</td><td class="n">0.930</td><td class="n">0.780</td><td class="n">0.848</td><td class="n">28%</td></tr>
+<tr><td>Southern</td><td class="n">0.720</td><td class="n">0.951</td><td class="n">0.820</td><td class="n">25%</td></tr>
+<tr><td>Western</td><td class="n">0.784</td><td class="n">0.935</td><td class="n">0.853</td><td class="n">48%</td></tr>
+</table>
+
+<h3>False alarms and what they imply</h3>
+<p>Pooled over the held-out rounds, logistic regression flags 89.0% of landfill points and 5.1% of random background points. Among look-alikes it flags 20% of ash-pond points, 39% of bare-soil points and 43% of quarry points.</p>
+<p>The validation data is about 41% landfill, which is nothing like the real landscape. Applying the same two rates to realistic shares gives the answer to research question 3:</p>
+<table>
+<tr><th>If landfill pixels are</th><th class="n">Out of 1,000,000 pixels: true alarms</th><th class="n">False alarms</th><th class="n">Precision</th></tr>
+<tr><td>1 in 100</td><td class="n">8,900</td><td class="n">50,480</td><td class="n">15%</td></tr>
+<tr><td>1 in 1,000</td><td class="n">890</td><td class="n">50,930</td><td class="n">1.7%</td></tr>
+<tr><td>1 in 10,000</td><td class="n">89</td><td class="n">50,980</td><td class="n">0.2%</td></tr>
+</table>
+<p>A model with 83% precision on the balanced validation set would be wrong about most of what it flags on a real map. This is why the output is called a model score and not a probability, and why the Gujarat pass scores every pixel instead of a balanced sample.</p>
+
+<h2><span class="num">9</span>Step 6: the freeze</h2>
+
+<p><b>What it is.</b> One commit that contains the final labels, the points, the features, the results, the saved model and the scoring rules, with a tag (<code>freeze-v1</code>) pushed to GitHub before Gujarat is scored.</p>
+<p><b>How.</b> After the last rerun, <code>scripts/freeze_model.py</code> fits the selected model on all training points and saves <code>data/results/model.joblib</code> and <code>model.json</code>. Those are committed, the commit is tagged, and the tag is pushed. <code>scripts/score_gujarat.py</code> refuses to run on a commit that has no freeze tag.</p>
+
+<h3>Open items before the tag</h3>
+<table>
+<tr><th>Item</th><th>Status and recommendation</th></tr>
+<tr><td>More sites</td><td>Add any further training sites, look-alikes and Gujarat test sites now. Each addition means rerunning the sampler, the fetch (new points only) and the models</td></tr>
+<tr><td>How a Gujarat site counts as found</td><td>The first proposal, one flagged pixel inside the outline, is too easy: with 5% of background flagged, an 8 ha outline (about 850 pixels) would contain a flagged pixel by chance almost every time. Recommended: at least half of the outline's scored pixels flagged</td></tr>
+<tr><td>What an alarm is</td><td>Proposed: a patch of touching flagged pixels of at least 1 ha outside the sealed outlines, ranked by mean score</td></tr>
+<tr><td>Surat LF-3</td><td>Has no outline. Outline it (a new seal commit, still legitimate before scoring) or leave it out and say so</td></tr>
+<tr><td>Failure criterion</td><td>One sentence, written by you, on what Gujarat result would count as failure</td></tr>
+</table>
+<div class="box why"><span class="label">Why write the failure criterion first</span>
+<p>Deciding what failure means after seeing the result is how a negative result gets reframed as a success. A sentence written beforehand makes the conclusion checkable.</p>
+</div>
+
+<h2><span class="num">10</span>Step 7: scoring Gujarat</h2>
+
+<h3>10.1 The scoring area</h3>
+<p>The decision on 11 November was to score a box 15 km beyond the test sites of each test city, and to score locally. <code>scripts/gee_export_gujarat.py</code> exports the same twelve-band stack the training points were sampled from, one GeoTIFF per city at 10 m in UTM zone 43N. You started the 13 exports on 11 November; they land in the Drive folder <code>landfill_gujarat</code> and go into <code>data/gujarat/</code>.</p>
+<p>The 13 boxes hold about 125 million pixels, roughly 12,500 km². Exporting features reveals no result, so doing it before the freeze is safe.</p>
+<p><b>Why local scoring.</b> It works for whichever model the rule picks, including boosted models that are awkward to rebuild inside Earth Engine, and it keeps the scored rasters as files the website can use.</p>
+<p><b>Why whole boxes.</b> Scoring only around known sites would hide the false alarms. The boxes contain cities, farmland, industry, quarries and coast at their real proportions, which is the real-rarity test.</p>
+
+<h3>10.2 What the scoring script does</h3>
+<ol>
+<li>Applies the frozen model to every pixel that has all twelve features, and writes a score map per city.</li>
+<li>Counts a pixel that lies in two overlapping boxes once.</li>
+<li>For each sealed site, reports the pixels inside its outline, the share flagged, the highest score and whether it counts as found.</li>
+<li>Groups flagged pixels outside the sealed outlines into patches, keeps those of at least 1 ha, and ranks them by mean score.</li>
+<li>Writes the top 100 as <code>alarms_blind.kml</code>, pins named only by a shuffled number.</li>
+</ol>
+
+<h3>10.3 The blind check</h3>
+<p>You open the blind KML in Google Earth Pro and record each pin as dumpsite, look-alike (with its class) or unclear, without knowing its rank or score. That gives precision at the top of the ranking, the number that matters to anyone who would act on the map.</p>
+<p><b>Why blind.</b> Knowing that a pin is the model's top pick makes it easier to see a dump there.</p>
+
+<h3>10.4 What Gujarat produces</h3>
+<ul>
+<li>Site recall against the sealed list, with the per-site flagged share.</li>
+<li>The share of all scored pixels that are flagged.</li>
+<li>Precision among the top 100 alarms from the blind check.</li>
+<li>The fourth rung of the split ablation.</li>
+</ul>
+
+<h2><span class="num">11</span>Step 8: depth analysis</h2>
+
+<p>The graduate track requires analysis beyond the headline number. All of it is post-hoc and selects nothing.</p>
+<table>
+<tr><th>Analysis</th><th>What is done</th><th>What it shows</th></tr>
+<tr><td>Split ablation</td><td>Every model under random pixel, held-out site, held-out region and Gujarat</td><td>How far the score falls as validation gets honest. Never to be cut</td></tr>
+<tr><td>Feature ablation</td><td>The frozen model retrained on A0 (all 12), A1 (NDVI, NDBI, LST), A2 (A1 + BSI), A3 (the original 10), A4 (no thermal), A5 (no terrain)</td><td>What each group of features contributes</td></tr>
+<tr><td>Precision against prevalence</td><td>The measured hit rate and false-alarm rate applied to realistic landfill shares, in pixel counts</td><td>Why a high balanced score still means mostly false alarms</td></tr>
+<tr><td>Threshold sensitivity</td><td>Gujarat results at other thresholds</td><td>How fragile the result is. Reported only; the frozen threshold stays the result</td></tr>
+<tr><td>Failure audit</td><td>False alarms broken down by look-alike class and by region</td><td>What the model confuses with dumps, and where</td></tr>
+</table>
+
+<h2><span class="num">12</span>Step 9: paper, website, repository</h2>
+
+<h3>Paper</h3>
+<p>Four pages including references, two columns, in the course template. Draft order: methods, results, limitations, discussion, introduction, abstract. At most two figures: the split ablation, and either the Gujarat map or the precision-prevalence curve. The paper states the AI tools used. Two references still need checking: Agrawal et al., and the journal version of Bhajantri &amp; Mandpe (only a preprint was found).</p>
+
+<h3>Website</h3>
+<p>A static site on GitHub Pages built from the frozen outputs, with no backend. It shows a clickable Gujarat score map with the test sites marked found or missed and the checked alarms; the split-ablation chart; a precision-versus-prevalence slider; and a gallery of look-alikes the model confused with dumps. There is no image upload, because the model reads twelve values per pixel that a screenshot does not contain.</p>
+
+<h3>Repository</h3>
+<p>Code, label files, the frozen model, an environment file, and a README with the exact run order and one line on what the freeze tag means. It must run from a clean clone.</p>
+
+<h2><span class="num">13</span>What remains, day by day</h2>
+
+<table>
+<tr><th>When</th><th>You</th><th>Claude</th></tr>
+<tr><td>Wed 11 – Thu 12</td><td>Download the 13 exports into <code>data/gujarat/</code>. Add any further sites and push them. Rerun the fetch for new points. Settle the open freeze items and write the failure sentence</td><td>Rerun the sampler and the models after each addition; refresh the freeze draft</td></tr>
+<tr><td>Thu 12 (Fri 13 at the latest)</td><td>Run <code>freeze_model.py</code>, commit, tag, push the tag. Then run <code>score_gujarat.py</code>. Blind-check the top 100 alarms</td><td>Check the scoring outputs; compute recall and top-100 precision</td></tr>
+<tr><td>Fri 13</td><td>Start the paper</td><td>Depth analysis: split ablation, feature ablation, precision against prevalence, failure audit</td></tr>
+<tr><td>Sat 14 – Sun 15</td><td>Write the paper</td><td>Build the website; figures; README and environment file</td></tr>
+<tr><td>Mon 16</td><td>Spare; clean-clone check</td><td>Spare; fixes</td></tr>
+<tr><td>Tue 17</td><td>Submit paper, repository and website link</td><td>Fixes</td></tr>
+</table>
+<p>If a day slips, cut in this order: results map, recalibrated threshold rule, second figure, feature ablation down to A0, A1 and A4, blind check from 100 to 50. The freeze and the split ablation are never cut.</p>
+
+<h2><span class="num">14</span>Decisions already fixed</h2>
+
+<table>
+<tr><th>Date</th><th>Decision</th></tr>
+<tr><td>4 Nov</td><td>The nine models and their settings; class-balanced weights; threshold 0.5; no tuning</td></tr>
+<tr><td>4 Nov</td><td>Leave-one-state-out as the headline, with the Zonal Council fallback; random-pixel and site-grouped splits as contrast only</td></tr>
+<tr><td>4 Nov</td><td>The selection rule: best mean F1, or the simplest model within one SD</td></tr>
+<tr><td>9 Nov</td><td>BSI and B2 added, making twelve features; the six feature-ablation sets</td></tr>
+<tr><td>Before 11 Nov</td><td>Labelling rules: the March–May 2024 window, the 1 ha minimum, the look-alike classes, nothing from Gujarat in training</td></tr>
+<tr><td>11 Nov</td><td>Gujarat list sealed (commit <code>8711855</code>)</td></tr>
+<tr><td>11 Nov</td><td>Hand-drawn outline used where it repeats a kept OSM site (Bathinda, Chandigarh); outlines within 500 m merged; places under 1 ha give no points</td></tr>
+<tr><td>11 Nov</td><td>Recalibrated rule fitted by training F1 over percentile cut-offs; sample SD in the selection rule</td></tr>
+<tr><td>11 Nov</td><td>Scoring area: a box 15 km beyond each city's test sites, scored locally</td></tr>
+</table>
+
+<h2><span class="num">15</span>Known limitations</h2>
+
+<ul>
+<li><b>Few sites.</b> 86 landfill places is enough to train on but gives small folds. The North-Eastern fold has 5 places, so its numbers are noisy.</li>
+<li><b>Hand-picked positives.</b> 75 of 86 places are sites you already knew or could find: mostly large, well-known municipal dumps. The model may be weaker on small or informal ones.</li>
+<li><b>Three look-alike classes.</b> Only ash ponds, bare soil and quarries are represented. There are no kilns, construction sites, riverbeds or industrial yards, so the model has not been taught to reject those.</li>
+<li><b>Most OSM rows unscreened.</b> 736 of 843 were never looked at. They are kept out of the background sample, but they are not used either.</li>
+<li><b>Background may hide dumps.</b> Random points avoid mapped sites by 500 m, but an unmapped dump could still be sampled as background.</li>
+<li><b>Short test list.</b> 17 scoreable Gujarat sites against a target of 20. With 17 sites, one site is 6 percentage points of recall.</li>
+<li><b>Coarse temperature.</b> Landsat's thermal band is about 100 m; it is resampled to 10 m, so small sites share their temperature with their surroundings.</li>
+<li><b>Untested scripts.</b> <code>freeze_model.py</code> and <code>score_gujarat.py</code> have run only on made-up rasters. The first real export may expose a problem, for example in band names or file tiling.</li>
+</ul>
+
+<h2><span class="num">16</span>Run order and file map</h2>
+
+<table>
+<tr><th>#</th><th>Command</th><th>Reads</th><th>Writes</th><th>State</th></tr>
+<tr><td>1</td><td><code>osm_to_screening.py</code></td><td>OSM export</td><td><code>labels/india_screening.csv</code>, <code>.kml</code></td><td>Done</td></tr>
+<tr><td>2</td><td><code>kml_to_csv.py --kind gujarat</code></td><td>Gujarat KML</td><td><code>labels/gujarat_test_sites.*</code></td><td>Done, sealed</td></tr>
+<tr><td>3</td><td><code>kml_to_csv.py --kind extra --folder Extra_Sites</code></td><td>Screening KML</td><td><code>labels/extra_sites.*</code></td><td>Done</td></tr>
+<tr><td>4</td><td><code>build_samples.py</code></td><td>Labels</td><td><code>data/samples/points.csv</code></td><td>Done</td></tr>
+<tr><td>5</td><td><code>gee_features.py --project ID</code></td><td>Points</td><td><code>data/features/features.csv</code></td><td>Done</td></tr>
+<tr><td>6</td><td><code>run_models.py</code></td><td>Features</td><td><code>data/results/</code></td><td>Done, provisional</td></tr>
+<tr><td>7</td><td><code>freeze_model.py</code>, then tag</td><td>Results, features</td><td><code>data/results/model.joblib</code>, <code>model.json</code></td><td>To do</td></tr>
+<tr><td>8</td><td><code>gee_export_gujarat.py --project ID</code></td><td>Sealed list</td><td>GeoTIFFs in Drive</td><td>Running</td></tr>
+<tr><td>9</td><td><code>score_gujarat.py</code></td><td>GeoTIFFs, frozen model, sealed list</td><td><code>data/gujarat_results/</code></td><td>After the tag</td></tr>
+</table>
+<p>Steps 3 to 6 are repeated whenever sites are added. Steps 7 and 9 are run once.</p>
+<p class="small">Other documents in the repository: <code>docs/checklist.md</code> (the plan of record), <code>docs/context.md</code> (hand-off notes), <code>docs/freeze_draft.md</code>, <code>docs/phase1_labels.md</code>, <code>docs/phase2_features.md</code>.</p>
+
+</body>
+</html>

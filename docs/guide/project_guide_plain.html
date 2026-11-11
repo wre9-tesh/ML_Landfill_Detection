@@ -1,0 +1,570 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Finding landfills from space: a plain-language guide</title>
+<link rel="stylesheet" href="guide.css">
+</head>
+<body>
+
+<h1>Finding landfills from space</h1>
+<p class="subtitle">A plain-language guide to the Gujarat landfill detection project, for readers new to machine learning</p>
+<p class="meta">ES 678 course project · Due Tuesday 17 November 2026 · Status as of Wednesday 11 November 2026 · No background in machine learning or satellite data is assumed. Every special term is defined where it first appears and again in the glossary.</p>
+
+<ul class="toc">
+<li><span class="num">1</span>The project in one minute</li>
+<li><span class="num">2</span>Why this is worth doing</li>
+<li><span class="num">3</span>How a computer learns from examples</li>
+<li><span class="num">4</span>What a satellite sees</li>
+<li><span class="num">5</span>The plan: study, mock exams, one final exam</li>
+<li><span class="num">6</span>Step 1: collecting examples</li>
+<li><span class="num">7</span>Step 2: choosing points</li>
+<li><span class="num">8</span>Step 3: twelve measurements</li>
+<li><span class="num">9</span>Step 4: nine ways to decide</li>
+<li><span class="num">10</span>Step 5: grading fairly</li>
+<li><span class="num">11</span>What we have found so far</li>
+<li><span class="num">12</span>The rarity problem</li>
+<li><span class="num">13</span>Step 6: sealing the envelope</li>
+<li><span class="num">14</span>Step 7: the final exam in Gujarat</li>
+<li><span class="num">15</span>Step 8: digging deeper</li>
+<li><span class="num">16</span>Step 9: writing it up</li>
+<li><span class="num">17</span>Where we are and what is left</li>
+<li><span class="num">18</span>How to explain this project to someone else</li>
+<li><span class="num">19</span>Questions people ask</li>
+<li><span class="num">20</span>Glossary</li>
+</ul>
+
+<h2><span class="num">1</span>The project in one minute</h2>
+
+<p>Cities in India send their rubbish to landfills and open dumpsites. Many are poorly recorded, and some are not recorded at all. Satellites photograph every part of the country every few days, for free. This project asks: <b>can a computer program look at satellite data and point out where the dumpsites are?</b></p>
+
+<p>The program is shown examples of known dumpsites across India, everywhere except the state of Gujarat. It works out what dumpsites have in common. Then it is tested, once, on Gujarat, a state it has never seen. If it finds Gujarat's known dumpsites, it has learned something real. If it does not, that is also an honest answer.</p>
+
+<p>The project is as much about <b>testing honestly</b> as about building the program. A large part of it shows how easy it is to make such a program look far better than it is.</p>
+
+<h2><span class="num">2</span>Why this is worth doing</h2>
+
+<ul>
+<li><b>Dumpsites cause harm.</b> They catch fire, pollute groundwater and release methane, a gas that warms the climate.</li>
+<li><b>Records are incomplete.</b> Official lists miss informal dumps, and maps go out of date as sites grow, close or move.</li>
+<li><b>Checking on foot is slow.</b> A method that points inspectors to likely places would save time, even if it is not always right.</li>
+<li><b>Published methods may be over-optimistic.</b> Some studies report accuracy above 90%, but they often test the program on the same places it learned from. This project checks what happens under a stricter test.</li>
+</ul>
+
+<h2><span class="num">3</span>How a computer learns from examples</h2>
+
+<div class="box def"><span class="label">Definition: machine learning</span>
+<p>A way of getting a computer to do a task by showing it many examples with the right answers, instead of writing out the rules by hand. The computer finds patterns in the examples and uses them on new cases.</p>
+</div>
+
+<p>Think of teaching a child to recognise mangoes. You do not give a written rule. You show many fruits and say "mango" or "not a mango" each time. After enough examples the child can judge a fruit never seen before. Machine learning works the same way, with five ingredients.</p>
+
+<table>
+<tr><th>Ingredient</th><th>Meaning</th><th>In this project</th></tr>
+<tr><td><b>Examples</b></td><td>The cases the computer learns from</td><td>Small squares of ground, each 10 m × 10 m</td></tr>
+<tr><td><b>Labels</b></td><td>The right answer for each example</td><td>"Landfill" or "not a landfill", decided by a person looking at imagery</td></tr>
+<tr><td><b>Features</b></td><td>The measurements that describe each example</td><td>Twelve numbers per square: colour, temperature, height and so on</td></tr>
+<tr><td><b>Model</b></td><td>The pattern-finder: a procedure that turns the features into an answer</td><td>Nine different ones are compared</td></tr>
+<tr><td><b>Test</b></td><td>Examples kept hidden during learning, used to check the model</td><td>Regions held back in turn, and finally Gujarat</td></tr>
+</table>
+
+<div class="box def"><span class="label">Definitions: training and testing</span>
+<p><b>Training</b> is the learning stage: the model sees examples together with their labels. <b>Testing</b> is the checking stage: the model sees new examples without labels, gives its answers, and those answers are compared with the truth. A model must be tested on examples it did not train on, for the same reason an exam should not reuse the practice questions.</p>
+</div>
+
+<h2><span class="num">4</span>What a satellite sees</h2>
+
+<div class="box def"><span class="label">Definition: pixel</span>
+<p>A satellite image is a grid of tiny squares called pixels. In this project one pixel covers 10 m × 10 m of ground, about the floor area of a small house. For each pixel the satellite records a few numbers.</p>
+</div>
+
+<p>A phone camera records three colours: red, green and blue. Satellites record more.</p>
+<ul>
+<li><b>Visible light.</b> Blue, green and red, as the eye sees them.</li>
+<li><b>Infrared light.</b> Light the eye cannot see. Healthy plants reflect a great deal of near-infrared light, and dry bare ground reflects a great deal of shortwave-infrared light. These make it easy to tell plants, soil and buildings apart.</li>
+<li><b>Heat.</b> Some satellites measure how hot the ground surface is.</li>
+<li><b>Height.</b> A radar survey flown on the Space Shuttle measured the height of the land everywhere.</li>
+</ul>
+
+<p>Each of these measurements is called a <b>band</b>. Three sources are used:</p>
+<table>
+<tr><th>Source</th><th>Who runs it</th><th>What it gives</th></tr>
+<tr><td>Sentinel-2</td><td>European Space Agency</td><td>Visible and infrared light, in 10 m to 20 m pixels, every 5 days</td></tr>
+<tr><td>Landsat 8 and 9</td><td>NASA and the US Geological Survey</td><td>Ground surface temperature, in pixels of about 100 m</td></tr>
+<tr><td>SRTM</td><td>NASA</td><td>Height of the land above sea level</td></tr>
+</table>
+<p>All three are free. They are read through <b>Google Earth Engine</b>, an online service that stores satellite data and does the heavy calculation on Google's computers.</p>
+
+<h3>Why a landfill should look different</h3>
+<ul>
+<li><b>Almost no plants</b> grow on active waste.</li>
+<li><b>The surface is mixed and disturbed:</b> plastic, soil, ash and rubble.</li>
+<li><b>It is warm.</b> Rotting waste gives off heat, and a dark, dry surface heats up in the sun.</li>
+</ul>
+<p>The difficulty is that other places share these traits: quarries, bare fields, construction sites, ash ponds at power stations. In this project these are called <b>look-alikes</b>, and they matter a great deal.</p>
+
+<h2><span class="num">5</span>The plan: study, mock exams, one final exam</h2>
+
+<p>The whole project follows the logic of a fair exam.</p>
+<table>
+<tr><th>Exam idea</th><th>In the project</th></tr>
+<tr><td>Study material</td><td>Known landfills and non-landfills in India, outside Gujarat</td></tr>
+<tr><td>Mock exams</td><td>Hide one region of India at a time, train on the rest, test on the hidden region</td></tr>
+<tr><td>Choosing the best student</td><td>Pick one of nine models by its mock-exam marks, using a rule written down beforehand</td></tr>
+<tr><td>Sealing the envelope</td><td>Record the final choices publicly, with a time stamp, before the final exam</td></tr>
+<tr><td>The final exam</td><td>Gujarat, taken once, with no second attempt</td></tr>
+</table>
+
+<div class="box why"><span class="label">Why so strict</span>
+<p>Anyone who can retake an exam until the mark looks good will end up with a good mark that means nothing. The same is true of a model. Every safeguard in this project exists to stop the result from being adjusted, even by accident, after the answer is known.</p>
+</div>
+
+<div class="flow">
+<div class="step done"><span class="st">Done</span><b>1 Examples</b>Landfills and look-alikes marked on maps</div>
+<div class="step done"><span class="st">Done</span><b>2 Points</b>9,530 points chosen</div>
+<div class="step done"><span class="st">Done</span><b>3 Measurements</b>Twelve numbers per point</div>
+<div class="step done"><span class="st">Done, first pass</span><b>4–5 Models, mock exams</b>Nine models compared</div>
+<div class="step now"><span class="st">In progress</span><b>6 Seal</b>Final choices being settled</div>
+<div class="step now"><span class="st">In progress</span><b>7 Final exam</b>Gujarat data being prepared</div>
+<div class="step"><span class="st">To do</span><b>8 Deeper analysis</b>Why it works or fails</div>
+<div class="step"><span class="st">To do</span><b>9 Write-up</b>Paper, website, code</div>
+</div>
+
+<h2><span class="num">6</span>Step 1: collecting examples</h2>
+
+<div class="box def"><span class="label">Definition: label</span>
+<p>The right answer attached to an example. Here a label says whether a piece of ground is a landfill. Labels are made by a person, and the model can only be as good as its labels.</p>
+</div>
+
+<h3>Where the landfill examples came from</h3>
+<p><b>A public map.</b> OpenStreetMap is a free world map that volunteers draw, a little like Wikipedia for maps. It has 917 places in India marked as landfill. Of these, 13 were removed at once (marked as closed, or really quarries), 47 inside Gujarat were set aside, and 857 remained as candidates.</p>
+<p><b>Checking by eye.</b> Volunteers make mistakes, so each candidate was opened in Google Earth, a program that shows detailed aerial photographs, including older ones. The photograph closest to March–May 2024 was used, because that is when the satellite measurements were taken. Each place was marked <i>keep</i>, <i>drop</i> (with the reason) or <i>unsure</i>.</p>
+<p>The result was sobering. Of 107 places checked, only 13 were real, active landfills. Sixty were look-alikes: 32 ash ponds, 16 patches of bare soil and 12 quarries. The rest were closed, in the wrong position or could not be judged.</p>
+<p><b>Drawing our own.</b> Because the public map gave so few, the student outlined 82 well-known municipal dumpsites by hand in Google Earth, in cities from Delhi and Mumbai to Guwahati and Chennai. After tidying up, this gave 75 places.</p>
+
+<table>
+<tr><th>Examples for training</th><th class="n">Places</th></tr>
+<tr><td>Landfills from the public map</td><td class="n">11</td></tr>
+<tr><td>Landfills outlined by hand</td><td class="n">75</td></tr>
+<tr><td><b>Landfills in total</b></td><td class="n"><b>86</b></td></tr>
+<tr><td>Look-alikes (ash ponds, bare soil, quarries)</td><td class="n">60</td></tr>
+</table>
+
+<h3>Rules for a fair set of examples</h3>
+<ul>
+<li><b>The waste must be visible in 2024.</b> A site that closed in 2022 would teach the model the wrong thing, because the satellite measured it in 2024.</li>
+<li><b>At least 1 hectare of waste.</b> A hectare is 100 m × 100 m, about one and a half football pitches. The temperature satellite cannot see anything smaller, so smaller sites are left out. Three hand-drawn sites fell below this.</li>
+<li><b>Nearby outlines count as one place.</b> Two outlines within 500 m of each other are treated as one landfill. Four pairs were merged this way.</li>
+<li><b>Nothing from Gujarat.</b> Not one Gujarat example is used in training.</li>
+</ul>
+
+<h3>Why look-alikes are collected on purpose</h3>
+<p>If the model only ever compared landfills with forests and fields, it would learn "bare, warm ground means landfill" and flag every quarry in the country. Showing it quarries, bare soil and ash ponds labelled "not a landfill" forces it to learn finer differences.</p>
+
+<h3>The Gujarat answer sheet</h3>
+<p>For the final exam, the student listed and outlined known dumpsites in Gujarat: 17 sites in 13 cities, including Pirana in Ahmedabad and Khajod in Surat. This list was saved and time-stamped <b>before</b> any model was run on Gujarat. One further site has only a pin and no outline, so it cannot be marked.</p>
+<div class="box why"><span class="label">Why seal the list</span>
+<p>If the list could be edited after seeing the model's map, it would be tempting to add places the model found and forget places it missed. Sealing it first makes that impossible.</p>
+</div>
+
+<h2><span class="num">7</span>Step 2: choosing points</h2>
+
+<p>The model learns from individual pixels, not from whole outlines. A program picked 9,530 points:</p>
+<table>
+<tr><th>Kind of point</th><th class="n">How many</th><th>Label</th></tr>
+<tr><td>Inside landfills</td><td class="n">3,865</td><td>Landfill</td></tr>
+<tr><td>Inside look-alikes</td><td class="n">1,800</td><td>Not a landfill</td></tr>
+<tr><td>Random places in the same states</td><td class="n">3,865</td><td>Not a landfill</td></tr>
+</table>
+<p>The choices behind this, and the reasons:</p>
+<ul>
+<li><b>At most 50 points per landfill.</b> Otherwise one giant landfill would dominate, and the model would learn "what Deonar in Mumbai looks like" instead of "what landfills look like".</li>
+<li><b>Points stay 15 m inside the outline.</b> Pixels on the edge are part waste and part something else, which would blur the lesson.</li>
+<li><b>Random points stay 500 m away from any mapped landfill.</b> This avoids labelling a real dump as "not a landfill" by accident.</li>
+<li><b>As many random points as landfill points.</b> The model sees a balanced mix. This is convenient for learning, but it is not what the real world looks like; section 12 returns to this.</li>
+</ul>
+
+<h2><span class="num">8</span>Step 3: twelve measurements</h2>
+
+<div class="box def"><span class="label">Definition: feature</span>
+<p>A measurement that describes an example. If you were judging fruit, features might be weight, colour and firmness. Here each point has twelve features taken from satellite data.</p>
+</div>
+
+<p>All twelve describe the ground in March to May 2024. These are the dry months before the monsoon, when the sky is clear and grass has died back, so waste is not hidden under greenery.</p>
+
+<table>
+<tr><th>Feature</th><th>In plain words</th><th>What it helps tell apart</th></tr>
+<tr><td>Blue, green, red (3 features)</td><td>The ordinary colour of the ground</td><td>Dark waste, pale soil, green crops</td></tr>
+<tr><td>Near infrared</td><td>Light just beyond red; plants reflect it strongly</td><td>Vegetation from everything else</td></tr>
+<tr><td>Shortwave infrared</td><td>Light further beyond red; dry and built surfaces reflect it</td><td>Dry soil, concrete and waste from wet or green ground</td></tr>
+<tr><td>Vegetation index (NDVI)</td><td>One number for "how green and alive"</td><td>Low on waste, high on crops and forest</td></tr>
+<tr><td>Built-up index (NDBI)</td><td>One number for "how built-up or disturbed"</td><td>High on towns, rubble and waste</td></tr>
+<tr><td>Bare soil index (BSI)</td><td>One number for "how bare"</td><td>Bare ground from roofs and roads</td></tr>
+<tr><td>Surface temperature (LST)</td><td>How hot the ground is, in °C</td><td>Landfills run hot</td></tr>
+<tr><td>Temperature anomaly</td><td>How much hotter the spot is than the land within 2 km</td><td>A warm spot in a cool area, whatever the local climate</td></tr>
+<tr><td>Elevation</td><td>Height above sea level</td><td>Plains from hills</td></tr>
+<tr><td>Slope</td><td>How steep the ground is</td><td>Flat ground from quarry faces and hillsides</td></tr>
+</table>
+
+<div class="box def"><span class="label">Definition: index</span>
+<p>A single number made by combining two or more bands so that one property stands out. The vegetation index, for example, compares near-infrared light with red light. Plants reflect much near-infrared and little red, so the index is high over plants and low over bare ground.</p>
+</div>
+
+<p><b>Why the temperature anomaly matters.</b> 40 °C is hot for Shillong and ordinary for Rajasthan. A rule based on raw temperature would fail when moved between climates. "4 °C hotter than its neighbourhood" means the same thing everywhere, so it should carry over to a new state.</p>
+
+<p><b>Why a three-month median.</b> For each pixel the middle value of all clear images in the three months is taken. A cloud, a shadow or a single odd day then has no effect.</p>
+
+<p><b>What the measurements already show.</b> On average, landfill points are 4.7 °C hotter than their surroundings. Look-alikes and random points are not hotter at all. The vegetation index, by contrast, is the same for landfills and look-alikes. So greenness alone cannot separate a dump from a quarry, but heat can help.</p>
+
+<h2><span class="num">9</span>Step 4: nine ways to decide</h2>
+
+<div class="box def"><span class="label">Definition: model</span>
+<p>A procedure that takes the features of an example and gives an answer. Training is the process of adjusting the model until its answers match the labels on the training examples. In this project a model gives each pixel a <b>score</b> between 0 and 1; a pixel scoring 0.5 or more is <b>flagged</b> as a likely landfill.</p>
+</div>
+
+<p>Nine models are compared, from trivially simple to quite elaborate. Comparing them shows whether complexity earns its place.</p>
+
+<table>
+<tr><th>Model</th><th>How it decides, in plain words</th></tr>
+<tr><td>1. Flag nothing</td><td>Says "not a landfill" every time. A deliberate zero, to compare the others against</td></tr>
+<tr><td>2. Published rule</td><td>Three fixed tests from an earlier study in Madhya Pradesh: built-up index above a limit, vegetation index below a limit, temperature above 37 °C. All three must pass</td></tr>
+<tr><td>3. Recalibrated rule</td><td>The same three tests, but the limits are re-chosen from our own training examples</td></tr>
+<tr><td>4. Logistic regression</td><td>Gives each feature a weight, positive or negative, adds everything up, and turns the total into a score. Like a marking scheme: so many marks for heat, so many taken off for greenness</td></tr>
+<tr><td>5. Decision tree</td><td>A chain of yes/no questions, like the game of twenty questions: "Hotter than 44 °C? Yes. Vegetation index below 0.2? …"</td></tr>
+<tr><td>6. Bagged trees</td><td>200 trees, each trained on a slightly different mix of the examples, voting together. A committee is steadier than one member</td></tr>
+<tr><td>7. Random forest</td><td>500 trees voting, each also restricted to a random few features at each question, so the trees differ more from one another</td></tr>
+<tr><td>8. AdaBoost</td><td>200 very simple one-question trees built in sequence; each pays most attention to the examples the earlier ones got wrong</td></tr>
+<tr><td>9. Gradient boosting</td><td>100 small trees built in sequence, each correcting the errors that remain after the ones before it</td></tr>
+</table>
+
+<div class="box def"><span class="label">Definitions: bagging and boosting</span>
+<p>Both combine many simple models into one stronger one, called an <b>ensemble</b>. In <b>bagging</b> the models are built independently and vote, which steadies the answer. In <b>boosting</b> they are built one after another, each concentrating on the mistakes left by the earlier ones.</p>
+</div>
+
+<p><b>No fine-tuning.</b> Each model has settings that could be adjusted to squeeze out a slightly better mark. This project deliberately uses standard settings. With so few landfills, adjustments would mostly chase luck, and the comparison would become a contest of effort instead of method.</p>
+
+<h2><span class="num">10</span>Step 5: grading fairly</h2>
+
+<h3>Three kinds of mock exam</h3>
+<p>The same models were graded in three ways, from easiest to hardest.</p>
+<table>
+<tr><th>Mock exam</th><th>What is hidden during training</th><th>The catch</th></tr>
+<tr><td><b>Random pixel</b></td><td>A random fifth of all points</td><td>Neighbouring pixels from the same landfill are still in the training set. It is like an exam that repeats the practice questions with one word changed</td></tr>
+<tr><td><b>Held-out site</b></td><td>Whole landfills, a fifth at a time</td><td>The model has seen other sites in the same region, with similar soil and climate</td></tr>
+<tr><td><b>Held-out region</b></td><td>A whole region of India</td><td>The hardest and fairest: nothing from that region was seen. This is the closest rehearsal for Gujarat</td></tr>
+</table>
+
+<div class="box def"><span class="label">Definitions: cross-validation and fold</span>
+<p><b>Cross-validation</b> means repeating the train-and-test cycle several times, hiding a different part of the data each time, so that every example is used for testing exactly once. Each hidden part is called a <b>fold</b>. The marks from all the folds are averaged.</p>
+</div>
+
+<p>India was divided into the six official Zonal Council regions: Northern, Central, Eastern, Western, Southern and North-Eastern. In each round one region is hidden, the model trains on the other five, and it is marked on the hidden one. The division was written down before any results were seen.</p>
+
+<h3>Three marks</h3>
+<p>Suppose the model flags 100 pixels, and 80 of them really are landfill. Suppose also that there were 90 landfill pixels in total.</p>
+<div class="box def"><span class="label">Definitions: precision, recall, F1</span>
+<p><b>Precision</b> answers "when the model raises an alarm, how often is it right?" Here 80 of 100 alarms are right: 80%.</p>
+<p><b>Recall</b> answers "of the real landfills, how many did the model find?" Here it found 80 of 90: 89%.</p>
+<p><b>F1</b> is a single mark that combines the two and is high only when both are high. Here it is about 84%.</p>
+</div>
+<p>Both matter. A model that flags everything finds every landfill (perfect recall) but is nearly always wrong (terrible precision). A model that flags one certain pixel is always right (perfect precision) but misses nearly everything. A wrong alarm is called a <b>false alarm</b> or false positive.</p>
+
+<h3>The rule for choosing the winner</h3>
+<p>Written down on 4 November, before any results:</p>
+<ol>
+<li>Find the model with the best average F1 in the held-out-region exam.</li>
+<li>Look at how much its mark varies from region to region (its standard deviation).</li>
+<li>If a simpler model is within that margin of the best, choose the simplest such model.</li>
+</ol>
+<div class="box def"><span class="label">Definition: standard deviation</span>
+<p>A measure of spread: roughly, how far the individual marks typically sit from their average. If a model scores 0.90 in one region and 0.80 in another, a difference of 0.02 between two models is too small to mean anything.</p>
+</div>
+<p><b>Why prefer the simpler model.</b> If two models cannot be told apart by their marks, the simpler one is easier to explain, easier to check, and less likely to be relying on a fluke.</p>
+
+<h2><span class="num">11</span>What we have found so far</h2>
+
+<p>These are first-pass results from 11 November. More examples may be added, in which case everything is rerun before the envelope is sealed.</p>
+
+<h3>The held-out-region exam</h3>
+<table>
+<tr><th>Model</th><th class="n">Precision</th><th class="n">Recall</th><th class="n">F1</th></tr>
+<tr><td>Flag nothing</td><td class="n">0%</td><td class="n">0%</td><td class="n">0%</td></tr>
+<tr><td>Published rule</td><td class="n">69%</td><td class="n">55%</td><td class="n">57%</td></tr>
+<tr><td>Recalibrated rule</td><td class="n">71%</td><td class="n">83%</td><td class="n">74%</td></tr>
+<tr class="pick"><td>Logistic regression (chosen)</td><td class="n">83%</td><td class="n">88%</td><td class="n">85%</td></tr>
+<tr><td>Decision tree</td><td class="n">87%</td><td class="n">75%</td><td class="n">80%</td></tr>
+<tr><td>Bagged trees</td><td class="n">91%</td><td class="n">78%</td><td class="n">83%</td></tr>
+<tr><td>Random forest</td><td class="n">91%</td><td class="n">80%</td><td class="n">84%</td></tr>
+<tr><td>AdaBoost</td><td class="n">85%</td><td class="n">88%</td><td class="n">86%</td></tr>
+<tr><td>Gradient boosting (highest)</td><td class="n">88%</td><td class="n">87%</td><td class="n">87%</td></tr>
+</table>
+
+<p><b>Reading the table.</b></p>
+<ul>
+<li>The published rule from Madhya Pradesh finds only about half of the landfills elsewhere in India. Its fixed limits do not travel well.</li>
+<li>Re-choosing the limits helps a lot (57% to 74%), but a three-test rule is still too crude.</li>
+<li>The learned models all land between 80% and 87%.</li>
+<li>Gradient boosting scores highest, at 87%, but its mark varies by about 6 points from region to region. Logistic regression, at 85%, is well within that margin and far simpler. Under the rule, <b>logistic regression is chosen</b>.</li>
+</ul>
+
+<h3>The same models under easy and hard exams</h3>
+<table>
+<tr><th>Model</th><th class="n">Random pixel (easy)</th><th class="n">Held-out site</th><th class="n">Held-out region (hard)</th></tr>
+<tr><td>Logistic regression</td><td class="n">88%</td><td class="n">87%</td><td class="n">85%</td></tr>
+<tr><td>Decision tree</td><td class="n">91%</td><td class="n">82%</td><td class="n">80%</td></tr>
+<tr><td>Bagged trees</td><td class="n">95%</td><td class="n">86%</td><td class="n">83%</td></tr>
+<tr><td>Random forest</td><td class="n">95%</td><td class="n">87%</td><td class="n">84%</td></tr>
+<tr><td>Gradient boosting</td><td class="n">94%</td><td class="n">90%</td><td class="n">87%</td></tr>
+</table>
+<p>This is one of the project's main findings already. On the easy exam the tree committees look excellent: 95%. On the hard exam they drop by 11 or 12 points and are no better than plain logistic regression, which barely moves.</p>
+
+<div class="box def"><span class="label">Definition: overfitting</span>
+<p>Learning the training examples too closely, including their quirks, instead of the general pattern. It is like a student who memorises the answers to the practice paper. That student does brilliantly if the exam repeats the practice questions and poorly if it does not. The big trees memorised individual landfills; the easy exam rewarded that, and the hard exam exposed it.</p>
+</div>
+
+<p>A study that reported only the easy exam would have announced 95% and picked the wrong model.</p>
+
+<h3>What the chosen model still gets wrong</h3>
+<p>In the hard exam, logistic regression wrongly flags:</p>
+<ul>
+<li>5 in every 100 ordinary background points;</li>
+<li>20 in every 100 ash-pond points;</li>
+<li>39 in every 100 bare-soil points;</li>
+<li>43 in every 100 quarry points.</li>
+</ul>
+<p>Quarries and bare soil remain hard. The North-Eastern region, with only five landfills, gives the shakiest marks.</p>
+
+<h2><span class="num">12</span>The rarity problem</h2>
+
+<p>This is the least intuitive idea in the project, and the most important one to be able to explain.</p>
+
+<p>In the mock exams about 4 points in 10 are landfill, because the points were chosen that way. In the real world landfills are rare: far fewer than 1 pixel in 100. That changes everything about how often an alarm is right.</p>
+
+<div class="box def"><span class="label">Definition: prevalence</span>
+<p>How common the thing you are looking for is. If 1 pixel in 1,000 is landfill, the prevalence is 0.1%.</p>
+</div>
+
+<h3>A worked example</h3>
+<p>The chosen model finds 89 of every 100 landfill pixels and wrongly flags about 5 of every 100 other pixels. Take one million pixels of real countryside (100 square kilometres) and suppose 1 pixel in 1,000 is landfill.</p>
+<table>
+<tr><th></th><th class="n">Pixels</th><th class="n">Flagged by the model</th></tr>
+<tr><td>Landfill</td><td class="n">1,000</td><td class="n">890 (true alarms)</td></tr>
+<tr><td>Everything else</td><td class="n">999,000</td><td class="n">about 50,930 (false alarms)</td></tr>
+<tr><td><b>All flagged pixels</b></td><td class="n"></td><td class="n"><b>about 51,820</b></td></tr>
+</table>
+<p>Only 890 of about 51,820 alarms are real: <b>less than 2%</b>. The model has not become worse. There is simply so much "everything else" that even a small error rate produces a flood of false alarms.</p>
+
+<table>
+<tr><th>If landfill pixels are</th><th class="n">Share of alarms that are real</th></tr>
+<tr><td>4 in 10 (the mock exam)</td><td class="n">83%</td></tr>
+<tr><td>1 in 100</td><td class="n">15%</td></tr>
+<tr><td>1 in 1,000</td><td class="n">1.7%</td></tr>
+<tr><td>1 in 10,000</td><td class="n">0.2%</td></tr>
+</table>
+
+<p>The same effect appears in medical screening: a good test for a rare disease still gives mostly false positives, because healthy people vastly outnumber sick ones.</p>
+
+<div class="box why"><span class="label">What follows from this</span>
+<ul>
+<li>The model's output is called a <b>score</b>, never a probability or a confidence. A score of 0.9 does not mean "90% likely to be a landfill".</li>
+<li>The Gujarat exam covers every pixel of large areas, not a hand-picked balanced sample, so the rarity is real.</li>
+<li>The useful way to use such a model is as a shortlist: look first at the highest-scoring places, and check them by eye.</li>
+</ul>
+</div>
+
+<h2><span class="num">13</span>Step 6: sealing the envelope</h2>
+
+<div class="box def"><span class="label">Definition: the freeze</span>
+<p>The moment when every choice is fixed: which examples, which features, which model, what score counts as an alarm, and how success will be judged. All of it is saved in the project's online code store with a permanent, time-stamped marker called a <b>tag</b>. After the freeze nothing may change.</p>
+</div>
+
+<p>The time stamp comes from GitHub, the website that stores the code, so anyone can verify that the choices were fixed before Gujarat was examined.</p>
+
+<p>Before the freeze, four things still need settling:</p>
+<ol>
+<li><b>Whether to add more examples.</b> Allowed now; forbidden afterwards.</li>
+<li><b>When a Gujarat landfill counts as "found".</b> The first idea was "at least one flagged pixel inside its outline". That is far too generous: because 5% of ordinary pixels are flagged anyway, almost any outline would contain one by luck. The recommended rule is that at least half of the outline must be flagged.</li>
+<li><b>What to do about one site that has no outline.</b></li>
+<li><b>What would count as failure.</b> One sentence, written by the student before the result is known.</li>
+</ol>
+
+<div class="box why"><span class="label">Why define failure in advance</span>
+<p>After the result is known, almost any number can be described as encouraging. A sentence written beforehand, such as "finding fewer than half the sites is a failure", keeps the conclusion honest.</p>
+</div>
+
+<h2><span class="num">14</span>Step 7: the final exam in Gujarat</h2>
+
+<h3>The exam paper</h3>
+<p>For each of the 13 Gujarat cities with a listed dumpsite, a square of land is taken that reaches 15 km beyond the sites in every direction. Each square is roughly 30 km × 30 km and holds about 9 million pixels. Together the 13 squares hold about 125 million pixels, covering some 12,500 square kilometres.</p>
+<p>For every one of those pixels the same twelve measurements are produced, exactly as they were for the training points. These files are being prepared now. Preparing them reveals nothing about the result, so it is safe to do before the freeze.</p>
+
+<h3>Marking the exam</h3>
+<p>After the freeze, the model gives every pixel a score. Three things are then counted.</p>
+<ol>
+<li><b>How many of the 17 listed sites were found.</b> This is recall at the level of whole sites.</li>
+<li><b>How much land was flagged in total.</b> This shows how many alarms someone would have to deal with.</li>
+<li><b>How good the top alarms are.</b> Flagged pixels that touch are grouped into patches. Patches of at least 1 hectare are ranked by score, and the top 100 are checked by eye.</li>
+</ol>
+
+<div class="box def"><span class="label">Definition: blind check</span>
+<p>The 100 top places are given to the student as numbered pins in shuffled order, with the scores hidden. The student looks at each in Google Earth and records "dumpsite", "look-alike" or "unclear" without knowing how highly the model ranked it. This prevents the natural tendency to see what one expects to see.</p>
+</div>
+
+<p>Some of those top alarms may be real dumpsites that are missing from the list. Finding those would be the most practically useful outcome.</p>
+
+<h3>The one rule of the final exam</h3>
+<p>Whatever the Gujarat numbers are, they are the result. If they are poor, the paper says so and examines why. Nothing is adjusted and the exam is not retaken.</p>
+
+<h2><span class="num">15</span>Step 8: digging deeper</h2>
+
+<p>The course asks for more than a headline number. Five further analyses explain why the result is what it is. None of them is allowed to change the frozen model.</p>
+
+<div class="box def"><span class="label">Definition: ablation</span>
+<p>An experiment in which one part of a method is removed, or one condition changed, and everything is measured again. The difference shows how much that part mattered.</p>
+</div>
+
+<table>
+<tr><th>Analysis</th><th>The question it answers</th></tr>
+<tr><td>Split ablation</td><td>How much does the mark fall as the exam gets fairer: random pixel, held-out site, held-out region, Gujarat?</td></tr>
+<tr><td>Feature ablation</td><td>Which measurements matter? The model is retrained without temperature, without terrain, with only the published rule's three inputs, and so on</td></tr>
+<tr><td>Precision against prevalence</td><td>How often is an alarm right as landfills become rarer? (Section 12)</td></tr>
+<tr><td>Threshold sensitivity</td><td>What would have happened with a stricter or looser cut-off than 0.5? Reported for interest only</td></tr>
+<tr><td>Failure audit</td><td>What kinds of places fool the model, and in which regions?</td></tr>
+</table>
+
+<h2><span class="num">16</span>Step 9: writing it up</h2>
+
+<ul>
+<li><b>A four-page paper</b> in the course's format: the question, the method, the results, the limitations.</li>
+<li><b>A website</b> that replaces an oral exam. It will show a map of Gujarat with the model's scores, the listed sites marked found or missed, the charts from the deeper analysis, a slider showing how precision falls with rarity, and a gallery of look-alikes that fooled the model.</li>
+<li><b>The code and data</b>, organised so that another person can download them and reproduce every number.</li>
+</ul>
+
+<h2><span class="num">17</span>Where we are and what is left</h2>
+
+<table>
+<tr><th>Step</th><th>State on 11 November</th></tr>
+<tr><td>1 Examples</td><td>Done. 86 landfills, 60 look-alikes, 17 Gujarat test sites sealed</td></tr>
+<tr><td>2 Points</td><td>Done. 9,530 points</td></tr>
+<tr><td>3 Measurements</td><td>Done. 9,470 points have all twelve measurements; 60 in snowy mountains do not</td></tr>
+<tr><td>4–5 Models and mock exams</td><td>Done as a first pass. Logistic regression chosen, 85% F1 on unseen regions</td></tr>
+<tr><td>6 Freeze</td><td>Draft written. Four items still to settle</td></tr>
+<tr><td>7 Gujarat exam</td><td>The 13 data files are being produced. The marking program is written but has only been tried on made-up data</td></tr>
+<tr><td>8 Deeper analysis</td><td>Not started</td></tr>
+<tr><td>9 Paper, website, code tidy-up</td><td>Not started</td></tr>
+</table>
+
+<table>
+<tr><th>Day</th><th>Planned work</th></tr>
+<tr><td>Wed 11 – Thu 12</td><td>Download the Gujarat files. Add any last examples and rerun. Settle the four open items. Freeze</td></tr>
+<tr><td>Thu 12 (Fri 13 at the latest)</td><td>Score Gujarat. Blind-check the top 100 alarms</td></tr>
+<tr><td>Fri 13</td><td>Deeper analysis. Start the paper</td></tr>
+<tr><td>Sat 14 – Sun 15</td><td>Write the paper. Build the website</td></tr>
+<tr><td>Mon 16</td><td>Spare day; check that the code runs from scratch</td></tr>
+<tr><td>Tue 17</td><td>Submit</td></tr>
+</table>
+
+<h3>Honest weaknesses</h3>
+<ul>
+<li><b>Few examples.</b> 86 landfills is a small number. Marks for regions with few sites are unreliable.</li>
+<li><b>Mostly big, famous dumps.</b> The hand-drawn examples are the ones that were easy to find. Small informal dumps may look different.</li>
+<li><b>Only three kinds of look-alike.</b> Brick kilns, construction sites and dry riverbeds were not collected, so the model has never been told they are not landfills.</li>
+<li><b>A short answer sheet.</b> With 17 Gujarat sites, missing a single one changes the result by 6 points.</li>
+<li><b>Blurry temperature.</b> The temperature satellite sees 100 m blocks, so a small site's heat is mixed with its surroundings.</li>
+</ul>
+
+<h2><span class="num">18</span>How to explain this project to someone else</h2>
+
+<h3>In one sentence</h3>
+<p>We taught a computer to recognise rubbish dumps in satellite data using examples from the rest of India, and we are testing it, once and under sealed conditions, on a state it has never seen.</p>
+
+<h3>In two minutes</h3>
+<ol>
+<li><b>The goal.</b> Rubbish dumps are harmful and poorly mapped. Free satellite data covers the whole country. We want a program that points to likely dumps.</li>
+<li><b>The method.</b> We marked 86 known dumps and 60 look-alike places across India, outside Gujarat. For thousands of points inside and outside them we collected twelve satellite measurements: colour, plant cover, bareness, temperature and terrain. A program learned what separates dumps from everything else.</li>
+<li><b>The honest test.</b> We hid one region of India at a time and checked whether the program could find dumps there. We compared nine programs and chose with a rule fixed in advance. The simple one, logistic regression, was chosen at 85%.</li>
+<li><b>The first lesson.</b> When tested the easy way, on pixels from the same dumps it trained on, the fancier programs scored 95%. Tested on unseen regions they fell to about 84%. Easy tests flatter.</li>
+<li><b>The second lesson.</b> Dumps are rare. Even a program that is right 9 times in 10 on a balanced test will raise mostly false alarms on a real map, because there is so much land that is not a dump. The output is a shortlist for people to check, not a verdict.</li>
+<li><b>The final exam.</b> All choices are sealed with a public time stamp. Then the program scores 125 million pixels around 13 Gujarat cities, and we count how many of 17 known dumps it finds and how good its top 100 alarms are.</li>
+</ol>
+
+<h3>Three numbers worth remembering</h3>
+<table>
+<tr><th>Number</th><th>What it means</th></tr>
+<tr><td>85%</td><td>The chosen model's F1 mark on regions it never saw</td></tr>
+<tr><td>95% → 84%</td><td>How far the tree committees fall between the easy exam and the fair one</td></tr>
+<tr><td>83% → under 2%</td><td>How the share of correct alarms falls when dumps go from 4 in 10 to 1 in 1,000</td></tr>
+</table>
+
+<h2><span class="num">19</span>Questions people ask</h2>
+
+<h4>Why not just use the model with the highest mark?</h4>
+<p>Its lead over the simpler model is smaller than its own variation between regions, so the lead may be luck. A simpler model that performs the same is easier to explain and check.</p>
+
+<h4>Why leave Gujarat out of training? Surely more examples would help.</h4>
+<p>They would, but then there would be nowhere left to test honestly. The point of the project is to find out whether the method works in a place it has not seen, which is how it would be used in practice.</p>
+
+<h4>Is 85% good?</h4>
+<p>It is good on a balanced mock exam. It does not mean 85% of alarms on a real map will be right; section 12 shows why that share will be far lower. Both statements are true at once.</p>
+
+<h4>Why can't I upload a photo of a place and ask the model?</h4>
+<p>The model does not look at pictures. It reads twelve numbers per pixel, including infrared light and temperature, which an ordinary photo or screenshot does not contain.</p>
+
+<h4>Why only March to May 2024?</h4>
+<p>The examples were checked against imagery from that period, so the measurements must come from the same period. It is also the driest, clearest season, when waste is least hidden by plants or cloud.</p>
+
+<h4>What if the Gujarat result is bad?</h4>
+<p>Then that is the finding. The project is designed so that a poor result is still trustworthy and useful, because it shows how far published accuracy figures can overstate real performance.</p>
+
+<h4>Could the model find dumps nobody knows about?</h4>
+<p>Possibly. The blind check of the top 100 alarms is where that would show up. Any such find would need confirming on the ground.</p>
+
+<h4>Who did what?</h4>
+<p>The student chose the question, marked every example by eye and makes every decision. An AI assistant (Claude) helped plan the study, wrote the programs and keeps the records. The paper will state this, as the course requires.</p>
+
+<h2 class="pb"><span class="num">20</span>Glossary</h2>
+
+<dl class="gloss">
+<dt>Ablation</dt><dd>An experiment that removes one part of a method, or changes one condition, to see how much it mattered.</dd>
+<dt>Alarm</dt><dd>A place the model flags as a likely landfill.</dd>
+<dt>Ash pond</dt><dd>A basin where a coal power station stores wet ash. A common landfill look-alike.</dd>
+<dt>Band</dt><dd>One kind of measurement a satellite records for each pixel, such as red light or near-infrared light.</dd>
+<dt>Bagging</dt><dd>Building many models on slightly different mixes of the examples and letting them vote.</dd>
+<dt>Blind check</dt><dd>Judging places by eye without knowing the model's score for them.</dd>
+<dt>Boosting</dt><dd>Building many simple models one after another, each concentrating on earlier mistakes.</dd>
+<dt>Cross-validation</dt><dd>Repeating training and testing several times, hiding a different part of the data each time.</dd>
+<dt>Decision tree</dt><dd>A model that decides through a chain of yes/no questions.</dd>
+<dt>Ensemble</dt><dd>A model made by combining many simpler models.</dd>
+<dt>F1</dt><dd>A single mark that combines precision and recall; high only when both are high.</dd>
+<dt>False alarm (false positive)</dt><dd>A place flagged as a landfill that is not one.</dd>
+<dt>Feature</dt><dd>A measurement that describes an example. This project uses twelve per pixel.</dd>
+<dt>Flagged</dt><dd>Given a score of 0.5 or more, and so marked as a likely landfill.</dd>
+<dt>Fold</dt><dd>One of the parts into which data is divided for cross-validation.</dd>
+<dt>Freeze</dt><dd>The moment all choices are fixed and publicly time-stamped, before the final test.</dd>
+<dt>Google Earth Engine</dt><dd>An online service that stores satellite data and processes it on request.</dd>
+<dt>Hectare (ha)</dt><dd>An area of 100 m × 100 m, or 10,000 square metres.</dd>
+<dt>Held-out</dt><dd>Kept hidden from the model during training so that it can be used for testing.</dd>
+<dt>Index</dt><dd>One number made from two or more bands so that a single property stands out, such as the vegetation index.</dd>
+<dt>Label</dt><dd>The right answer attached to an example: landfill or not a landfill.</dd>
+<dt>Landsat</dt><dd>A series of US satellites. Here it supplies ground surface temperature.</dd>
+<dt>Logistic regression</dt><dd>A model that gives each feature a weight, adds them up and turns the total into a score.</dd>
+<dt>Look-alike</dt><dd>A place that resembles a landfill from above but is not one, such as a quarry.</dd>
+<dt>Median</dt><dd>The middle value of a set of numbers. Unlike the average, it is not thrown off by a few odd values.</dd>
+<dt>Model</dt><dd>A procedure that turns the features of an example into an answer.</dd>
+<dt>OpenStreetMap (OSM)</dt><dd>A free map of the world drawn by volunteers.</dd>
+<dt>Overfitting</dt><dd>Learning the training examples too closely, quirks included, and so doing worse on new cases.</dd>
+<dt>Pixel</dt><dd>One square of a satellite image. Here, 10 m × 10 m of ground.</dd>
+<dt>Precision</dt><dd>Of the places the model flags, the share that really are landfills.</dd>
+<dt>Prevalence</dt><dd>How common the thing being looked for is.</dd>
+<dt>Recall</dt><dd>Of the real landfills, the share the model flags.</dd>
+<dt>Score</dt><dd>The number between 0 and 1 the model gives a pixel. Higher means more landfill-like. It is not a probability.</dd>
+<dt>Sentinel-2</dt><dd>A pair of European satellites that record visible and infrared light.</dd>
+<dt>Standard deviation</dt><dd>A measure of how much a set of numbers varies around its average.</dd>
+<dt>Tag</dt><dd>A permanent, time-stamped marker on a saved version of the project's code and data.</dd>
+<dt>Threshold</dt><dd>The cut-off score at or above which a pixel is flagged. Here, 0.5.</dd>
+<dt>Training</dt><dd>The stage in which a model learns from examples that come with labels.</dd>
+<dt>Zonal Council regions</dt><dd>Six official groupings of India's states: Northern, Central, Eastern, Western, Southern and North-Eastern.</dd>
+</dl>
+
+</body>
+</html>
