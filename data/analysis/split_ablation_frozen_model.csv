@@ -1,0 +1,6 @@
+design,precision,recall,f1
+random pixel,0.8432,0.9162,0.8781
+held-out site,0.8378,0.9,0.8672
+held-out region,0.8319,0.883,0.8484
+"Gujarat pixels, at the validation class mix",0.8957,0.6775,0.7715
+"Gujarat pixels, as they are",0.0033,0.6775,0.0065

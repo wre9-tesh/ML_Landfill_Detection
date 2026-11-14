@@ -77,9 +77,11 @@ These were fixed before any results and must not change after seeing them.
 
 **Freeze**: tag the commit and push the tag before Gujarat is scored.
 
-## Freeze decisions (Nov 14)
+## Freeze and Gujarat result (Nov 14)
 
-All settled in `docs/freeze.md`: logistic regression, twelve features, threshold 0.5; a site is found when at least half its outline's scored pixels are flagged; alarms are flagged patches of 1 ha or more; Surat LF-3 is left out; failure is fewer than half of the 17 sites found. No sites were added after Nov 11. The user still has to run `freeze_model.py`, tag `freeze-v1`, push, and then score. The 13 GeoTIFFs are on the user's machine only (`data/gujarat/*.tif` is git-ignored).
+Frozen at tag `freeze-v1` (commit `0770ed9`); rules in `docs/freeze.md`. Gujarat was scored once: 16 of 17 sites found (Rajkot missed at 46% of its outline flagged), 5.5% of 11,914 km2 flagged, 6,594 alarm patches of 1 ha or more. Results are in `data/gujarat_results/`. The 13 feature GeoTIFFs are on the user's machine only.
+
+Depth analysis: `scripts/depth_analysis.py` writes `data/analysis/` (`depth_analysis.md` has every table). The Gujarat rung of the split ablation covers the frozen model only, because the other models would need the feature GeoTIFFs. Still open: the user's blind check of the top 100 alarms (`alarms_blind.kml`), then figures, paper, website, README.
 
 ## Website
 
