@@ -1,0 +1,15 @@
+model,sites found,outline pixels flagged,land flagged,F1 at the validation class mix,all 100 alarm centres (100) flagged,the 50 checked (none a dump) (50) flagged,checked blue roofs (33) flagged,checked water and salt pans (7) flagged
+flag_nothing,0/17,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+published_rule,15/17,0.6406,0.187,0.6702,0.39,0.38,0.3636,0.1429
+recalibrated_rule,17/17,0.8426,0.3388,0.722,0.6,0.56,0.6667,0.1429
+logistic_regression,16/17,0.6775,0.0541,0.7717,0.95,1.0,1.0,1.0
+decision_tree,16/17,0.6459,0.0823,0.7318,0.28,0.24,0.303,0.0
+bagged_trees,16/17,0.6811,0.0512,0.776,0.2,0.22,0.3333,0.0
+random_forest,16/17,0.7223,0.0557,0.8012,0.21,0.22,0.303,0.0
+adaboost,16/17,0.744,0.0975,0.7892,0.39,0.42,0.4848,0.0
+gradient_boosting,16/17,0.7431,0.0753,0.8024,0.29,0.3,0.4545,0.0
+"logistic_regression / A1 NDVI, NDBI, LST",17/17,0.8863,0.3679,0.7325,0.73,0.72,0.7273,0.8571
+logistic_regression / A2 A1 + BSI,17/17,0.765,0.2164,0.736,0.92,0.96,0.9697,1.0
+"logistic_regression / A3 original ten (no BSI, B2)",16/17,0.7452,0.0898,0.7947,0.68,0.76,0.7576,0.8571
+logistic_regression / A4 no thermal,15/17,0.664,0.1278,0.7181,0.82,0.9,0.9697,1.0
+logistic_regression / A5 no terrain,17/17,0.7056,0.0652,0.7839,0.96,1.0,1.0,1.0

@@ -156,3 +156,54 @@ Sealed Gujarat sites, lowest flagged share first:
 | BHV-01 | Bhavnagar | 28.0 | 0.99 | 1.000 | found |
 | Dwarka-01 | Dwarka | 1.1 | 0.99 | 0.974 | found |
 
+## 6. Blind check of the top alarms
+
+50 of the top 100 alarms were checked by eye in shuffled order with scores hidden. 0 are dumpsites: precision at the top of the ranking is 0%, and with none in 50 the 95% upper bound is 5.8%.
+
+| what the pin was | pins |
+| --- | --- |
+| blue_roof | 33 |
+| water | 5 |
+| building | 4 |
+| field_or_grass | 2 |
+| salt_pan | 2 |
+| other | 1 |
+| salvage_yard | 1 |
+| industrial_plant | 1 |
+| ash_pond | 1 |
+
+## 7. Every model on Gujarat, post hoc
+
+Each model and feature set was fitted on all training points with the frozen settings and applied to every outline pixel, a random sample of about 2 million land pixels, and the centres of the frozen model's top 100 alarms. This explains the frozen result and selects nothing. The alarm centres are the frozen model's own top alarms: a low share for another model shows it does not share that failure, not that its own top alarms would be dumps, because those were not checked.
+
+| model | sites found | outline pixels flagged | land flagged | F1 at the validation class mix | all 100 alarm centres (100) flagged | the 50 checked (none a dump) (50) flagged | checked blue roofs (33) flagged | checked water and salt pans (7) flagged |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| flag_nothing | 0/17 | 0.000 | 0.0000 | 0.000 | 0% | 0% | 0% | 0% |
+| published_rule | 15/17 | 0.641 | 0.1870 | 0.670 | 39% | 38% | 36% | 14% |
+| recalibrated_rule | 17/17 | 0.843 | 0.3388 | 0.722 | 60% | 56% | 67% | 14% |
+| logistic_regression | 16/17 | 0.677 | 0.0541 | 0.772 | 95% | 100% | 100% | 100% |
+| decision_tree | 16/17 | 0.646 | 0.0823 | 0.732 | 28% | 24% | 30% | 0% |
+| bagged_trees | 16/17 | 0.681 | 0.0512 | 0.776 | 20% | 22% | 33% | 0% |
+| random_forest | 16/17 | 0.722 | 0.0557 | 0.801 | 21% | 22% | 30% | 0% |
+| adaboost | 16/17 | 0.744 | 0.0975 | 0.789 | 39% | 42% | 48% | 0% |
+| gradient_boosting | 16/17 | 0.743 | 0.0753 | 0.802 | 29% | 30% | 45% | 0% |
+| logistic_regression / A1 NDVI, NDBI, LST | 17/17 | 0.886 | 0.3679 | 0.733 | 73% | 72% | 73% | 86% |
+| logistic_regression / A2 A1 + BSI | 17/17 | 0.765 | 0.2164 | 0.736 | 92% | 96% | 97% | 100% |
+| logistic_regression / A3 original ten (no BSI, B2) | 16/17 | 0.745 | 0.0898 | 0.795 | 68% | 76% | 76% | 86% |
+| logistic_regression / A4 no thermal | 15/17 | 0.664 | 0.1278 | 0.718 | 82% | 90% | 97% | 100% |
+| logistic_regression / A5 no terrain | 17/17 | 0.706 | 0.0652 | 0.784 | 96% | 100% | 100% | 100% |
+
+Split ablation with the Gujarat rung for every model (mean F1; Gujarat as in section 1):
+
+| model | random_pixel | held_out_site | held_out_region | gujarat_pixels_at_validation_mix |
+| --- | --- | --- | --- | --- |
+| flag_nothing | 0.000 | 0.000 | 0.000 | 0.000 |
+| published_rule | 0.650 | 0.648 | 0.571 | 0.670 |
+| recalibrated_rule | 0.759 | 0.759 | 0.740 | 0.722 |
+| logistic_regression | 0.878 | 0.867 | 0.848 | 0.772 |
+| decision_tree | 0.906 | 0.823 | 0.797 | 0.732 |
+| bagged_trees | 0.948 | 0.861 | 0.828 | 0.776 |
+| random_forest | 0.948 | 0.873 | 0.840 | 0.801 |
+| adaboost | 0.893 | 0.877 | 0.857 | 0.789 |
+| gradient_boosting | 0.937 | 0.898 | 0.865 | 0.802 |
+

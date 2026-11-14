@@ -256,6 +256,53 @@ def main():
     sr = sr[sr["status"].isin(["found", "missed"])][["test_id", "city", "area_ha", "share_flagged", "max_score", "status"]]
     md += ["Sealed Gujarat sites, lowest flagged share first:", ""]
     md += md_table(sr.sort_values("share_flagged"), {"share_flagged": "{:.2f}", "area_ha": "{:.1f}"}) + [""]
+    # 6. Blind check of the top alarms, and the post hoc comparison of every model on Gujarat
+    # (written by posthoc_gujarat.py on the machine that holds the feature GeoTIFFs).
+    blind_path, ph_path = gres / "blind_check.csv", out / "posthoc_gujarat_alarm_scores.csv"
+    if blind_path.exists():
+        blind = pd.read_csv(blind_path)
+        n, dumps = len(blind), int((blind["verdict"] == "dumpsite").sum())
+        upper = 1 - 0.05 ** (1 / n) if dumps == 0 else float("nan")
+        seen = blind["seen"].value_counts().rename_axis("what the pin was").reset_index(name="pins")
+        seen.to_csv(out / "blind_check_summary.csv", index=False)
+        md += ["## 6. Blind check of the top alarms", "",
+               f"{n} of the top 100 alarms were checked by eye in shuffled order with scores hidden. "
+               f"{dumps} are dumpsites: precision at the top of the ranking is {dumps / n:.0%}"
+               + (f", and with none in {n} the 95% upper bound is {upper:.1%}." if dumps == 0 else "."), ""]
+        md += md_table(seen) + [""]
+    if ph_path.exists() and blind_path.exists():
+        ph = pd.read_csv(out / "posthoc_gujarat_models.csv")
+        sc = pd.read_csv(ph_path).drop(columns=["seen"]).merge(blind[["blind_id", "seen"]], how="left")
+        models = [c for c in sc.columns if c not in ("blind_id", "seen")]
+        groups = {"all 100 alarm centres": sc, f"the {n} checked (none a dump)": sc[sc["seen"].notna()],
+                  "checked blue roofs": sc[sc["seen"] == "blue_roof"],
+                  "checked water and salt pans": sc[sc["seen"].isin(["water", "salt_pan"])]}
+        rows = []
+        for m in models:
+            r = ph[ph["model"] == m].iloc[0]
+            p_bal = precision_at(r["outline_pixels_flagged"], r["land_flagged"], pos_share)
+            f1_g = 2 * p_bal * r["outline_pixels_flagged"] / (p_bal + r["outline_pixels_flagged"]) if p_bal > 0 else 0.0
+            row = {"model": m, "sites found": f"{int(r['sites_found'])}/{int(r['sites'])}",
+                   "outline pixels flagged": r["outline_pixels_flagged"], "land flagged": r["land_flagged"],
+                   "F1 at the validation class mix": f1_g}
+            for label, grp in groups.items():
+                row[f"{label} ({len(grp)}) flagged"] = float((grp[m] >= thr).mean())
+            rows.append(row)
+        cmp_ = pd.DataFrame(rows)
+        cmp_.round(4).to_csv(out / "posthoc_gujarat_comparison.csv", index=False)
+        pct = {c: "{:.0%}" for c in cmp_.columns if c.endswith("flagged") and "(" in c}
+        md += ["## 7. Every model on Gujarat, post hoc", "",
+               "Each model and feature set was fitted on all training points with the frozen settings and applied "
+               "to every outline pixel, a random sample of about 2 million land pixels, and the centres of the "
+               "frozen model's top 100 alarms. This explains the frozen result and selects nothing. The alarm "
+               "centres are the frozen model's own top alarms: a low share for another model shows it does not "
+               "share that failure, not that its own top alarms would be dumps, because those were not checked.", ""]
+        md += md_table(cmp_, {"land flagged": "{:.4f}", **pct}) + [""]
+        full = wide.merge(cmp_[["model", "F1 at the validation class mix"]].rename(
+            columns={"F1 at the validation class mix": "gujarat_pixels_at_validation_mix"}), how="left")
+        full.round(4).to_csv(out / "split_ablation.csv", index=False)
+        md += ["Split ablation with the Gujarat rung for every model (mean F1; Gujarat as in section 1):", ""]
+        md += md_table(full.drop(columns=[c for c in full.columns if c.startswith("drop_")])) + [""]
     (out / "depth_analysis.md").write_text("\n".join(md) + "\n", encoding="utf-8")
     print("\n".join(md))
     return 0

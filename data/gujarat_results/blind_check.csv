@@ -11,7 +11,7 @@ A009,lookalike,construction,building with blue roof,blue_roof
 A010,lookalike,construction,building with blue roof (metero this time ),blue_roof
 A011,lookalike,construction,building with blue roof,blue_roof
 A012,lookalike,construction,buildings,building
-A013,lookalike,bare_soil,small grass land,grassland
+A013,lookalike,bare_soil,small grass land,field_or_grass
 A014,lookalike,construction,building with blue roof,blue_roof
 A015,lookalike,construction,building with blue roof (its a railway building),blue_roof
 A016,lookalike,construction,building with blue roof,blue_roof
@@ -24,3 +24,28 @@ A022,lookalike,construction,building with blue roof with some C&D waste surround
 A023,lookalike,construction,building with blue roof,blue_roof
 A024,lookalike,construction,building with blue roof,blue_roof
 A025,lookalike,construction,building with blue roof,blue_roof
+A026,lookalike,riverbed,its a salt pond with water in it,salt_pan
+A027,lookalike,construction,bluish building,blue_roof
+A028,lookalike,construction,building with greish roof,building
+A029,lookalike,construction,building with blue roof,blue_roof
+A030,lookalike,construction,building with blue roof,blue_roof
+A031,lookalike,riverbed,same salt pond as A026,salt_pan
+A032,lookalike,construction,building with blue roof,blue_roof
+A033,lookalike,construction,building with blue roof,blue_roof
+A034,lookalike,construction,building with blue roof,blue_roof
+A035,lookalike,construction,building with blue roof,blue_roof
+A036,lookalike,construction,building with blue roof,blue_roof
+A037,lookalike,construction,building with blue roof,blue_roof
+A038,lookalike,construction,building with blue roof,blue_roof
+A039,lookalike,construction,railway station with blue roof,blue_roof
+A040,lookalike,construction,building with blue roof,blue_roof
+A041,lookalike,construction,building with blue roof,blue_roof
+A042,lookalike,ash_pond,greenish ash pond,ash_pond
+A043,lookalike,construction,building with blue roof,blue_roof
+A044,lookalike,construction,building with blue roof,blue_roof
+A045,lookalike,construction,building with blue roof,blue_roof
+A046,lookalike,construction,building with blue roof,blue_roof
+A047,lookalike,bare_soil,its a field,field_or_grass
+A048,lookalike,construction,building with blue roof with some C&D waste surrounding it,blue_roof
+A049,lookalike,other,river,water
+A050,lookalike,other,tapi river,water
