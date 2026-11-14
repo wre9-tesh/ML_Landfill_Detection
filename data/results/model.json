@@ -1,0 +1,63 @@
+{
+  "model": "logistic_regression",
+  "features": [
+    "B2",
+    "B3",
+    "B4",
+    "B8",
+    "B11",
+    "NDVI",
+    "NDBI",
+    "BSI",
+    "LST",
+    "LST_anom",
+    "elev",
+    "slope"
+  ],
+  "threshold": 0.5,
+  "trained_on_points": 9470,
+  "scikit_learn": "1.9.1",
+  "standardised_coefficients": {
+    "B2": 4.595,
+    "B3": -7.1271,
+    "B4": 1.9303,
+    "B8": 0.9459,
+    "B11": 0.3368,
+    "NDVI": -1.5076,
+    "NDBI": 3.6559,
+    "BSI": -3.9776,
+    "LST": -0.0095,
+    "LST_anom": 2.251,
+    "elev": 0.4007,
+    "slope": -0.5701
+  },
+  "intercept": -0.75,
+  "feature_means": {
+    "B2": 0.09391,
+    "B3": 0.11961,
+    "B4": 0.14526,
+    "B8": 0.2277,
+    "B11": 0.27376,
+    "NDVI": 0.22598,
+    "NDBI": 0.08923,
+    "BSI": 0.12482,
+    "LST": 43.80352,
+    "LST_anom": 1.92616,
+    "elev": 320.31658,
+    "slope": 4.18465
+  },
+  "feature_sds": {
+    "B2": 0.03843,
+    "B3": 0.04276,
+    "B4": 0.05608,
+    "B8": 0.06122,
+    "B11": 0.07343,
+    "NDVI": 0.18697,
+    "NDBI": 0.13188,
+    "BSI": 0.1103,
+    "LST": 6.5405,
+    "LST_anom": 3.6171,
+    "elev": 440.98032,
+    "slope": 5.48344
+  }
+}
