@@ -1,0 +1,24 @@
+{
+  "model": "random_forest",
+  "features": [
+    "B2",
+    "B3",
+    "B4",
+    "B8",
+    "B11",
+    "NDVI",
+    "NDBI",
+    "BSI",
+    "LST",
+    "LST_anom",
+    "elev",
+    "slope"
+  ],
+  "threshold": 0.5,
+  "trained_on_points": 34693,
+  "feature_tables": [
+    "data/features/features.csv",
+    "data/features_v2/features.csv"
+  ],
+  "scikit_learn": "1.9.1"
+}
