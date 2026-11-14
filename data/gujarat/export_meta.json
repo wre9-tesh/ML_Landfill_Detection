@@ -1,0 +1,140 @@
+{
+  "created_utc": "2026-11-11T21:23:26+00:00",
+  "buffer_km": 15,
+  "crs": "EPSG:32643",
+  "bands": [
+    "B2",
+    "B3",
+    "B4",
+    "B8",
+    "B11",
+    "NDVI",
+    "NDBI",
+    "BSI",
+    "LST",
+    "LST_anom",
+    "elev",
+    "slope"
+  ],
+  "params": {
+    "start": "2024-03-01",
+    "end": "2024-06-01",
+    "s2_collection": "COPERNICUS/S2_SR_HARMONIZED",
+    "s2_max_scene_cloud_pct": 10,
+    "s2_masked_scl_classes": [
+      1,
+      3,
+      8,
+      9,
+      10,
+      11
+    ],
+    "landsat_collections": [
+      "LANDSAT/LC08/C02/T1_L2",
+      "LANDSAT/LC09/C02/T1_L2"
+    ],
+    "landsat_max_scene_cloud_pct": 30,
+    "lst_background_radius_m": 2000,
+    "lst_background_scale_m": 100,
+    "water": "JRC/GSW1_4/GlobalSurfaceWater",
+    "water_min_occurrence_pct": 50,
+    "dem": "USGS/SRTMGL1_003",
+    "scale_m": 10
+  },
+  "drive_folder": "landfill_gujarat",
+  "boxes_wsen": {
+    "Ahmedabad": [
+      72.40027585018508,
+      22.825798323751346,
+      72.71378514981491,
+      23.116181676248654
+    ],
+    "Anand": [
+      72.79956429798703,
+      22.446582323751347,
+      73.09143370201296,
+      22.716075676248654
+    ],
+    "Bhavnagar": [
+      71.94553462856504,
+      21.663464323751345,
+      72.23578137143497,
+      21.932957676248652
+    ],
+    "Bhuj": [
+      69.55133903285412,
+      23.13115632375135,
+      69.84468696714589,
+      23.400649676248655
+    ],
+    "Dwarka": [
+      68.84127682482266,
+      22.105788323751348,
+      69.13243117517733,
+      22.375281676248655
+    ],
+    "Gandhinagar": [
+      72.53250241438641,
+      23.117176323751348,
+      72.82581958561357,
+      23.386669676248655
+    ],
+    "Jamnagar": [
+      69.96050383909889,
+      22.345714323751345,
+      70.2521601609011,
+      22.61520767624865
+    ],
+    "Mehsana": [
+      72.24907880708552,
+      23.454604323751347,
+      72.54314519291448,
+      23.724097676248654
+    ],
+    "Nadiad": [
+      72.70421324739124,
+      22.582055323751348,
+      72.99637075260875,
+      22.851548676248655
+    ],
+    "Rajkot": [
+      70.71377897010923,
+      22.239883323751346,
+      71.00521302989075,
+      22.509376676248653
+    ],
+    "Surat": [
+      72.65807366042807,
+      20.967297323751346,
+      72.98743133957193,
+      21.291194676248654
+    ],
+    "Vadodara": [
+      73.02413682931048,
+      22.096665323751346,
+      73.35214017068952,
+      22.413258676248653
+    ],
+    "Vapi": [
+      72.74037973386689,
+      20.232049323751347,
+      73.02784426613312,
+      20.501542676248654
+    ]
+  },
+  "tasks": {
+    "Ahmedabad": "2625RYEO23L2ZCE5SFYHWOGQ",
+    "Anand": "YR7VVMMPC7JJ7KZTNVZJ57AE",
+    "Bhavnagar": "4ZDVCX3AQBLIKJ72RYXVQP2R",
+    "Bhuj": "EEJELNYFDAZU42EEP2AWDU2C",
+    "Dwarka": "4UUF7CZ2EA7OE27J7RLDJ4TU",
+    "Gandhinagar": "OIP6YGBFZO2DBY47BIV3WYT7",
+    "Jamnagar": "OFV76HYHVMRMG6VPMXDONRMO",
+    "Mehsana": "ZBKSQ7D3ZACIAAWBOXGJFFVS",
+    "Nadiad": "LAM3F3NKDOWZZUMCMXAU7VU4",
+    "Rajkot": "JTPI3H5EHKNBR3D5DH2BQJZE",
+    "Surat": "W6ZBZSLXWKHM5ZEPEXRGMWIX",
+    "Vadodara": "E34EHKTZKEPFNL6Q5MHJI53F",
+    "Vapi": "UCREKFSW73OQUMGQNLVCMPRU"
+  }
+}
