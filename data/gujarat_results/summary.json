@@ -1,0 +1,21 @@
+{
+  "freeze_tags": [
+    "freeze-v1"
+  ],
+  "model": "logistic_regression",
+  "threshold": 0.5,
+  "min_found_pixels": 1,
+  "min_found_share": 0.5,
+  "min_alarm_ha": 1.0,
+  "sites_counted": 17,
+  "sites_found": 16,
+  "site_recall": 0.9412,
+  "sites_not_counted": {
+    "PIN-01": "no_outline"
+  },
+  "pixels_scored": 119144530,
+  "pixels_flagged": 6501765,
+  "share_flagged": 0.05457,
+  "area_scored_km2": 11914.5,
+  "alarms": 6594
+}

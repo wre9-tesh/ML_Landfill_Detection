@@ -1,0 +1,19 @@
+test_id,city,site_name,area_ha,in_recall,box,pixels,pixels_scored,pixels_flagged,share_flagged,max_score,status
+AHM-01,Ahmedabad,Ahmedabad LF-1 (pirana),47.485,yes,ahmedabad,4735,4735,3108,0.6564,0.9917,found
+AHM-02,Ahmedabad,Ahmedabad LF - 2(a) + Ahmedabad LF -2(b),19.171,yes,ahmedabad,1917,1917,1256,0.6552,0.9974,found
+AHM-03,Ahmedabad,Ahmedabad LF - 3,8.56,yes,ahmedabad,855,855,718,0.8398,0.9714,found
+PIN-01,Surat,Surat LF -3,,no_outline,,0,,,,,no_outline
+Anand-01,Anand,Anand LF-1,2.519,yes,anand,254,254,186,0.7323,0.9757,found
+Nadiad-01,Nadiad,Nadiad LF-1,4.363,yes,nadiad,434,434,387,0.8917,0.9751,found
+BHV-01,Bhavnagar,Bhavnagar LF -1,28.002,yes,bhavnagar,2795,2795,2756,0.986,1.0,found
+BHJ-01,Bhuj,Bhuj LF -1,10.272,yes,bhuj,1029,1029,927,0.9009,0.9893,found
+Dwarka-01,Dwarka,Dwarka-01,1.13,yes,dwarka,114,114,113,0.9912,0.9735,found
+GNR-01,Gandhinagar,Gandhinagar LF -1,17.037,yes,gandhinagar,1701,1701,1119,0.6578,0.9937,found
+JAM-01,Jamnagar,Jamnagar LF -1,3.348,yes,jamnagar,335,335,283,0.8448,0.9721,found
+MEH-01,Mehsana,Mehsana LF - 1,5.122,yes,mehsana,505,505,467,0.9248,0.9839,found
+RAJ-01,Rajkot,Rajkot LF-1,30.183,yes,rajkot,3013,3013,1394,0.4627,0.955,missed
+SUR-01,Surat,Surat LF-1,2.302,yes,surat,230,230,147,0.6391,0.9435,found
+SUR-02,Surat,Surat LF -2 (khajod),107.535,yes,surat,10721,10721,6429,0.5997,0.9993,found
+VAD-01,Vadodara,Vadodara LF - 1,15.209,yes,vadodara,1516,1516,1166,0.7691,0.9856,found
+VAD-02,Vadodara,Vadodara LF -2,8.454,yes,vadodara,847,847,533,0.6293,0.9895,found
+VAP-01,Vapi,Vapi LF - 1,2.024,yes,vapi,200,200,150,0.75,0.979,found
