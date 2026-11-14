@@ -83,6 +83,12 @@ Frozen at tag `freeze-v1` (commit `0770ed9`); rules in `docs/freeze.md`. Gujarat
 
 Depth analysis: `scripts/depth_analysis.py` writes `data/analysis/` (`depth_analysis.md` has every table). The Gujarat rung of the split ablation covers the frozen model only, because the other models would need the feature GeoTIFFs. Blind check (`data/gujarat_results/blind_check.csv`): 50 of the top 100 alarms checked, 0 dumpsites (95% upper bound 5.8%); 33 are blue-roofed buildings, 7 water or salt pans. Cause: the logistic regression extrapolates on pixels bluer than green (B2 weight +4.6, B3 −7.1), which almost never occur in training. Post hoc comparison (`scripts/posthoc_gujarat.py`, run by the user; results in `data/analysis/`, sections 6–7 of `depth_analysis.md`): every learned model finds 16 of 17 sites; the tree models flag only 20–30% of the frozen model's alarm centres and none of the water. Their own top alarms were not checked. Paper figures: `scripts/make_figures.py` writes `figures/split_ablation` and `figures/precision_prevalence` (PDF and PNG). Still to do: paper (user), website, README, environment file, refresh of the two guide PDFs.
 
+## Version 2 (started Nov 14)
+
+The user wants a detector that works, not only the write-up of version 1. Version 1 is not usable as a shortlist: ranked by mean score, the 17 known sites sit between about rank 250 and 4,000 of 6,900 flagged patches. Version 1 stays the frozen, reported test. Version 2 is an openly second iteration, designed after seeing Gujarat, and must be described that way; no Gujarat pixel goes into training.
+
+Plan: (1) `scripts/build_background_v2.py` adds 25,800 background points in the boxes 15 km around the 86 training landfills (`data/samples/points_v2_background.csv`); the user fetches their features into `data/features_v2/`. (2) Retrain the nine models on version 1 points plus this background; choose the best mean held-out-region F1 with no simplicity tie-break (decided before any version 2 result). (3) Rank alarm patches by area times mean score, not mean score alone. (4) Tag `freeze-v2`, score Gujarat again into a separate folder, blind-check the top 50. Steps 2 to 4 are not written yet.
+
 ## Website
 
 Static site on GitHub Pages, built from the frozen outputs. There is no image upload: the model reads 12 values per 10 m pixel, which a screenshot doesn't contain.
