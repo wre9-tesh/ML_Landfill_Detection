@@ -81,7 +81,7 @@ These were fixed before any results and must not change after seeing them.
 
 Frozen at tag `freeze-v1` (commit `0770ed9`); rules in `docs/freeze.md`. Gujarat was scored once: 16 of 17 sites found (Rajkot missed at 46% of its outline flagged), 5.5% of 11,914 km2 flagged, 6,594 alarm patches of 1 ha or more. Results are in `data/gujarat_results/`. The 13 feature GeoTIFFs are on the user's machine only.
 
-Depth analysis: `scripts/depth_analysis.py` writes `data/analysis/` (`depth_analysis.md` has every table). The Gujarat rung of the split ablation covers the frozen model only, because the other models would need the feature GeoTIFFs. Still open: the user's blind check of the top 100 alarms (`alarms_blind.kml`), then figures, paper, website, README.
+Depth analysis: `scripts/depth_analysis.py` writes `data/analysis/` (`depth_analysis.md` has every table). The Gujarat rung of the split ablation covers the frozen model only, because the other models would need the feature GeoTIFFs. Blind check so far (`data/gujarat_results/blind_check.csv`): 25 of the top 100 alarms checked, 0 dumpsites; 15 are blue-roofed buildings, 3 water. Cause: the logistic regression gives blue (B2) a weight of +4.6 and green (B3) −7.1, and pixels bluer than green almost never occur in training (0.2% of random points), so blue roofs and clear sea are extrapolated to scores near 1. `scripts/posthoc_gujarat.py` (user runs it; needs the GeoTIFFs) compares every model and feature set on Gujarat post hoc. Still open: the rest of the user's blind check of the top 100 alarms (`alarms_blind.kml`), then figures, paper, website, README.
 
 ## Website
 
