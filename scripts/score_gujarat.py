@@ -27,6 +27,10 @@ by area times mean score instead of mean score alone. Both versions also write s
 where the flagged patch on each sealed site would stand if the sealed sites were left in the
 alarm list, which says whether the list would lead someone to the known dumps.
 
+Version 3 (--version 3, tag freeze-v3) also reads the ten extra bands from
+data/gujarat_x/gujaratx_<city>.tif, which must sit on the same grid as data/gujarat/, works
+out the four differences the model was trained with, and ranks alarms by mean score.
+
 The script refuses to run unless the current commit carries a tag starting with "freeze",
 so that Gujarat cannot be scored by accident before the freeze.
 """
@@ -51,8 +55,9 @@ def freeze_tags():
 
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("--version", type=int, choices=[1, 2], default=1)
+    ap.add_argument("--version", type=int, choices=[1, 2, 3], default=1)
     ap.add_argument("--tifs", default=str(REPO / "data" / "gujarat"))
+    ap.add_argument("--extra-tifs", default=str(REPO / "data" / "gujarat_x"), help="version 3 only")
     ap.add_argument("--model", help="default data/results/model.joblib, or data/results_v2/ for version 2")
     ap.add_argument("--sites", default=str(REPO / "labels" / "gujarat_test_sites.geojson"))
     ap.add_argument("--out", help="default data/gujarat_results, or data/gujarat_results_v2 for version 2")
@@ -68,7 +73,7 @@ def main():
     suffix = "" if args.version == 1 else f"_v{args.version}"
     args.model = args.model or str(REPO / "data" / f"results{suffix}" / "model.joblib")
     args.out = args.out or str(REPO / "data" / f"gujarat_results{suffix}")
-    args.rank_by = args.rank_by or ("mean_score" if args.version == 1 else "area_score")
+    args.rank_by = args.rank_by or ("area_score" if args.version == 2 else "mean_score")
     tags = [t for t in freeze_tags() if args.version == 1 or t.lower().startswith(f"freeze-v{args.version}")]
     if not tags and not args.allow_unfrozen:
         sys.exit(f"This commit has no freeze tag for version {args.version}. Tag and push the freeze first.")
@@ -81,7 +86,9 @@ def main():
         sys.exit("rasterio and scipy are needed. Run: python -m pip install rasterio scipy")
 
     meta = json.loads(Path(args.model).with_suffix(".json").read_text(encoding="utf-8"))
-    model, bands, thr = joblib.load(args.model), meta["features"], meta["threshold"]
+    model, feats, thr = joblib.load(args.model), meta["features"], meta["threshold"]
+    derived = meta.get("derived", {})
+    fetched = [b for b in feats if b not in derived]
     sites = json.load(open(args.sites, encoding="utf-8"))["features"]
     tifs = sorted(Path(args.tifs).glob("gujarat_*.tif"))
     if not tifs:
@@ -93,23 +100,38 @@ def main():
     for tif in tifs:
         city = tif.stem.replace("gujarat_", "").split("-")[0]
         with rasterio.open(tif) as src:
-            names = list(src.descriptions)
-            if set(bands) - set(names):
-                sys.exit(f"{tif.name}: bands {names} do not include {sorted(set(bands) - set(names))}")
-            order = [names.index(b) + 1 for b in bands]
+            srcs, where = [src], {n: (0, i + 1) for i, n in enumerate(src.descriptions)}
+            if set(fetched) - set(where):
+                xtif = Path(args.extra_tifs) / tif.name.replace("gujarat_", "gujaratx_", 1)
+                if not xtif.exists():
+                    sys.exit(f"{xtif} is missing; it holds {sorted(set(fetched) - set(where))}")
+                x_src = rasterio.open(xtif)
+                if (x_src.shape, x_src.crs) != (src.shape, src.crs) or not x_src.transform.almost_equals(src.transform):
+                    sys.exit(f"{xtif.name} is not on the same grid as {tif.name}; export both with the same boxes")
+                srcs.append(x_src)
+                where.update({n: (1, i + 1) for i, n in enumerate(x_src.descriptions) if n not in where})
+            if set(fetched) - set(where):
+                sys.exit(f"{tif.name}: bands {sorted(where)} do not include {sorted(set(fetched) - set(where))}")
             h, w, tr, crs = src.height, src.width, src.transform, src.crs
             score = np.full((h, w), np.nan, np.float32)
             for r0 in range(0, h, 512):  # strips keep memory low
                 win = rasterio.windows.Window(0, r0, w, min(512, h - r0))
-                x = src.read(order, window=win).astype(np.float64)
-                flat = x.reshape(len(bands), -1).T
-                ok = np.isfinite(flat).all(axis=1)
-                if src.nodata is not None:
-                    ok &= (flat != src.nodata).all(axis=1)
-                s = np.full(len(flat), np.nan, np.float32)
+                col, ok = {}, np.ones(int(win.height) * w, bool)
+                for k, sk in enumerate(srcs):
+                    mine = [b for b in fetched if where[b][0] == k]
+                    x = sk.read([where[b][1] for b in mine], window=win).astype(np.float64).reshape(len(mine), -1)
+                    ok &= np.isfinite(x).all(axis=0)
+                    if sk.nodata is not None:
+                        ok &= (x != sk.nodata).all(axis=0)
+                    col.update(zip(mine, x))
+                for name, (p, q) in derived.items():
+                    col[name] = col[p] - col[q]
+                s = np.full(len(ok), np.nan, np.float32)
                 if ok.any():
-                    s[ok] = model.predict_proba(flat[ok])[:, 1]
+                    s[ok] = model.predict_proba(np.column_stack([col[b][ok] for b in feats]))[:, 1]
                 score[r0:r0 + win.height] = s.reshape(int(win.height), w)
+            for sk in srcs[1:]:
+                sk.close()
             profile = dict(src.profile, count=1, dtype="uint8", nodata=255, compress="deflate")
         with rasterio.open(out / "scores" / f"{tif.stem}.tif", "w", **profile) as dst:
             dst.write(np.where(np.isfinite(score), np.round(score * 100), 255).astype(np.uint8), 1)

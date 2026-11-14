@@ -1,7 +1,7 @@
 """Fit the selected model on every training point and save it for Gujarat scoring.
 
     python scripts/freeze_model.py
-    python scripts/freeze_model.py --results data/results_v2      (version 2)
+    python scripts/freeze_model.py --results data/results_v2      (version 2; data/results_v3 for version 3)
 
 Reads data/results/selection.json (written by run_models.py) and data/features/features.csv.
 Writes data/results/model.joblib and data/results/model.json, which records the model, its
@@ -15,11 +15,10 @@ import sys
 from pathlib import Path
 
 import joblib
-import pandas as pd
 import sklearn
 
 from geoutil import REPO
-from run_models import FEATURES, fit, make_models
+from run_models import fit, load_tables, make_models
 
 
 def main():
@@ -31,10 +30,13 @@ def main():
     sel = json.loads((res / "selection.json").read_text(encoding="utf-8"))
     name = sel["selected"]
     tables = sel.get("feature_tables", ["data/features/features.csv"])
-    df = pd.concat([pd.read_csv(REPO / t) for t in tables], ignore_index=True).dropna(subset=FEATURES)
+    extra = sel.get("extra_tables", [])
+    df, FEATURES = load_tables(tables, extra)  # noqa: N806
+    df = df.dropna(subset=FEATURES)
     model = fit(name, make_models()[name], df[FEATURES].to_numpy(float), df["label"].to_numpy(int))
     joblib.dump(model, res / "model.joblib", compress=3)
     meta = {"model": name, "features": FEATURES, "threshold": sel["threshold"], "trained_on_points": len(df), "feature_tables": tables,
+            "extra_tables": extra, "derived": sel.get("derived", {}),
             "scikit_learn": sklearn.__version__}
     if name == "logistic_regression":
         scaler, lr = model.steps[0][1], model.steps[1][1]

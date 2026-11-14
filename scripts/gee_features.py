@@ -22,6 +22,16 @@ Features, all from the 2024 pre-monsoon window (1 March to 31 May 2024):
                 coastal sites are not made to look hotter than they are
   elev slope    SRTM elevation (m) and slope (degrees), computed at its native 30 m
 feature_image() is reused in Phase 3 to score Gujarat with exactly the same stack.
+
+Version 3 adds a second stack, fetched separately with --stack extra (see docs/freeze_v3.md):
+    python scripts/gee_features.py --project P --stack extra --out data/features_v3/main
+    python scripts/gee_features.py --project P --stack extra --out data/features_v3/background \
+        --points data/samples/points_v2_background.csv
+  B2_w B11_w NDVI_w NDBI_w BSI_w   the same Sentinel-2 median, for the winter crop season
+                (15 November 2023 to 14 February 2024): fallow fields that are bare in
+                March to May are green then, a dump is not
+  NDVI_ctx NDBI_ctx BSI_ctx        mean of the pre-monsoon index within 150 m: what surrounds the pixel
+  NDVI_sd B11_sd                   standard deviation within 50 m: how mixed the surface is
 """
 import argparse
 import csv
@@ -50,29 +60,66 @@ PARAMS = {
     "dem": "USGS/SRTMGL1_003",
     "scale_m": 10,
 }
+EXTRA_BANDS = ["B2_w", "B11_w", "NDVI_w", "NDBI_w", "BSI_w", "NDVI_ctx", "NDBI_ctx", "BSI_ctx", "NDVI_sd", "B11_sd"]
+EXTRA_PARAMS = {
+    "winter_start": "2023-11-15",
+    "winter_end": "2024-02-15",  # exclusive
+    "context_radius_m": 150,
+    "texture_radius_m": 50,
+    "neighbourhood_scale_m": 10,
+}
 TRANSIENT = ("Too many concurrent", "rate limit", "Rate Limit", "Quota exceeded", "429", "503", "temporarily")
 
 
-def feature_image(ee, region, p=PARAMS):
-    """The twelve-band feature stack over region (any geometry the scenes must touch)."""
+def s2_composite(ee, region, p, start, end):
+    """Median of the clear Sentinel-2 pixels between start and end: five bands and the three indices."""
 
     def s2_prep(img):
         masked = p["s2_masked_scl_classes"]
         clear = img.select("SCL").remap(masked, [0] * len(masked), 1)
         return img.select(["B2", "B3", "B4", "B8", "B11"]).divide(10000).updateMask(clear)
 
+    s2 = (ee.ImageCollection(p["s2_collection"]).filterDate(start, end).filterBounds(region)
+          .filter(ee.Filter.lt("CLOUDY_PIXEL_PERCENTAGE", p["s2_max_scene_cloud_pct"])).map(s2_prep).median())
+    s2 = s2.addBands(s2.normalizedDifference(["B8", "B4"]).rename("NDVI"))
+    s2 = s2.addBands(s2.normalizedDifference(["B11", "B8"]).rename("NDBI"))
+    return s2.addBands(s2.select("B11").add(s2.select("B4")).rename("soil")
+                       .addBands(s2.select("B8").add(s2.select("B2")).rename("veg"))
+                       .normalizedDifference(["soil", "veg"]).rename("BSI"))
+
+
+def extra_image(ee, region, p=None):
+    """The ten version 3 bands: the winter composite and the neighbourhood of the pre-monsoon one."""
+    p = p or dict(PARAMS, **EXTRA_PARAMS)
+    winter = (s2_composite(ee, region, p, p["winter_start"], p["winter_end"])
+              .select(["B2", "B11", "NDVI", "NDBI", "BSI"], EXTRA_BANDS[:5]))
+    dry = s2_composite(ee, region, p, p["start"], p["end"])
+    grid = ee.Projection("EPSG:4326").atScale(p["neighbourhood_scale_m"])  # one grid for points and exports
+    ctx = (dry.select(["NDVI", "NDBI", "BSI"])
+           .focalMean(radius=p["context_radius_m"], kernelType="circle", units="meters")
+           .reproject(grid).rename(EXTRA_BANDS[5:8]))
+    sd = (dry.select(["NDVI", "B11"])
+          .reduceNeighborhood(ee.Reducer.stdDev(), ee.Kernel.circle(p["texture_radius_m"], "meters"))
+          .reproject(grid).rename(EXTRA_BANDS[8:]))
+    return ee.Image.cat([winter, ctx, sd]).select(EXTRA_BANDS).toFloat()
+
+
+STACKS = {"base": (BANDS, {}), "extra": (EXTRA_BANDS, EXTRA_PARAMS)}
+
+
+def stack_image(ee, region, p, stack="base"):
+    return extra_image(ee, region, p) if stack == "extra" else feature_image(ee, region, p)
+
+
+def feature_image(ee, region, p=PARAMS):
+    """The twelve-band feature stack over region (any geometry the scenes must touch)."""
+
     def landsat_prep(img):
         clear = img.select("QA_PIXEL").bitwiseAnd(0b11110).eq(0)  # bits 1-4: dilated cloud, cirrus, cloud, shadow
         lst = img.select("ST_B10").multiply(0.00341802).add(149.0).subtract(273.15)
         return lst.rename("LST").updateMask(clear).resample("bilinear")
 
-    s2 = (ee.ImageCollection(p["s2_collection"]).filterDate(p["start"], p["end"]).filterBounds(region)
-          .filter(ee.Filter.lt("CLOUDY_PIXEL_PERCENTAGE", p["s2_max_scene_cloud_pct"])).map(s2_prep).median())
-    s2 = s2.addBands(s2.normalizedDifference(["B8", "B4"]).rename("NDVI"))
-    s2 = s2.addBands(s2.normalizedDifference(["B11", "B8"]).rename("NDBI"))
-    s2 = s2.addBands(s2.select("B11").add(s2.select("B4")).rename("soil")
-                     .addBands(s2.select("B8").add(s2.select("B2")).rename("veg"))
-                     .normalizedDifference(["soil", "veg"]).rename("BSI"))
+    s2 = s2_composite(ee, region, p, p["start"], p["end"])
 
     l8, l9 = (ee.ImageCollection(c) for c in p["landsat_collections"])
     lst = (l8.merge(l9).filterDate(p["start"], p["end"]).filterBounds(region)
@@ -88,19 +135,19 @@ def feature_image(ee, region, p=PARAMS):
     return ee.Image.cat([s2, lst, anomaly, dem.rename("elev"), slope.rename("slope")]).select(BANDS).toFloat()
 
 
-def fetch(ee, rows, p):
+def fetch(ee, rows, p, stack="base"):
     fc = ee.FeatureCollection([ee.Feature(ee.Geometry.Point([float(r["lon"]), float(r["lat"])]),
                                           {"point_id": r["point_id"]}) for r in rows])
-    img = feature_image(ee, fc.geometry(), p)
+    img = stack_image(ee, fc.geometry(), p, stack)
     out = img.reduceRegions(collection=fc, reducer=ee.Reducer.first(), scale=p["scale_m"], tileScale=4)
     return {f["properties"]["point_id"]: f["properties"] for f in out.getInfo()["features"]}
 
 
-def fetch_robust(ee, rows, p, log, min_rows=20):
+def fetch_robust(ee, rows, p, log, min_rows=20, stack="base"):
     """fetch(), waiting out rate limits and halving the batch when Earth Engine gives up on it."""
     for attempt in range(4):
         try:
-            return fetch(ee, rows, p)
+            return fetch(ee, rows, p, stack)
         except (ee.EEException, OSError) as e:
             msg = str(e)
             if isinstance(e, OSError) or any(s in msg for s in TRANSIENT):
@@ -110,8 +157,8 @@ def fetch_robust(ee, rows, p, log, min_rows=20):
             if len(rows) > min_rows:
                 mid = len(rows) // 2
                 log(f"    splitting {len(rows)} points after: {msg[:100]}")
-                return {**fetch_robust(ee, rows[:mid], p, log, min_rows),
-                        **fetch_robust(ee, rows[mid:], p, log, min_rows)}
+                return {**fetch_robust(ee, rows[:mid], p, log, min_rows, stack),
+                        **fetch_robust(ee, rows[mid:], p, log, min_rows, stack)}
             log(f"    skipped {len(rows)} points (they will be retried next run): {msg[:150]}")
             return {}
     log(f"    skipped {len(rows)} points after repeated waits (they will be retried next run)")
@@ -127,6 +174,8 @@ def main():
     ap.add_argument("--project", required=True, help="Google Cloud project registered for Earth Engine")
     ap.add_argument("--points", default=str(REPO / "data" / "samples" / "points.csv"))
     ap.add_argument("--out", default=str(REPO / "data" / "features"))
+    ap.add_argument("--stack", choices=list(STACKS), default="base",
+                    help="base: the twelve features; extra: the ten version 3 features (give its own --out)")
     ap.add_argument("--batch", type=int, default=300, help="points per request; halved automatically on failure")
     ap.add_argument("--limit", type=int, help="fetch only this many new points (for a first test)")
     ap.add_argument("--lst-radius-m", type=float, default=PARAMS["lst_background_radius_m"],
@@ -143,7 +192,10 @@ def main():
         sys.exit(f"Earth Engine did not start: {e}\nRun `earthengine authenticate` once, and check that "
                  f"'{args.project}' is the Cloud project registered for Earth Engine.")
 
-    p = dict(PARAMS, lst_background_radius_m=args.lst_radius_m)
+    BANDS, more = STACKS[args.stack]  # noqa: N806 - shadows the module list for the chosen stack
+    if args.stack != "base" and Path(args.out).resolve() == (REPO / "data" / "features").resolve():
+        sys.exit("--stack extra needs its own --out folder, for example data/features_v3/main")
+    p = dict(PARAMS, lst_background_radius_m=args.lst_radius_m, **more)
     # The band list is part of the hash, so adding a feature refetches every point.
     phash = hashlib.sha1(json.dumps(dict(p, bands=BANDS), sort_keys=True).encode()).hexdigest()[:10]
     with open(args.points, newline="", encoding="utf-8") as f:
@@ -178,7 +230,7 @@ def main():
         for i in range(nb):
             batch = todo[i * args.batch:(i + 1) * args.batch]
             t = time.time()
-            got = fetch_robust(ee, batch, p, print)
+            got = fetch_robust(ee, batch, p, print, stack=args.stack)
             for r in batch:
                 if r["point_id"] in got:
                     row = {"point_id": r["point_id"], "lon": r["lon"], "lat": r["lat"], "params": phash,
@@ -206,6 +258,7 @@ def main():
         "earthengine_api": getattr(ee, "__version__", "unknown"),
         "params": p,
         "params_hash": phash,
+        "stack": args.stack,
         "points_file": str(Path(args.points).name),
         "points_sha256": hashlib.sha256(Path(args.points).read_bytes()).hexdigest(),
         "n_points": len(rows),

@@ -89,6 +89,16 @@ The user wants a detector that works, not only the write-up of version 1. Versio
 
 Plan: (1) `scripts/build_background_v2.py` adds 25,800 background points in the boxes 15 km around the 86 training landfills (`data/samples/points_v2_background.csv`); the user fetches their features into `data/features_v2/`. (2) Retrain the nine models on version 1 points plus this background; choose the best mean held-out-region F1 with no simplicity tie-break (decided before any version 2 result). (3) Rank alarm patches by area times mean score, not mean score alone. (4) Tag `freeze-v2`, score Gujarat again into a separate folder, blind-check the top 50. Status Nov 14 evening: background features fetched (`data/features_v2/`); models trained (`data/results_v2/`); the rule picks the random forest (held-out-region F1 0.739; it flags 1.9% of near-landfill background against 8.5% for logistic regression). `docs/freeze_v2.md` holds the version 2 freeze. The user still has to run `freeze_model.py --results data/results_v2`, tag `freeze-v2`, run `score_gujarat.py --version 2` (writes `data/gujarat_results_v2/`, including `site_ranks.csv`) and blind-check the new top 50.
 
+## Version 3 (started Nov 14)
+
+- **Why:** versions 1 and 2 flag the known sites but rank them below false alarms (v2: large bare-land patches; 4 sealed sites in the top 100 patches). The user confirmed v2 fails by eye.
+- **What:** 14 more features: a winter Sentinel-2 composite, 150 m means, 50 m standard deviations, and four differences. Same points as v2, same nine models, best mean F1. Rules are in `docs/freeze_v3.md`, written before any fetch.
+- **Not done on purpose:** Gujarat false alarms are not used as training negatives; that would train on the test state.
+- **Run order (user's machine):** `gee_features.py --stack extra` twice (main points, background points) into `data/features_v3/`; `gee_export_gujarat.py --stack extra` to Drive, download to `data/gujarat_x/`; push the feature tables; then train with `run_models.py --extra ... --out data/results_v3`, freeze, tag `freeze-v3`, `score_gujarat.py --version 3`.
+- **Scored area:** the 13 boxes cover 11,914 km², about 6% of Gujarat. Empty parts of the alarm map are unscored, not clean.
+- **Literature found Nov 14:** Kruse et al. 2023 (PLOS ONE, Sentinel-2) is the only field-verified 10 m result: 53% of candidates confirmed by a human, using a pixel network, a patch network, two dates and retraining on false alarms. Bhajantri & Mandpe 2026 (journal version now in hand) did not verify its 60 new sites.
+- **After version 3, whatever it shows:** option A (write up, website, README, refresh the guide PDFs).
+
 ## Website
 
 Static site on GitHub Pages, built from the frozen outputs. There is no image upload: the model reads 12 values per 10 m pixel, which a screenshot doesn't contain.

@@ -43,6 +43,11 @@ from sklearn.utils.class_weight import compute_sample_weight
 from geoutil import REPO, ZONAL_COUNCILS
 
 FEATURES = ["B2", "B3", "B4", "B8", "B11", "NDVI", "NDBI", "BSI", "LST", "LST_anom", "elev", "slope"]
+# Version 3: ten more fetched features (gee_features.py --stack extra) and four differences of them.
+EXTRA = ["B2_w", "B11_w", "NDVI_w", "NDBI_w", "BSI_w", "NDVI_ctx", "NDBI_ctx", "BSI_ctx", "NDVI_sd", "B11_sd"]
+DERIVED = {"dNDVI": ("NDVI_w", "NDVI"), "dBSI": ("BSI_w", "BSI"),  # winter minus pre-monsoon
+           "NDVI_rel": ("NDVI", "NDVI_ctx"), "NDBI_rel": ("NDBI", "NDBI_ctx")}  # pixel minus its surroundings
+FEATURES_V3 = FEATURES + EXTRA + list(DERIVED)
 PUBLISHED = {"NDBI": 0.028, "NDVI": 0.15, "LST": 37.0}
 SEED = 678
 # Simplest first; the selection rule walks this order. The reference is never selected.
@@ -113,6 +118,18 @@ def make_models():
     }
 
 
+def load_tables(tables, extra=()):
+    """The feature tables stacked; with extra tables, their columns joined by point_id and the differences added."""
+    df = pd.concat([pd.read_csv(REPO / t) for t in tables], ignore_index=True)
+    if not extra:
+        return df, FEATURES
+    ex = pd.concat([pd.read_csv(REPO / t) for t in extra], ignore_index=True)[["point_id"] + EXTRA]
+    df = df.merge(ex.drop_duplicates("point_id"), on="point_id", how="left", validate="many_to_one")
+    for name, (a, b) in DERIVED.items():
+        df[name] = df[a] - df[b]
+    return df, FEATURES_V3
+
+
 def fit(name, model, X, y):
     if name in NEEDS_SAMPLE_WEIGHT:
         return model.fit(X, y, sample_weight=compute_sample_weight("balanced", y))
@@ -144,6 +161,8 @@ def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--features", nargs="+", default=[str(REPO / "data" / "features" / "features.csv")],
                     help="one or more feature tables; version 2 adds data/features_v2/features.csv")
+    ap.add_argument("--extra", nargs="+", default=[],
+                    help="version 3: the tables from gee_features.py --stack extra, joined by point_id")
     ap.add_argument("--rule", choices=["simplest_within_sd", "best"], default="simplest_within_sd",
                     help="version 1 takes the simplest model within one SD of the best; version 2 takes the best")
     ap.add_argument("--out", default=str(REPO / "data" / "results"))
@@ -152,11 +171,14 @@ def main():
     ap.add_argument("--threshold", type=float, default=0.5)
     args = ap.parse_args()
 
-    df = pd.concat([pd.read_csv(f) for f in args.features], ignore_index=True)
+    rel = lambda f: (str(Path(f).resolve().relative_to(REPO)).replace("\\", "/")  # noqa: E731
+                     if Path(f).resolve().is_relative_to(REPO) else str(Path(f).resolve()))
+    tables, extra = [rel(f) for f in args.features], [rel(f) for f in args.extra]
+    df, feats = load_tables(tables, extra)
     n_all = len(df)
-    df = df.dropna(subset=FEATURES).reset_index(drop=True)
-    X, y = df[FEATURES].to_numpy(float), df["label"].to_numpy(int)
-    print(f"{len(df)} points with all twelve features ({n_all - len(df)} left out for missing values); "
+    df = df.dropna(subset=feats).reset_index(drop=True)
+    X, y = df[feats].to_numpy(float), df["label"].to_numpy(int)
+    print(f"{len(df)} points with all {len(feats)} features ({n_all - len(df)} left out for missing values); "
           f"{y.sum()} landfill, {len(y) - y.sum()} other")
 
     unit, headline, places = headline_folds(df, args.min_fold_places, args.min_states)
@@ -209,11 +231,11 @@ def main():
     selection = {
         "headline_split": head, "folds": {k: int(v.sum()) for k, v in headline.items()},
         "kept_places_per_state": {k: int(v) for k, v in places.sort_values(ascending=False).items()},
-        "rule": args.rule, "feature_tables": [str(Path(f).resolve().relative_to(REPO)) if Path(f).resolve().is_relative_to(REPO) else Path(f).name for f in args.features],
+        "rule": args.rule, "feature_tables": tables, "extra_tables": extra,
         "best_mean_f1": best, "one_sd_floor": round(float(floor), 4), "selected": chosen,
         "random_forest_oob_accuracy": round(float(forest.oob_score_), 4),
         "recalibrated_cutoffs_per_fold": cuts, "published_cutoffs": PUBLISHED,
-        "features": FEATURES, "threshold": args.threshold, "seed": SEED,
+        "features": feats, "derived": DERIVED if extra else {}, "threshold": args.threshold, "seed": SEED,
         "points_used": len(df), "points_missing_features": n_all - len(df),
     }
     (out / "selection.json").write_text(json.dumps(selection, indent=2) + "\n", encoding="utf-8")

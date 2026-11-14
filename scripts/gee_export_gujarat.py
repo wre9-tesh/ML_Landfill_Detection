@@ -12,6 +12,10 @@ the files into data/gujarat/ when the tasks finish; scoring happens locally, aft
 This exports features only. It reads the site list for the box positions and nothing else,
 so running it before the freeze does not reveal any result. Boxes of nearby cities can
 overlap; the scoring script counts each pixel once.
+
+Version 3 needs a second set of files with the ten extra bands, on the same grid:
+    python scripts/gee_export_gujarat.py --project YOUR-CLOUD-PROJECT --stack extra
+They are named gujaratx_<city>.tif; download them into data/gujarat_x/.
 """
 import argparse
 import csv
@@ -20,7 +24,7 @@ import math
 import sys
 from datetime import datetime, timezone
 
-from gee_features import BANDS, PARAMS, feature_image
+from gee_features import PARAMS, STACKS, stack_image
 from geoutil import REPO
 
 CRS = "EPSG:32643"
@@ -48,11 +52,15 @@ def main():
     ap.add_argument("--sites", default=str(REPO / "labels" / "gujarat_test_sites.csv"))
     ap.add_argument("--buffer-km", type=float, default=15)
     ap.add_argument("--drive-folder", default="landfill_gujarat")
+    ap.add_argument("--stack", choices=list(STACKS), default="base")
     ap.add_argument("--only", help="comma-separated cities, to redo some of them")
     ap.add_argument("--dry-run", action="store_true", help="print the boxes and stop")
     ap.add_argument("--status", action="store_true", help="show the state of the export tasks and stop")
     args = ap.parse_args()
 
+    bands, more = STACKS[args.stack]
+    params = dict(PARAMS, **more)
+    prefix = "gujarat_" if args.stack == "base" else "gujaratx_"
     boxes = city_boxes(args.sites, args.buffer_km)
     if args.only:
         want = {c.strip().lower() for c in args.only.split(",")}
@@ -64,7 +72,7 @@ def main():
         mpx = km_x * km_y * 1e6 / PARAMS["scale_m"] ** 2 / 1e6
         total += mpx
         print(f"  {city:12} {w:.4f},{s:.4f} to {e:.4f},{n:.4f}  {km_x:.0f} x {km_y:.0f} km  {mpx:.1f} M pixels")
-    print(f"{len(boxes)} boxes, {total:.0f} M pixels, about {total * 48 / 1000:.1f} GB before compression")
+    print(f"{len(boxes)} boxes, {total:.0f} M pixels, about {total * 4 * len(bands) / 1000:.1f} GB before compression")
     if args.dry_run:
         return 0
     if not args.project:
@@ -82,24 +90,24 @@ def main():
     if args.status:
         for t in ee.batch.Task.list():
             d = t.status()
-            if d.get("description", "").startswith("gujarat_"):
+            if d.get("description", "").startswith(prefix):
                 print(f"  {d['description']:24} {d['state']:10} {d.get('error_message', '')}")
         return 0
 
     tasks = {}
     for city, (w, s, e, n) in boxes.items():
         region = ee.Geometry.Rectangle([w, s, e, n], proj="EPSG:4326", geodesic=False)
-        name = "gujarat_" + city.lower().replace(" ", "_")
+        name = prefix + city.lower().replace(" ", "_")
         task = ee.batch.Export.image.toDrive(
-            image=feature_image(ee, region), description=name, folder=args.drive_folder, fileNamePrefix=name,
+            image=stack_image(ee, region, params, args.stack), description=name, folder=args.drive_folder, fileNamePrefix=name,
             region=region, scale=PARAMS["scale_m"], crs=CRS, maxPixels=int(1e9), fileFormat="GeoTIFF")
         task.start()
         tasks[city] = task.id
         print(f"  started {name} ({task.id})")
-    out = REPO / "data" / "gujarat"
+    out = REPO / "data" / ("gujarat" if args.stack == "base" else "gujarat_x")
     out.mkdir(parents=True, exist_ok=True)
     meta = {"created_utc": datetime.now(timezone.utc).isoformat(timespec="seconds"), "buffer_km": args.buffer_km,
-            "crs": CRS, "bands": BANDS, "params": PARAMS, "drive_folder": args.drive_folder,
+            "crs": CRS, "bands": bands, "params": params, "drive_folder": args.drive_folder,
             "boxes_wsen": boxes, "tasks": tasks}
     (out / "export_meta.json").write_text(json.dumps(meta, indent=2) + "\n", encoding="utf-8")
     print(f"wrote {out / 'export_meta.json'}; check progress with --status")
