@@ -2,6 +2,7 @@
 
     pip install rasterio scipy
     python scripts/score_gujarat.py
+    python scripts/score_gujarat.py --version 2     (the second model; needs the tag freeze-v2)
 
 Reads the GeoTIFFs from gee_export_gujarat.py in data/gujarat/, the frozen model in
 data/results/model.joblib and the sealed list in labels/gujarat_test_sites.geojson.
@@ -20,6 +21,11 @@ a site is found when at least --min-found-pixels of its outline's pixels are fla
 make up at least --min-found-share of the scored pixels in the outline; a
 pixel in two overlapping boxes is counted once, in the first city alphabetically; an alarm
 is a patch of touching flagged pixels (edges, not corners) of at least --min-alarm-ha.
+
+Version 2 reads data/results_v2/model.joblib, writes data/gujarat_results_v2/ and ranks alarms
+by area times mean score instead of mean score alone. Both versions also write site_ranks.csv:
+where the flagged patch on each sealed site would stand if the sealed sites were left in the
+alarm list, which says whether the list would lead someone to the known dumps.
 
 The script refuses to run unless the current commit carries a tag starting with "freeze",
 so that Gujarat cannot be scored by accident before the freeze.
@@ -45,10 +51,13 @@ def freeze_tags():
 
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    ap.add_argument("--version", type=int, choices=[1, 2], default=1)
     ap.add_argument("--tifs", default=str(REPO / "data" / "gujarat"))
-    ap.add_argument("--model", default=str(REPO / "data" / "results" / "model.joblib"))
+    ap.add_argument("--model", help="default data/results/model.joblib, or data/results_v2/ for version 2")
     ap.add_argument("--sites", default=str(REPO / "labels" / "gujarat_test_sites.geojson"))
-    ap.add_argument("--out", default=str(REPO / "data" / "gujarat_results"))
+    ap.add_argument("--out", help="default data/gujarat_results, or data/gujarat_results_v2 for version 2")
+    ap.add_argument("--rank-by", choices=["mean_score", "area_score"],
+                    help="alarm order: mean score (version 1) or area times mean score (version 2)")
     ap.add_argument("--min-found-pixels", type=int, default=1)
     ap.add_argument("--min-found-share", type=float, default=0.5)
     ap.add_argument("--min-alarm-ha", type=float, default=1.0)
@@ -56,9 +65,13 @@ def main():
     ap.add_argument("--allow-unfrozen", action="store_true", help="for testing on made-up data only")
     args = ap.parse_args()
 
-    tags = freeze_tags()
+    suffix = "" if args.version == 1 else f"_v{args.version}"
+    args.model = args.model or str(REPO / "data" / f"results{suffix}" / "model.joblib")
+    args.out = args.out or str(REPO / "data" / f"gujarat_results{suffix}")
+    args.rank_by = args.rank_by or ("mean_score" if args.version == 1 else "area_score")
+    tags = [t for t in freeze_tags() if args.version == 1 or t.lower().startswith(f"freeze-v{args.version}")]
     if not tags and not args.allow_unfrozen:
-        sys.exit("This commit has no freeze tag. Tag and push the freeze first (docs/freeze.md).")
+        sys.exit(f"This commit has no freeze tag for version {args.version}. Tag and push the freeze first.")
     try:
         import rasterio
         from rasterio.features import geometry_mask
@@ -76,7 +89,7 @@ def main():
     out = Path(args.out)
     (out / "scores").mkdir(parents=True, exist_ok=True)
 
-    done_bounds, areas, alarms, site_rows = [], [], [], {}
+    done_bounds, areas, alarms, site_rows, patches = [], [], [], {}, []
     for tif in tifs:
         city = tif.stem.replace("gujarat_", "").split("-")[0]
         with rasterio.open(tif) as src:
@@ -112,6 +125,7 @@ def main():
         flagged = valid & (score >= thr)
 
         in_site = np.zeros((h, w), bool)
+        site_masks = {}
         for f in sites:
             pr = f["properties"]
             if f["geometry"]["type"] == "Point":
@@ -121,6 +135,7 @@ def main():
             if not m.any():
                 continue
             in_site |= m
+            site_masks[pr["test_id"]] = m
             n, nv, nf = int(m.sum()), int((m & valid).sum()), int((m & flagged).sum())
             row = site_rows.get(pr["test_id"])
             if row and row.get("pixels", 0) >= n:
@@ -139,6 +154,20 @@ def main():
                       "pixels_in_test_sites": int((fresh & in_site).sum())})
 
         px_ha = abs(tr.a * tr.e) / 1e4
+        # Every flagged patch, sealed sites left in, to see where the known dumps would rank.
+        lab_all, n_all = ndimage.label(flagged & fresh)
+        if n_all:
+            idx = np.arange(1, n_all + 1)
+            size = ndimage.sum_labels(np.ones_like(lab_all), lab_all, idx) * px_ha
+            mean = ndimage.mean(score, lab_all, idx)
+            owner = {}
+            for tid, m in site_masks.items():
+                ls, cnt = np.unique(lab_all[m & flagged & fresh], return_counts=True)
+                if len(ls):
+                    owner[int(ls[cnt.argmax()])] = tid
+            for i in idx[size >= args.min_alarm_ha]:
+                patches.append({"city": city, "area_ha": round(float(size[i - 1]), 2),
+                                "mean_score": round(float(mean[i - 1]), 4), "test_id": owner.get(int(i), "")})
         lab, n_lab = ndimage.label(flagged & fresh & ~in_site)
         if n_lab:
             idx = np.arange(1, n_lab + 1)
@@ -156,12 +185,20 @@ def main():
                                    "mean_score": round(float(mean[k]), 4)})
         print(f"  {city:12} {areas[-1]['share_flagged']:.2%} of scored pixels flagged")
 
-    alarms.sort(key=lambda a: (-a["mean_score"], -a["area_ha"]))
+    def order(a):
+        return (-a["mean_score"] * a["area_ha"], -a["mean_score"]) if args.rank_by == "area_score" else (
+            -a["mean_score"], -a["area_ha"])
+
+    alarms.sort(key=order)
+    patches.sort(key=order)
+    for k, a in enumerate(patches, 1):
+        a["rank_with_sites_left_in"] = k
+        a["patches"] = len(patches)
     for k, a in enumerate(alarms, 1):
         a["rank"] = k
     top = alarms[: args.top_alarms]
     blind = list(range(1, len(top) + 1))
-    random.Random("es678-blind").shuffle(blind)
+    random.Random(f"es678-blind{suffix}").shuffle(blind)
     for a, b in zip(top, blind):
         a["blind_id"] = f"A{b:03d}"
 
@@ -178,6 +215,9 @@ def main():
                                     "pixels_scored", "pixels_flagged", "share_flagged", "max_score", "status"])
     write("areas.csv", areas, ["city", "pixels", "pixels_scored", "pixels_flagged", "share_flagged",
                                "pixels_in_test_sites"])
+    site_patches = [a for a in patches if a["test_id"]]
+    write("site_ranks.csv", site_patches, ["test_id", "city", "area_ha", "mean_score", "rank_with_sites_left_in",
+                                           "patches"])
     write("alarms.csv", alarms, ["rank", "blind_id", "city", "lat", "lon", "area_ha", "mean_score"])
     kml = ['<?xml version="1.0" encoding="UTF-8"?>', '<kml xmlns="http://www.opengis.net/kml/2.2"><Document>',
            "<name>alarms_blind</name>"]
@@ -191,7 +231,10 @@ def main():
     scored, flag = sum(a["pixels_scored"] for a in areas), sum(a["pixels_flagged"] for a in areas)
     summary = {"freeze_tags": tags, "model": meta["model"], "threshold": thr,
                "min_found_pixels": args.min_found_pixels, "min_found_share": args.min_found_share,
-               "min_alarm_ha": args.min_alarm_ha,
+               "min_alarm_ha": args.min_alarm_ha, "rank_by": args.rank_by,
+               "patches_with_sites_left_in": len(patches),
+               "site_patches_in_top_50": sum(a["rank_with_sites_left_in"] <= 50 for a in site_patches),
+               "site_patches_in_top_100": sum(a["rank_with_sites_left_in"] <= 100 for a in site_patches),
                "sites_counted": len(counted), "sites_found": found,
                "site_recall": round(found / len(counted), 4) if counted else None,
                "sites_not_counted": {r["test_id"]: r["status"] if r["status"] in ("no_outline", "not_scored")

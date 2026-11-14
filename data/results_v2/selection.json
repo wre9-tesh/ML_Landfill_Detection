@@ -1,0 +1,103 @@
+{
+  "headline_split": "held_out_region",
+  "folds": {
+    "Central": 6621,
+    "Eastern": 5852,
+    "North-Eastern": 1846,
+    "Northern": 9192,
+    "Southern": 5103,
+    "Western": 6079
+  },
+  "kept_places_per_state": {
+    "IN-MH": 15,
+    "IN-PB": 7,
+    "IN-RJ": 6,
+    "IN-UP": 6,
+    "IN-WB": 6,
+    "IN-MP": 5,
+    "IN-DL": 4,
+    "IN-TN": 4,
+    "IN-JH": 4,
+    "IN-HR": 3,
+    "IN-UT": 3,
+    "IN-OR": 3,
+    "IN-KA": 3,
+    "IN-KL": 2,
+    "IN-AS": 2,
+    "IN-CT": 2,
+    "IN-AP": 2,
+    "IN-AR": 1,
+    "IN-JK": 1,
+    "IN-CH": 1,
+    "IN-BR": 1,
+    "IN-LA": 1,
+    "IN-NL": 1,
+    "IN-PY": 1,
+    "IN-TG": 1,
+    "IN-TR": 1
+  },
+  "rule": "best",
+  "feature_tables": [
+    "data/features/features.csv",
+    "data/features_v2/features.csv"
+  ],
+  "best_mean_f1": "random_forest",
+  "one_sd_floor": 0.6243,
+  "selected": "random_forest",
+  "random_forest_oob_accuracy": 0.9689,
+  "recalibrated_cutoffs_per_fold": {
+    "Central": {
+      "NDBI": 0.08453118354082109,
+      "NDVI": 0.18205478042364112,
+      "LST": 42.25946788787842
+    },
+    "Eastern": {
+      "NDBI": 0.1104278713464737,
+      "NDVI": 0.177062377333641,
+      "LST": 42.37324523925781
+    },
+    "North-Eastern": {
+      "NDBI": 0.10010824352502816,
+      "NDVI": 0.18071266263723365,
+      "LST": 42.88549919128418
+    },
+    "Northern": {
+      "NDBI": 0.1127263084053993,
+      "NDVI": 0.1806837022304535,
+      "LST": 36.45603942871094
+    },
+    "Southern": {
+      "NDBI": 0.110230915620923,
+      "NDVI": 0.18449948951601977,
+      "LST": 35.573656463623045
+    },
+    "Western": {
+      "NDBI": 0.09347204416990276,
+      "NDVI": 0.17331949174404138,
+      "LST": 36.25374374389648
+    }
+  },
+  "published_cutoffs": {
+    "NDBI": 0.028,
+    "NDVI": 0.15,
+    "LST": 37.0
+  },
+  "features": [
+    "B2",
+    "B3",
+    "B4",
+    "B8",
+    "B11",
+    "NDVI",
+    "NDBI",
+    "BSI",
+    "LST",
+    "LST_anom",
+    "elev",
+    "slope"
+  ],
+  "threshold": 0.5,
+  "seed": 678,
+  "points_used": 34693,
+  "points_missing_features": 637
+}
