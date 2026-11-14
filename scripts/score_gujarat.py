@@ -50,7 +50,7 @@ def main():
     ap.add_argument("--sites", default=str(REPO / "labels" / "gujarat_test_sites.geojson"))
     ap.add_argument("--out", default=str(REPO / "data" / "gujarat_results"))
     ap.add_argument("--min-found-pixels", type=int, default=1)
-    ap.add_argument("--min-found-share", type=float, default=0.0)
+    ap.add_argument("--min-found-share", type=float, default=0.5)
     ap.add_argument("--min-alarm-ha", type=float, default=1.0)
     ap.add_argument("--top-alarms", type=int, default=100)
     ap.add_argument("--allow-unfrozen", action="store_true", help="for testing on made-up data only")
@@ -58,7 +58,7 @@ def main():
 
     tags = freeze_tags()
     if not tags and not args.allow_unfrozen:
-        sys.exit("This commit has no freeze tag. Tag and push the freeze first (docs/freeze_draft.md).")
+        sys.exit("This commit has no freeze tag. Tag and push the freeze first (docs/freeze.md).")
     try:
         import rasterio
         from rasterio.features import geometry_mask
