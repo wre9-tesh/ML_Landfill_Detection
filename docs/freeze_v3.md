@@ -53,4 +53,21 @@ Sentinel-2 system (Kruse et al. 2023) relied on: a second date and the pixel's s
 
 ## Frozen model
 
-To be filled in after training: selected model, held-out-region scores, commit and tag `freeze-v3`.
+Filled in on 15 November 2026, after training and before any Gujarat scoring.
+
+- **Selected:** gradient boosting (scikit-learn defaults, balanced sample weights), the best
+  mean F1 on the held-out-region split. Threshold 0.5. Trained on 34,345 points with all 26
+  features (985 left out for a missing value).
+- **Held-out region:** precision 0.694, recall 0.865, F1 0.762 (SD 0.044 across six regions).
+  Version 2's random forest had 0.827, 0.692 and 0.739 (SD 0.115) on twelve features.
+- **Random forest on the 26 features:** F1 0.736, against 0.739 on twelve. The new features
+  did not help the model version 2 used.
+- **Feature importance in the frozen model:** `LST_anom` 0.71; the fourteen new features
+  together 0.13, led by `NDVI_w` (0.05) and `B2_w` (0.03).
+- **Background flagged in validation:** 2 to 12% of near-site background points and 2 to 4% of
+  random points, by region. Version 2's forest flagged about 1% of each. A larger flagged
+  share than version 2's 1.8% is therefore expected in Gujarat.
+- **Expectation, written before scoring:** the gain in F1 is within one fold SD of version 2
+  and comes with lower precision. A clear improvement in Gujarat is not expected.
+- **Files:** `data/results_v3/` (`model.joblib`, `model.json`, `selection.json`, `results.md`).
+  Tag `freeze-v3` on the commit that adds this section.
