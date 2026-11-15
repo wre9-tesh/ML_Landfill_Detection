@@ -102,7 +102,9 @@ Plan: (1) `scripts/build_background_v2.py` adds 25,800 background points in the 
 - **Scored Nov 15:** 16/17 found (Rajkot missed at 49%), 8 sealed sites in the top 100 patches (v2: 4), 5.2% flagged, 7,801 alarms; meets the pre-set improvement rule. The unseen Surendranagar landfill is alarm rank 4 (blind id A065). The user is blind-checking the top 100 in `data/gujarat_results_v3/blind_check.csv`.
 - **Pin removed:** the user removed Surat LF-3 (PIN-01) from `labels/gujarat_test_sites.csv` on Nov 15 and wants it left out (no outline, never scored). The Surat box from the current list is 2.7 km narrower than the exported files; do not re-export Surat without the old box.
 - **Pivot agreed Nov 15:** present the project as a diagnostic study (why pixel-based detection fails or works), organised around five questions; see `scripts/diagnostics.py`.
-- **After version 3, whatever it shows:** option A (write up, website, README, refresh the guide PDFs).
+- **Training-side diagnostics done Nov 15** (`data/analysis/diagnostics.md`, `figures/diag_*`): 73% of landfill points have a landfill-majority neighbourhood against 1% of ordinary land and 5–8% of look-alikes; `LST_anom` is the best single feature; SHAP share is 90% pre-monsoon spectral in v1, a third thermal in v2 and v3, a third winter plus surroundings in v3.
+- **Guides rewritten Nov 15** for the three versions and the diagnostic framing (`docs/guide/*.html`, rendered with `node docs/guide/render.js`). They mark the v3 hand check and the alarm diagnostics as pending; refresh both once those are in.
+- **Remaining (deadline Tue Nov 17):** user finishes the v3 blind check and runs `scripts/alarm_diagnostics.py`; then a three-version comparison table and figure, `depth_analysis.py` extended to v2 and v3, paper (user writes; tables and figures from here), static website on GitHub Pages, README with run order, environment file, clean-clone check, final guide refresh. Version 3 is the last model.
 
 ## Website
 

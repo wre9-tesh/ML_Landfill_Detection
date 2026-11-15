@@ -39,5 +39,6 @@ pre { font-family: "DejaVu Sans Mono", monospace; font-size: 8.4pt; background: 
 .small { font-size: 8.8pt; color: var(--muted); }
 .pb { break-before: page; }
 dl.gloss { columns: 2; column-gap: 22pt; }
-dl.gloss dt { font-weight: 700; margin-top: 6pt; break-after: avoid; }
-dl.gloss dd { margin: 0 0 2pt 0; break-before: avoid; }
+dl.gloss div { break-inside: avoid; margin-bottom: 5pt; }
+dl.gloss dt { font-weight: 700; }
+dl.gloss dd { margin: 0; }
