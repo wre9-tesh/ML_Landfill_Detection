@@ -53,6 +53,8 @@ def main():
     ap.add_argument("--buffer-km", type=float, default=15)
     ap.add_argument("--drive-folder", default="landfill_gujarat")
     ap.add_argument("--stack", choices=list(STACKS), default="base")
+    ap.add_argument("--add-box", action="append", default=[], metavar="CITY,LAT,LON",
+                    help="export an extra box around a point (buffered by --buffer-km), without touching the sites CSV; repeatable")
     ap.add_argument("--only", help="comma-separated cities, to redo some of them")
     ap.add_argument("--dry-run", action="store_true", help="print the boxes and stop")
     ap.add_argument("--status", action="store_true", help="show the state of the export tasks and stop")
@@ -62,6 +64,12 @@ def main():
     params = dict(PARAMS, **more)
     prefix = "gujarat_" if args.stack == "base" else "gujaratx_"
     boxes = city_boxes(args.sites, args.buffer_km)
+    for spec in args.add_box:
+        name, lat, lon = spec.rsplit(",", 2)
+        lat, lon = float(lat), float(lon)
+        dy = args.buffer_km / 111.32
+        dx = args.buffer_km / (111.32 * math.cos(math.radians(lat)))
+        boxes[name.strip()] = (lon - dx, lat - dy, lon + dx, lat + dy)
     if args.only:
         want = {c.strip().lower() for c in args.only.split(",")}
         boxes = {c: b for c, b in boxes.items() if c.lower() in want}
@@ -106,6 +114,11 @@ def main():
         print(f"  started {name} ({task.id})")
     out = REPO / "data" / ("gujarat" if args.stack == "base" else "gujarat_x")
     out.mkdir(parents=True, exist_ok=True)
+    old = {}
+    if (out / "export_meta.json").exists():
+        old = json.loads((out / "export_meta.json").read_text(encoding="utf-8"))
+    boxes = {**old.get("boxes_wsen", {}), **boxes}
+    tasks = {**old.get("tasks", {}), **tasks}
     meta = {"created_utc": datetime.now(timezone.utc).isoformat(timespec="seconds"), "buffer_km": args.buffer_km,
             "crs": CRS, "bands": bands, "params": params, "drive_folder": args.drive_folder,
             "boxes_wsen": boxes, "tasks": tasks}
