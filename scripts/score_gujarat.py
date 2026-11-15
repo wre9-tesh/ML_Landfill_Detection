@@ -31,8 +31,10 @@ Version 3 (--version 3, tag freeze-v3) also reads the ten extra bands from
 data/gujarat_x/gujaratx_<city>.tif, which must sit on the same grid as data/gujarat/, works
 out the four differences the model was trained with, and ranks alarms by mean score.
 
-The script refuses to run unless the current commit carries a tag starting with "freeze",
-so that Gujarat cannot be scored by accident before the freeze.
+The script refuses to run unless the model is frozen: either the current commit carries the
+tag freeze-vN, or that tag is an earlier commit and the model file has not changed since. So
+Gujarat cannot be scored by accident before the freeze, and a later rerun on the main branch
+still uses exactly the tagged model.
 """
 import argparse
 import csv
@@ -48,9 +50,22 @@ import numpy as np
 from geoutil import REPO
 
 
-def freeze_tags():
-    out = subprocess.run(["git", "tag", "--points-at", "HEAD"], capture_output=True, text=True, cwd=REPO)
-    return [t for t in out.stdout.split() if t.lower().startswith("freeze")]
+def freeze_tags(model_path=None):
+    """Freeze tags that vouch for this commit: on it, or earlier with the model file unchanged since."""
+    def git(*a):
+        return subprocess.run(["git", *a], capture_output=True, text=True, cwd=REPO)
+    here = [t for t in git("tag", "--points-at", "HEAD").stdout.split() if t.lower().startswith("freeze")]
+    earlier = []
+    if model_path:
+        for t in git("tag", "--merged", "HEAD").stdout.split():
+            if t.lower().startswith("freeze") and t not in here:
+                files = [str(Path(model_path)), str(Path(model_path).with_suffix(".json"))]
+                same = git("diff", "--quiet", t, "--", *files).returncode == 0
+                tracked = git("cat-file", "-e", f"{t}:{Path(model_path).resolve().relative_to(REPO).as_posix()}").returncode == 0 \
+                    if Path(model_path).resolve().is_relative_to(REPO) else False
+                if same and tracked:
+                    earlier.append(t)
+    return here + earlier
 
 
 def main():
@@ -74,7 +89,7 @@ def main():
     args.model = args.model or str(REPO / "data" / f"results{suffix}" / "model.joblib")
     args.out = args.out or str(REPO / "data" / f"gujarat_results{suffix}")
     args.rank_by = args.rank_by or ("area_score" if args.version == 2 else "mean_score")
-    tags = [t for t in freeze_tags() if args.version == 1 or t.lower().startswith(f"freeze-v{args.version}")]
+    tags = [t for t in freeze_tags(args.model) if t.lower().startswith(f"freeze-v{args.version}")]
     if not tags and not args.allow_unfrozen:
         sys.exit(f"This commit has no freeze tag for version {args.version}. Tag and push the freeze first.")
     try:

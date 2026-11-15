@@ -16,6 +16,9 @@ overlap; the scoring script counts each pixel once.
 Version 3 needs a second set of files with the ten extra bands, on the same grid:
     python scripts/gee_export_gujarat.py --project YOUR-CLOUD-PROJECT --stack extra
 They are named gujaratx_<city>.tif; download them into data/gujarat_x/.
+
+To export exactly the boxes that were scored for the reported results (the Surat box as first
+drawn, and the extra Surendranagar box), add --boxes labels/gujarat_boxes.json.
 """
 import argparse
 import csv
@@ -53,6 +56,8 @@ def main():
     ap.add_argument("--buffer-km", type=float, default=15)
     ap.add_argument("--drive-folder", default="landfill_gujarat")
     ap.add_argument("--stack", choices=list(STACKS), default="base")
+    ap.add_argument("--boxes", help="JSON file with the boxes to export, {name: [west, south, east, north]}; "
+                    "labels/gujarat_boxes.json holds the boxes that were scored, for an exact rerun")
     ap.add_argument("--add-box", action="append", default=[], metavar="NAME,LAT,LON",
                     help="also export a box around this point (not a sealed site), e.g. Surendranagar,22.7418,71.5922")
     ap.add_argument("--only", help="comma-separated cities, to redo some of them")
@@ -64,6 +69,8 @@ def main():
     params = dict(PARAMS, **more)
     prefix = "gujarat_" if args.stack == "base" else "gujaratx_"
     boxes = city_boxes(args.sites, args.buffer_km)
+    if args.boxes:
+        boxes = {k: tuple(v) for k, v in json.loads(open(args.boxes, encoding="utf-8").read())["boxes_wsen"].items()}
     for spec in args.add_box:
         name, lat, lon = spec.split(",")
         dy = args.buffer_km / 111.32

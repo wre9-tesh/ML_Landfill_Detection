@@ -42,3 +42,10 @@ dl.gloss { columns: 2; column-gap: 22pt; }
 dl.gloss div { break-inside: avoid; margin-bottom: 5pt; }
 dl.gloss dt { font-weight: 700; }
 dl.gloss dd { margin: 0; }
+pre.cmd { background: #f2f4f7; border-left: 3pt solid var(--accent); }
+pre.out { background: #fbfaf3; border-left: 3pt solid #b9a04a; color: #3a3f47; }
+.cap { font-size: 8.2pt; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: var(--muted); margin: 8pt 0 1pt; break-after: avoid; }
+table.facts { width: auto; min-width: 60%; }
+table.facts td:first-child { font-weight: 600; white-space: nowrap; }
+ol.inside li { margin-bottom: 4pt; }
+table.long, pre.long { break-inside: auto; }

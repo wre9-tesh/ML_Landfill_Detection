@@ -1,9 +1,9 @@
-// Render the two guides to PDF:  node docs/guide/render.js
+// Render the guides to PDF:  node docs/guide/render.js
 const { chromium } = require('playwright');
 const path = require('path');
 (async () => {
   const browser = await chromium.launch();
-  for (const name of ['project_guide_technical', 'project_guide_plain']) {
+  for (const name of ['project_guide_technical', 'project_guide_grader', 'project_guide_plain']) {
     const page = await browser.newPage();
     await page.goto('file://' + path.join(__dirname, name + '.html'));
     const title = await page.title();

@@ -1,0 +1,11 @@
+# Versions used to train and freeze the three models (Python 3.13).
+# scikit-learn is pinned exactly: a saved model should be opened with the version that wrote it.
+scikit-learn==1.9.1
+numpy==2.5.3
+pandas==3.0.5
+scipy==1.18.1
+joblib==1.6.0
+rasterio==1.5.2
+matplotlib==3.11.2
+shap==0.54.1
+earthengine-api==1.7.52

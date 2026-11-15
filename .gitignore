@@ -2,3 +2,5 @@ __pycache__/
 *.pyc
 data/gujarat/*.tif
 data/gujarat_x/*.tif
+rep/
+.venv/
