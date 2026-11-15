@@ -1,5 +1,5 @@
 {
-  "created_utc": "2026-11-11T21:23:26+00:00",
+  "created_utc": "2026-11-15T10:39:24+00:00",
   "buffer_km": 15,
   "crs": "EPSG:32643",
   "bands": [
@@ -120,6 +120,12 @@
       20.232049323751347,
       73.02784426613312,
       20.501542676248654
+    ],
+    "Surendranagar": [
+      71.44609454622783,
+      22.607053323751348,
+      71.73830545377218,
+      22.876546676248655
     ]
   },
   "tasks": {
@@ -135,6 +141,7 @@
     "Rajkot": "JTPI3H5EHKNBR3D5DH2BQJZE",
     "Surat": "W6ZBZSLXWKHM5ZEPEXRGMWIX",
     "Vadodara": "E34EHKTZKEPFNL6Q5MHJI53F",
-    "Vapi": "UCREKFSW73OQUMGQNLVCMPRU"
+    "Vapi": "UCREKFSW73OQUMGQNLVCMPRU",
+    "Surendranagar": "4AMAI6F4XK4GY4H4VY34HPA4"
   }
 }
