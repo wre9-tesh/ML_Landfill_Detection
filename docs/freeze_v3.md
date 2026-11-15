@@ -71,3 +71,13 @@ Filled in on 15 November 2026, after training and before any Gujarat scoring.
   and comes with lower precision. A clear improvement in Gujarat is not expected.
 - **Files:** `data/results_v3/` (`model.joblib`, `model.json`, `selection.json`, `results.md`).
   Tag `freeze-v3` on the commit that adds this section.
+
+## Gujarat result
+
+Scored on 15 November 2026 at the `freeze-v3` commit (87d1546); outputs in `data/gujarat_results_v3/`.
+
+- **Found:** 16 of 17 sealed sites (recall 0.941). Surat LF-3 is not counted (no outline).
+- **Ranking:** 5 sealed sites among the top 50 alarm patches, 8 among the top 100 (version 2: 4).
+- **Alarms:** 7,801 patches; 5.18% of 12,854 km² scored was flagged.
+- **Rule from above:** more than 4 sites in the top 100 and at least 15 of 17 found, so version 3 counts as an improvement.
+- **Note:** the scored area includes a Surendranagar box that is not a sealed site, so its alarms are in the ranking.

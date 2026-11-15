@@ -1,0 +1,25 @@
+{
+  "freeze_tags": [
+    "freeze-v3"
+  ],
+  "model": "gradient_boosting",
+  "threshold": 0.5,
+  "min_found_pixels": 1,
+  "min_found_share": 0.5,
+  "min_alarm_ha": 1.0,
+  "rank_by": "mean_score",
+  "patches_with_sites_left_in": 7796,
+  "site_patches_in_top_50": 5,
+  "site_patches_in_top_100": 8,
+  "sites_counted": 17,
+  "sites_found": 16,
+  "site_recall": 0.9412,
+  "sites_not_counted": {
+    "PIN-01": "no_outline"
+  },
+  "pixels_scored": 128541406,
+  "pixels_flagged": 6662452,
+  "share_flagged": 0.05183,
+  "area_scored_km2": 12854.1,
+  "alarms": 7801
+}
