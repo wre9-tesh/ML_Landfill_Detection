@@ -1,0 +1,60 @@
+{
+  "model": "gradient_boosting",
+  "features": [
+    "B2",
+    "B3",
+    "B4",
+    "B8",
+    "B11",
+    "NDVI",
+    "NDBI",
+    "BSI",
+    "LST",
+    "LST_anom",
+    "elev",
+    "slope",
+    "B2_w",
+    "B11_w",
+    "NDVI_w",
+    "NDBI_w",
+    "BSI_w",
+    "NDVI_ctx",
+    "NDBI_ctx",
+    "BSI_ctx",
+    "NDVI_sd",
+    "B11_sd",
+    "dNDVI",
+    "dBSI",
+    "NDVI_rel",
+    "NDBI_rel"
+  ],
+  "threshold": 0.5,
+  "trained_on_points": 34345,
+  "feature_tables": [
+    "data/features/features.csv",
+    "data/features_v2/features.csv"
+  ],
+  "extra_tables": [
+    "data/features_v3/main/features.csv",
+    "data/features_v3/background/features.csv"
+  ],
+  "derived": {
+    "dNDVI": [
+      "NDVI_w",
+      "NDVI"
+    ],
+    "dBSI": [
+      "BSI_w",
+      "BSI"
+    ],
+    "NDVI_rel": [
+      "NDVI",
+      "NDVI_ctx"
+    ],
+    "NDBI_rel": [
+      "NDBI",
+      "NDBI_ctx"
+    ]
+  },
+  "scikit_learn": "1.9.1"
+}

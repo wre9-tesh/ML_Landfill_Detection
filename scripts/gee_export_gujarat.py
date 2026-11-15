@@ -53,8 +53,8 @@ def main():
     ap.add_argument("--buffer-km", type=float, default=15)
     ap.add_argument("--drive-folder", default="landfill_gujarat")
     ap.add_argument("--stack", choices=list(STACKS), default="base")
-    ap.add_argument("--add-box", action="append", default=[], metavar="CITY,LAT,LON",
-                    help="export an extra box around a point (buffered by --buffer-km), without touching the sites CSV; repeatable")
+    ap.add_argument("--add-box", action="append", default=[], metavar="NAME,LAT,LON",
+                    help="also export a box around this point (not a sealed site), e.g. Surendranagar,22.7418,71.5922")
     ap.add_argument("--only", help="comma-separated cities, to redo some of them")
     ap.add_argument("--dry-run", action="store_true", help="print the boxes and stop")
     ap.add_argument("--status", action="store_true", help="show the state of the export tasks and stop")
@@ -65,11 +65,10 @@ def main():
     prefix = "gujarat_" if args.stack == "base" else "gujaratx_"
     boxes = city_boxes(args.sites, args.buffer_km)
     for spec in args.add_box:
-        name, lat, lon = spec.rsplit(",", 2)
-        lat, lon = float(lat), float(lon)
+        name, lat, lon = spec.split(",")
         dy = args.buffer_km / 111.32
-        dx = args.buffer_km / (111.32 * math.cos(math.radians(lat)))
-        boxes[name.strip()] = (lon - dx, lat - dy, lon + dx, lat + dy)
+        dx = args.buffer_km / (111.32 * math.cos(math.radians(float(lat))))
+        boxes[name.strip()] = (float(lon) - dx, float(lat) - dy, float(lon) + dx, float(lat) + dy)
     if args.only:
         want = {c.strip().lower() for c in args.only.split(",")}
         boxes = {c: b for c, b in boxes.items() if c.lower() in want}
@@ -122,7 +121,7 @@ def main():
     meta = {"created_utc": datetime.now(timezone.utc).isoformat(timespec="seconds"), "buffer_km": args.buffer_km,
             "crs": CRS, "bands": bands, "params": params, "drive_folder": args.drive_folder,
             "boxes_wsen": boxes, "tasks": tasks}
-    (out / "export_meta.json").write_text(json.dumps(meta, indent=2) + "\n", encoding="utf-8")
+    (out / ("export_meta.json" if not args.add_box else "export_meta_added.json")).write_text(json.dumps(meta, indent=2) + "\n", encoding="utf-8")
     print(f"wrote {out / 'export_meta.json'}; check progress with --status")
     return 0
 

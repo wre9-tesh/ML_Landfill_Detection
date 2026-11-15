@@ -97,6 +97,8 @@ Plan: (1) `scripts/build_background_v2.py` adds 25,800 background points in the 
 - **Run order (user's machine):** `gee_features.py --stack extra` twice (main points, background points) into `data/features_v3/`; `gee_export_gujarat.py --stack extra` to Drive, download to `data/gujarat_x/`; push the feature tables; then train with `run_models.py --extra ... --out data/results_v3`, freeze, tag `freeze-v3`, `score_gujarat.py --version 3`.
 - **Scored area:** the 13 boxes cover 11,914 km², about 6% of Gujarat. Empty parts of the alarm map are unscored, not clean.
 - **Literature found Nov 14:** Kruse et al. 2023 (PLOS ONE, Sentinel-2) is the only field-verified 10 m result: 53% of candidates confirmed by a human, using a pixel network, a patch network, two dates and retraining on false alarms. Bhajantri & Mandpe 2026 (journal version now in hand) did not verify its 60 new sites.
+- **Trained and frozen Nov 15 (tag `freeze-v3`):** gradient boosting, held-out-region F1 0.762 (P 0.694, R 0.865) vs v2 forest 0.739. Flags more background in validation than v2; `LST_anom` carries 71% of importance, the new features 13%. Not expected to be a clear improvement. Waiting for the user to run `score_gujarat.py --version 3`.
+- **Surendranagar (22.7418, 71.5922):** a known landfill in neither training nor the sealed list; exported as a 14th box with `--add-box`. Report separately as one unseen site. Its presence in `data/gujarat/` would change v1/v2 numbers if those were rescored.
 - **After version 3, whatever it shows:** option A (write up, website, README, refresh the guide PDFs).
 
 ## Website
