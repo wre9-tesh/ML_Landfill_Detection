@@ -1,0 +1,27 @@
+feature,group,v1,v2,v3
+B2,pre-monsoon spectral,0.1691,0.1403,0.0841
+B3,pre-monsoon spectral,0.2605,0.0388,0.019
+B4,pre-monsoon spectral,0.0721,0.0322,0.014
+B8,pre-monsoon spectral,0.0344,0.036,0.0044
+B11,pre-monsoon spectral,0.0119,0.0446,0.0269
+NDVI,pre-monsoon spectral,0.0641,0.1305,0.0529
+NDBI,pre-monsoon spectral,0.1384,0.0973,0.068
+BSI,pre-monsoon spectral,0.1488,0.0597,0.0074
+LST,thermal,0.0003,0.0401,0.0163
+LST_anom,thermal,0.0781,0.3145,0.3274
+elev,terrain,0.0088,0.0428,0.0347
+slope,terrain,0.0135,0.0231,0.0094
+B2_w,winter spectral,0.0,0.0,0.0757
+B11_w,winter spectral,0.0,0.0,0.0234
+NDVI_w,winter spectral,0.0,0.0,0.0542
+NDBI_w,winter spectral,0.0,0.0,0.0085
+BSI_w,winter spectral,0.0,0.0,0.0055
+NDVI_ctx,surroundings,0.0,0.0,0.0232
+NDBI_ctx,surroundings,0.0,0.0,0.0411
+BSI_ctx,surroundings,0.0,0.0,0.0338
+NDVI_sd,surroundings,0.0,0.0,0.0285
+B11_sd,surroundings,0.0,0.0,0.0069
+dNDVI,seasonal change,0.0,0.0,0.0034
+dBSI,seasonal change,0.0,0.0,0.0025
+NDVI_rel,surroundings,0.0,0.0,0.0101
+NDBI_rel,surroundings,0.0,0.0,0.0185

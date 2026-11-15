@@ -99,6 +99,9 @@ Plan: (1) `scripts/build_background_v2.py` adds 25,800 background points in the 
 - **Literature found Nov 14:** Kruse et al. 2023 (PLOS ONE, Sentinel-2) is the only field-verified 10 m result: 53% of candidates confirmed by a human, using a pixel network, a patch network, two dates and retraining on false alarms. Bhajantri & Mandpe 2026 (journal version now in hand) did not verify its 60 new sites.
 - **Trained and frozen Nov 15 (tag `freeze-v3`):** gradient boosting, held-out-region F1 0.762 (P 0.694, R 0.865) vs v2 forest 0.739. Flags more background in validation than v2; `LST_anom` carries 71% of importance, the new features 13%. Not expected to be a clear improvement. Waiting for the user to run `score_gujarat.py --version 3`.
 - **Surendranagar (22.7418, 71.5922):** a known landfill in neither training nor the sealed list; exported as a 14th box with `--add-box`. Report separately as one unseen site. Its presence in `data/gujarat/` would change v1/v2 numbers if those were rescored.
+- **Scored Nov 15:** 16/17 found (Rajkot missed at 49%), 8 sealed sites in the top 100 patches (v2: 4), 5.2% flagged, 7,801 alarms; meets the pre-set improvement rule. The unseen Surendranagar landfill is alarm rank 4 (blind id A065). The user is blind-checking the top 100 in `data/gujarat_results_v3/blind_check.csv`.
+- **Pin removed:** the user removed Surat LF-3 (PIN-01) from `labels/gujarat_test_sites.csv` on Nov 15 and wants it left out (no outline, never scored). The Surat box from the current list is 2.7 km narrower than the exported files; do not re-export Surat without the old box.
+- **Pivot agreed Nov 15:** present the project as a diagnostic study (why pixel-based detection fails or works), organised around five questions; see `scripts/diagnostics.py`.
 - **After version 3, whatever it shows:** option A (write up, website, README, refresh the guide PDFs).
 
 ## Website

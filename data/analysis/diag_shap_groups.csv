@@ -1,0 +1,4 @@
+version,thermal,terrain,pre-monsoon spectral,winter spectral,surroundings,seasonal change
+v1 (logistic regression),0.0784,0.0223,0.8993,0.0,0.0,0.0
+v2 (random forest),0.3546,0.0659,0.5795,0.0,0.0,0.0
+v3 (gradient boosting),0.3437,0.0441,0.2767,0.1674,0.1622,0.0059

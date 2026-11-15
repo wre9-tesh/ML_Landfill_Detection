@@ -1,0 +1,4 @@
+version,Landfill,Near-site background,Random background,Bare soil,Quarry,Ash pond
+v1 (logistic regression),0.89,,0.051,0.3896,0.425,0.1979
+v2 (random forest),0.7185,0.0185,0.0113,0.0646,0.0583,0.0677
+v3 (gradient boosting),0.8637,0.0499,0.0324,0.1628,0.2,0.1222

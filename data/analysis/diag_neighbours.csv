@@ -1,0 +1,13 @@
+class,features,points,mean landfill share among neighbours,points with a landfill majority
+Landfill,12 features,3853,0.6858,0.7363
+Near-site background,12 features,24989,0.0298,0.0176
+Random background,12 features,3764,0.0218,0.0109
+Bare soil,12 features,479,0.1017,0.0919
+Quarry,12 features,360,0.1207,0.0806
+Ash pond,12 features,900,0.077,0.0633
+Landfill,26 features,3853,0.7036,0.7337
+Near-site background,26 features,24989,0.0271,0.0123
+Random background,26 features,3764,0.0188,0.0093
+Bare soil,26 features,479,0.093,0.0793
+Quarry,26 features,360,0.12,0.075
+Ash pond,26 features,900,0.0664,0.0478
