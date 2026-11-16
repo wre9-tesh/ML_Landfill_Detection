@@ -227,17 +227,17 @@
  "diag.pc1": {
   "s": "36%",
   "src": "computed as in data/analysis/diagnostics.md",
-  "v": 0.3633544642823859
+  "v": 0.36335446428238605
  },
  "diag.pc12": {
   "s": "50%",
   "src": "computed as in data/analysis/diagnostics.md",
-  "v": 0.49862381436523756
+  "v": 0.4986238143652376
  },
  "diag.pc2": {
   "s": "14%",
   "src": "computed as in data/analysis/diagnostics.md",
-  "v": 0.13526935008285168
+  "v": 0.1352693500828516
  },
  "diag.shap_premonsoon": {
   "s": "28%",

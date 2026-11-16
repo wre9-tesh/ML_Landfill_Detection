@@ -1,0 +1,7 @@
+﻿test_id,city,site_name,lat,lon,area_ha,geometry,state_iso,state_method,folder,notes
+GJ01,Junagadh,palasava LF,21.455361,70.438627,6.327,polygon,IN-GJ,inside,,
+GJ02,Navsari,Jalalpore LF,20.956412,72.903631,1.656,polygon,IN-GJ,inside,,
+GJ03,Porbandar,birla LF ( exact area unsure),21.600824,69.645789,2.465,polygon,IN-GJ,inside,,
+GJ04,Viramgam,Viramgam STP LF,23.125458,72.064238,1.227,polygon,IN-GJ,inside,,
+GJ05,Palanpur,Khedu LF,24.17833,72.45048,1.265,polygon,IN-GJ,inside,,
+GJ06,Himatnagar,motipura LF,23.575401,72.952996,2.913,polygon,IN-GJ,inside,,

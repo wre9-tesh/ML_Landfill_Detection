@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2" xmlns:gx="http://www.google.com/kml/ext/2.2" xmlns:kml="http://www.opengis.net/kml/2.2" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:ex="http://earth.google.com/kml/ext">
+<Document id="1IBQKPNgWJYQarCZz4EVKzGSrN21a3u94">
+	<ex:extension>base64;Co4BCoEBCn8KAggBEnkKdwokCiAKAwjQDxoHCNLtZRD_ASEAAAAAAADwPykAAAAAAAAAABgAEg8KCAitgO8HEP8BEKAfGAAaGgoHCP___wcQQBIICK2A7wcQ_wEYoB8gACgAIgkIARIFCP___wcqFwgBEggI____BxD_ARkAAAAAAADwPyAAEgQIARAAGgIIAA</ex:extension>
+	<name>Gujarat new sites</name>
+	<gx:CascadingStyle kml:id="__managed_style_0ACECB3E67431A5ECF86_highlight">
+		<ex:extension>base64;EgIYAQ</ex:extension>
+		<Style>
+			<IconStyle>
+				<scale>1.2</scale>
+				<Icon>
+					<href>https://earth.google.com/earth/document/icon?color=1976d2&amp;id=2000&amp;scale=4</href>
+				</Icon>
+				<hotSpot x="64" y="128" xunits="pixels" yunits="insetPixels"/>
+			</IconStyle>
+			<LabelStyle>
+			</LabelStyle>
+			<LineStyle>
+				<color>ff2dc0fb</color>
+				<width>3.63636</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>40ffffff</color>
+			</PolyStyle>
+			<BalloonStyle>
+			</BalloonStyle>
+		</Style>
+	</gx:CascadingStyle>
+	<gx:CascadingStyle kml:id="__managed_style_0ACECB3E67431A5ECF86_normal">
+		<ex:extension>base64;EgIYAQ</ex:extension>
+		<Style>
+			<IconStyle>
+				<Icon>
+					<href>https://earth.google.com/earth/document/icon?color=1976d2&amp;id=2000&amp;scale=4</href>
+				</Icon>
+				<hotSpot x="64" y="128" xunits="pixels" yunits="insetPixels"/>
+			</IconStyle>
+			<LabelStyle>
+			</LabelStyle>
+			<LineStyle>
+				<color>ff2dc0fb</color>
+				<width>2.42424</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>40ffffff</color>
+			</PolyStyle>
+			<BalloonStyle>
+			</BalloonStyle>
+		</Style>
+	</gx:CascadingStyle>
+	<gx:CascadingStyle kml:id="__managed_style_094DF0BD63431A5ECF88_normal">
+		<ex:extension>base64;EgIYAQ</ex:extension>
+		<Style>
+			<IconStyle>
+				<Icon>
+					<href>https://earth.google.com/earth/document/icon?color=1976d2&amp;id=2000&amp;scale=4</href>
+				</Icon>
+				<hotSpot x="64" y="128" xunits="pixels" yunits="insetPixels"/>
+			</IconStyle>
+			<LabelStyle>
+			</LabelStyle>
+			<LineStyle>
+				<color>ff2dc0fb</color>
+				<width>2.42424</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>40ffffff</color>
+			</PolyStyle>
+			<BalloonStyle>
+			</BalloonStyle>
+		</Style>
+	</gx:CascadingStyle>
+	<StyleMap id="__managed_style_0ACECB3E67431A5ECF86">
+		<Pair>
+			<key>normal</key>
+			<styleUrl>#__managed_style_0ACECB3E67431A5ECF86_normal</styleUrl>
+		</Pair>
+		<Pair>
+			<key>highlight</key>
+			<styleUrl>#__managed_style_0ACECB3E67431A5ECF86_highlight</styleUrl>
+		</Pair>
+	</StyleMap>
+	<gx:CascadingStyle kml:id="__managed_style_094DF0BD63431A5ECF88_highlight">
+		<ex:extension>base64;EgIYAQ</ex:extension>
+		<Style>
+			<IconStyle>
+				<scale>1.2</scale>
+				<Icon>
+					<href>https://earth.google.com/earth/document/icon?color=1976d2&amp;id=2000&amp;scale=4</href>
+				</Icon>
+				<hotSpot x="64" y="128" xunits="pixels" yunits="insetPixels"/>
+			</IconStyle>
+			<LabelStyle>
+			</LabelStyle>
+			<LineStyle>
+				<color>ff2dc0fb</color>
+				<width>3.63636</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>40ffffff</color>
+			</PolyStyle>
+			<BalloonStyle>
+			</BalloonStyle>
+		</Style>
+	</gx:CascadingStyle>
+	<StyleMap id="__managed_style_094DF0BD63431A5ECF88">
+		<Pair>
+			<key>normal</key>
+			<styleUrl>#__managed_style_094DF0BD63431A5ECF88_normal</styleUrl>
+		</Pair>
+		<Pair>
+			<key>highlight</key>
+			<styleUrl>#__managed_style_094DF0BD63431A5ECF88_highlight</styleUrl>
+		</Pair>
+	</StyleMap>
+	<Placemark id="07C32574EB431A4EFE64">
+		<name>Junagadh | palasava LF</name>
+		<LookAt>
+			<longitude>70.43827937557352</longitude>
+			<latitude>21.45582495911776</latitude>
+			<altitude>79.05054520572983</altitude>
+			<heading>352.520723206635</heading>
+			<tilt>0</tilt>
+			<gx:fovy>35</gx:fovy>
+			<range>736.34556380086</range>
+			<altitudeMode>absolute</altitudeMode>
+		</LookAt>
+		<styleUrl>#__managed_style_094DF0BD63431A5ECF88</styleUrl>
+		<Polygon>
+			<outerBoundaryIs>
+				<LinearRing>
+					<coordinates>
+						70.43783931617463,21.45627746214169,0 70.43802291424743,21.45578273545829,0 70.4378897767227,21.45555732194897,0 70.43777201340079,21.45543308563507,0 70.43737109681187,21.45534003102001,0 70.43738845158587,21.45497227407127,0 70.43661384358907,21.45477346899428,0 70.43662247648911,21.45432582206002,0 70.43681287006828,21.45409837318189,0 70.4371651159758,21.45400393054033,0 70.4374270658015,21.45427924767507,0 70.4380252747477,21.45443805144105,0 70.43851878987564,21.45439679441187,0 70.43921571567823,21.4545487172689,0 70.43943970920567,21.45452422997808,0 70.43961407495422,21.45454313795861,0 70.44031990842164,21.45550212683594,0 70.43945583570299,21.45686721400025,0 70.43783931617463,21.45627746214169,0 
+					</coordinates>
+				</LinearRing>
+			</outerBoundaryIs>
+		</Polygon>
+	</Placemark>
+	<Placemark id="08D496D48A431A55D336">
+		<name>Navsari | Jalalpore LF</name>
+		<LookAt>
+			<longitude>72.90358159671673</longitude>
+			<latitude>20.95582912244513</latitude>
+			<altitude>23.23898078260451</altitude>
+			<heading>164.6909223567341</heading>
+			<tilt>0</tilt>
+			<gx:fovy>35</gx:fovy>
+			<range>530.2484033754445</range>
+			<altitudeMode>absolute</altitudeMode>
+		</LookAt>
+		<styleUrl>#__managed_style_0ACECB3E67431A5ECF86</styleUrl>
+		<Polygon>
+			<outerBoundaryIs>
+				<LinearRing>
+					<coordinates>
+						72.90445797182625,20.95588371396519,0 72.90360364630517,20.95594490998987,0 72.90351247190267,20.95621395341413,0 72.90355504211074,20.95651591080749,0 72.90447082813803,20.95656689126227,0 72.90444639158679,20.95712875740483,0 72.90417965693125,20.95711634409515,0 72.90402103355865,20.95704356165447,0 72.90367711532282,20.95693838024529,0 72.90360750233877,20.9568498491393,0 72.90332550539959,20.95693494492085,0 72.90298923185908,20.95690616141803,0 72.90287048903791,20.95694933968769,0 72.90263278591254,20.95687570400336,0 72.90246944247789,20.95679834626178,0 72.90242809753646,20.95663357334831,0 72.90244424261228,20.9565093862343,0 72.90284317222448,20.956441872502,0 72.90350336670305,20.95648882178336,0 72.90343619318493,20.95639771352391,0 72.90335819810571,20.95625954314737,0 72.90319668338535,20.95593061804222,0 72.90347378035798,20.95571331161137,0 72.90365545770555,20.95565777874634,0 72.9039179574701,20.95556328210064,0 72.9040862212107,20.95545801750009,0 72.90427760833869,20.95539777107258,0 72.90434014735028,20.95550522134761,0 72.9045424855634,20.95576600947573,0 72.90454118545966,20.95585684203915,0 72.90445797182625,20.95588371396519,0 
+					</coordinates>
+				</LinearRing>
+			</outerBoundaryIs>
+		</Polygon>
+	</Placemark>
+	<Placemark id="030F64F978431A5C0B66">
+		<name>Porbandar | birla LF ( exact area unsure)</name>
+		<LookAt>
+			<longitude>69.64558398628337</longitude>
+			<latitude>21.60021400450755</latitude>
+			<altitude>26.04518808297919</altitude>
+			<heading>118.8434327668587</heading>
+			<tilt>0.4658248164310003</tilt>
+			<gx:fovy>35</gx:fovy>
+			<range>657.2225240792613</range>
+			<altitudeMode>absolute</altitudeMode>
+		</LookAt>
+		<styleUrl>#__managed_style_0ACECB3E67431A5ECF86</styleUrl>
+		<Polygon>
+			<outerBoundaryIs>
+				<LinearRing>
+					<coordinates>
+						69.64407154107494,21.60167993282856,0 69.64490311743721,21.60090301639539,0 69.64564044489026,21.60078028241485,0 69.64621938453577,21.60010056451275,0 69.64611166933965,21.59963714026475,0 69.64686434873323,21.59990208298194,0 69.64709128102416,21.60043736369568,0 69.64675686538843,21.6008314863221,0 69.64602760135953,21.60119001087163,0 69.64545560487896,21.60130918153464,0 69.64465136522855,21.60187258943958,0 69.64407154107494,21.60167993282856,0 
+					</coordinates>
+				</LinearRing>
+			</outerBoundaryIs>
+		</Polygon>
+	</Placemark>
+	<Placemark id="06E86A7CC6431A67611F">
+		<name>Viramgam | Viramgam STP LF</name>
+		<LookAt>
+			<longitude>72.06434327835807</longitude>
+			<latitude>23.12967107239731</latitude>
+			<altitude>46.73673626354082</altitude>
+			<heading>29.78791036607561</heading>
+			<tilt>0</tilt>
+			<gx:fovy>35</gx:fovy>
+			<range>8451.909265107242</range>
+			<altitudeMode>absolute</altitudeMode>
+		</LookAt>
+		<styleUrl>#__managed_style_094DF0BD63431A5ECF88</styleUrl>
+		<Polygon>
+			<outerBoundaryIs>
+				<LinearRing>
+					<coordinates>
+						72.06420271088273,23.12596777189886,0 72.06410811391763,23.12591113483984,0 72.06396760593391,23.12604174978487,0 72.06367936946523,23.12566963089698,0 72.06376693582436,23.12503962033652,0 72.06420610216574,23.1248578836648,0 72.06464976183416,23.12484813867145,0 72.0647687108118,23.12491515977926,0 72.06465657630591,23.12519767661576,0 72.06487036654563,23.12539274150542,0 72.06470212837928,23.12553368176273,0 72.06432126202672,23.12632589674634,0 72.06419806415211,23.12636019303811,0 72.06420271088273,23.12596777189886,0 
+					</coordinates>
+				</LinearRing>
+			</outerBoundaryIs>
+		</Polygon>
+	</Placemark>
+	<Placemark id="0B9843A975431A6E6870">
+		<name>Palanpur | Khedu LF</name>
+		<LookAt>
+			<longitude>72.44379895004961</longitude>
+			<latitude>24.18217943512799</latitude>
+			<altitude>234.4216734461282</altitude>
+			<heading>-0.3746364881324991</heading>
+			<tilt>1.651717217122509</tilt>
+			<gx:fovy>35</gx:fovy>
+			<range>10089.20306784217</range>
+			<altitudeMode>absolute</altitudeMode>
+		</LookAt>
+		<styleUrl>#__managed_style_094DF0BD63431A5ECF88</styleUrl>
+		<Polygon>
+			<outerBoundaryIs>
+				<LinearRing>
+					<coordinates>
+						72.45030235576557,24.17743561687954,0 72.45079711218045,24.17770258806478,0 72.45102937135402,24.17785213616338,0 72.45120839531947,24.17818192314387,0 72.45088696919807,24.1784718620796,0 72.45072353896268,24.17869488653381,0 72.45050375078118,24.1789341348424,0 72.45022044014617,24.17897679834837,0 72.4497363772322,24.17897417869251,0 72.44971244572635,24.17880645924965,0 72.44982533543801,24.17857783210117,0 72.44995504641267,24.17847852662824,0 72.45008498537541,24.17845703870684,0 72.45017988289216,24.17836209301234,0 72.45032261866834,24.17790755284516,0 72.45036456742794,24.17769429401678,0 72.45030235576557,24.17743561687954,0 
+					</coordinates>
+				</LinearRing>
+			</outerBoundaryIs>
+		</Polygon>
+	</Placemark>
+	<Placemark id="0DCCFD4F13431A7002A0">
+		<name>Himatnagar | motipura LF</name>
+		<LookAt>
+			<longitude>72.95384057125789</longitude>
+			<latitude>23.58218752744056</latitude>
+			<altitude>152.5572655659717</altitude>
+			<heading>12.73913092754914</heading>
+			<tilt>0.2378132364225577</tilt>
+			<gx:fovy>35</gx:fovy>
+			<range>19073.69129029568</range>
+			<altitudeMode>absolute</altitudeMode>
+		</LookAt>
+		<styleUrl>#__managed_style_094DF0BD63431A5ECF88</styleUrl>
+		<Polygon>
+			<outerBoundaryIs>
+				<LinearRing>
+					<coordinates>
+						72.95382453005961,23.57436162412191,0 72.95393060521019,23.57447543076446,0 72.95398540407413,23.5745490424114,0 72.95384294149882,23.57479002617224,0 72.95394608583743,23.57585088784501,0 72.95205065403779,23.57633783238497,0 72.95208668249938,23.57568482091885,0 72.95184593356515,23.57521076911805,0 72.95294903848455,23.57474365738569,0 72.95382453005961,23.57436162412191,0 
+					</coordinates>
+				</LinearRing>
+			</outerBoundaryIs>
+		</Polygon>
+	</Placemark>
+</Document>
+</kml>
