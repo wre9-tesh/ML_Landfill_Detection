@@ -4,3 +4,5 @@ data/gujarat/*.tif
 data/gujarat_x/*.tif
 rep/
 .venv/
+data/gujarat_new/
+data/gujarat_new_x/
