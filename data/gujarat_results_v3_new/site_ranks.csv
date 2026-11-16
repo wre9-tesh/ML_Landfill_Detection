@@ -1,0 +1,6 @@
+test_id,city,area_ha,mean_score,rank_with_sites_left_in,patches
+GJ02,navsari,4.34,0.8983,1,2791
+GJ06,himatnagar,9.48,0.8637,17,2791
+GJ01,junagadh,11.8,0.8386,55,2791
+GJ04,viramgam,1.79,0.8049,192,2791
+GJ05,palanpur,14.4,0.7635,568,2791

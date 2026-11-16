@@ -1,5 +1,5 @@
 {
-  "created_utc": "2026-11-15T10:39:24+00:00",
+  "created_utc": "2026-11-16T19:55:11+00:00",
   "buffer_km": 15,
   "crs": "EPSG:32643",
   "bands": [
@@ -41,7 +41,7 @@
     "dem": "USGS/SRTMGL1_003",
     "scale_m": 10
   },
-  "drive_folder": "landfill_gujarat",
+  "drive_folder": "landfill_gujarat_new",
   "boxes_wsen": {
     "Ahmedabad": [
       72.40027585018508,
@@ -126,6 +126,42 @@
       22.607053323751348,
       71.73830545377218,
       22.876546676248655
+    ],
+    "Himatnagar": [
+      72.80597843320055,
+      23.440654323751346,
+      73.10001356679945,
+      23.710147676248653
+    ],
+    "Junagadh": [
+      70.2938475145217,
+      21.320614323751347,
+      70.58340648547829,
+      21.590107676248653
+    ],
+    "Navsari": [
+      72.75933986735203,
+      20.821665323751347,
+      73.04792213264798,
+      21.091158676248654
+    ],
+    "Palanpur": [
+      72.30277600384784,
+      24.043583323751346,
+      72.59818399615216,
+      24.313076676248652
+    ],
+    "Porbandar": [
+      69.50086444494232,
+      21.466077323751346,
+      69.79071355505766,
+      21.735570676248653
+    ],
+    "Viramgam": [
+      71.9177180152845,
+      22.990711323751345,
+      72.2107579847155,
+      23.26020467624865
     ]
   },
   "tasks": {
@@ -142,6 +178,12 @@
     "Surat": "W6ZBZSLXWKHM5ZEPEXRGMWIX",
     "Vadodara": "E34EHKTZKEPFNL6Q5MHJI53F",
     "Vapi": "UCREKFSW73OQUMGQNLVCMPRU",
-    "Surendranagar": "4AMAI6F4XK4GY4H4VY34HPA4"
+    "Surendranagar": "4AMAI6F4XK4GY4H4VY34HPA4",
+    "Himatnagar": "O6REHABVIXKQUMZRIWNXS73J",
+    "Junagadh": "77G2B57RBWZNWXUN6EGVSGF4",
+    "Navsari": "4NPUDLSP53THUQ36RKX7KEIO",
+    "Palanpur": "KIFPRNXTPCIWJACVCJY3MH5I",
+    "Porbandar": "X3LAVB3I3EI7EG3UNRLLGJ2X",
+    "Viramgam": "4Z43RMJFJULDGIKOVH4AOWFE"
   }
 }

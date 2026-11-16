@@ -1,0 +1,7 @@
+test_id,city,site_name,area_ha,in_recall,box,pixels,pixels_scored,pixels_flagged,share_flagged,max_score,status
+GJ06,Himatnagar,motipura LF,2.913,,himatnagar,290,290,278,0.9586,0.9876,found
+GJ01,Junagadh,palasava LF,6.327,,junagadh,631,631,630,0.9984,0.9869,found
+GJ02,Navsari,Jalalpore LF,1.656,,navsari,168,168,165,0.9821,0.9887,found
+GJ05,Palanpur,Khedu LF,1.265,,palanpur,125,125,125,1.0,0.9874,found
+GJ03,Porbandar,birla LF ( exact area unsure),2.465,,porbandar,249,249,46,0.1847,0.8014,missed
+GJ04,Viramgam,Viramgam STP LF,1.227,,viramgam,123,123,87,0.7073,0.964,found
