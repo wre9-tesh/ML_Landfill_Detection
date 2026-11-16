@@ -1,0 +1,677 @@
+{
+ "alarm.dump_shap_other": {
+  "s": "+1.8",
+  "src": "data/analysis/diag_alarm_points.csv",
+  "v": 1.7999999999999998
+ },
+ "alarm.dump_shap_thermal": {
+  "s": "+2.0",
+  "src": "data/analysis/diag_alarm_points.csv",
+  "v": 2.0
+ },
+ "alarm.la_n": {
+  "s": "94",
+  "src": "data/analysis/diag_alarm_points.csv",
+  "v": 94
+ },
+ "alarm.la_nearest_landfill": {
+  "s": "80",
+  "src": "data/analysis/diag_alarm_points.csv",
+  "v": 80
+ },
+ "alarm.la_novelty": {
+  "s": "45th",
+  "src": "data/analysis/diag_alarm_points.csv",
+  "v": 44.6
+ },
+ "alarm.la_shap_other": {
+  "s": "+0.6",
+  "src": "data/analysis/diag_alarm_points.csv",
+  "v": 0.59
+ },
+ "alarm.la_shap_thermal": {
+  "s": "+2.4",
+  "src": "data/analysis/diag_alarm_points.csv",
+  "v": 2.43
+ },
+ "alarm.site_shap_other": {
+  "s": "+1.3",
+  "src": "data/analysis/diag_alarm_points.csv",
+  "v": 1.3
+ },
+ "alarm.site_shap_thermal": {
+  "s": "+1.8",
+  "src": "data/analysis/diag_alarm_points.csv",
+  "v": 1.83
+ },
+ "check.checked": {
+  "s": "100",
+  "src": "data/gujarat_results_v3/blind_check.csv",
+  "v": 100
+ },
+ "check.ci_high": {
+  "s": "11%",
+  "src": "data/gujarat_results_v3/blind_check.csv",
+  "v": 0.11282853581788105
+ },
+ "check.ci_low": {
+  "s": "2%",
+  "src": "data/gujarat_results_v3/blind_check.csv",
+  "v": 0.02176291355669111
+ },
+ "check.dump_share": {
+  "s": "5%",
+  "src": "data/gujarat_results_v3/blind_check.csv",
+  "v": 0.050505050505050504
+ },
+ "check.dumps": {
+  "s": "5",
+  "src": "data/gujarat_results_v3/blind_check.csv",
+  "v": 5
+ },
+ "check.dumps_known": {
+  "s": "2",
+  "src": "data/gujarat_results_v3/blind_check.csv",
+  "v": 2
+ },
+ "check.dumps_new": {
+  "s": "3",
+  "src": "data/gujarat_results_v3/blind_check.csv",
+  "v": 3
+ },
+ "check.judged": {
+  "s": "99",
+  "src": "data/gujarat_results_v3/blind_check.csv",
+  "v": 99
+ },
+ "check.lookalikes": {
+  "s": "94",
+  "src": "data/gujarat_results_v3/blind_check.csv",
+  "v": 94
+ },
+ "check.seen.bare_soil": {
+  "s": "46",
+  "src": "data/gujarat_results_v3/blind_check.csv",
+  "v": 46
+ },
+ "check.seen.building": {
+  "s": "16",
+  "src": "data/gujarat_results_v3/blind_check.csv",
+  "v": 16
+ },
+ "check.seen.dump": {
+  "s": "5",
+  "src": "data/gujarat_results_v3/blind_check.csv",
+  "v": 5
+ },
+ "check.seen.field_or_grass": {
+  "s": "19",
+  "src": "data/gujarat_results_v3/blind_check.csv",
+  "v": 19
+ },
+ "check.seen.industrial_plant": {
+  "s": "5",
+  "src": "data/gujarat_results_v3/blind_check.csv",
+  "v": 5
+ },
+ "check.seen.other": {
+  "s": "8",
+  "src": "data/gujarat_results_v3/blind_check.csv",
+  "v": 8
+ },
+ "check.seen.unsure": {
+  "s": "1",
+  "src": "data/gujarat_results_v3/blind_check.csv",
+  "v": 1
+ },
+ "check.top_seen": {
+  "s": "bare soil or open plot",
+  "src": "data/gujarat_results_v3/blind_check.csv",
+  "v": "bare_soil"
+ },
+ "check.top_seen_n": {
+  "s": "46",
+  "src": "data/gujarat_results_v3/blind_check.csv",
+  "v": 46
+ },
+ "check.unsure": {
+  "s": "1",
+  "src": "data/gujarat_results_v3/blind_check.csv",
+  "v": 1
+ },
+ "diag.auc_lstanom_ash_pond": {
+  "s": "0.89",
+  "src": "data/analysis/diag_feature_auc.csv",
+  "v": 0.89
+ },
+ "diag.auc_lstanom_bare_soil": {
+  "s": "0.76",
+  "src": "data/analysis/diag_feature_auc.csv",
+  "v": 0.759
+ },
+ "diag.auc_lstanom_near_site": {
+  "s": "0.94",
+  "src": "data/analysis/diag_feature_auc.csv",
+  "v": 0.94
+ },
+ "diag.auc_lstanom_quarry": {
+  "s": "0.85",
+  "src": "data/analysis/diag_feature_auc.csv",
+  "v": 0.847
+ },
+ "diag.auc_lstanom_random": {
+  "s": "0.94",
+  "src": "data/analysis/diag_feature_auc.csv",
+  "v": 0.942
+ },
+ "diag.fa_ash": {
+  "s": "12%",
+  "src": "data/analysis/diag_flagged_by_class.csv",
+  "v": 0.1222
+ },
+ "diag.fa_bare": {
+  "s": "16%",
+  "src": "data/analysis/diag_flagged_by_class.csv",
+  "v": 0.1628
+ },
+ "diag.fa_landfill": {
+  "s": "86%",
+  "src": "data/analysis/diag_flagged_by_class.csv",
+  "v": 0.8637
+ },
+ "diag.fa_near": {
+  "s": "5.0%",
+  "src": "data/analysis/diag_flagged_by_class.csv",
+  "v": 0.0499
+ },
+ "diag.fa_quarry": {
+  "s": "20%",
+  "src": "data/analysis/diag_flagged_by_class.csv",
+  "v": 0.2
+ },
+ "diag.fa_random": {
+  "s": "3.2%",
+  "src": "data/analysis/diag_flagged_by_class.csv",
+  "v": 0.0324
+ },
+ "diag.nn_ash": {
+  "s": "4.8%",
+  "src": "data/analysis/diag_neighbours.csv",
+  "v": 0.0478
+ },
+ "diag.nn_bare": {
+  "s": "7.9%",
+  "src": "data/analysis/diag_neighbours.csv",
+  "v": 0.0793
+ },
+ "diag.nn_landfill": {
+  "s": "73%",
+  "src": "data/analysis/diag_neighbours.csv",
+  "v": 0.7337
+ },
+ "diag.nn_near": {
+  "s": "1.2%",
+  "src": "data/analysis/diag_neighbours.csv",
+  "v": 0.0123
+ },
+ "diag.nn_quarry": {
+  "s": "7.5%",
+  "src": "data/analysis/diag_neighbours.csv",
+  "v": 0.075
+ },
+ "diag.nn_random": {
+  "s": "0.9%",
+  "src": "data/analysis/diag_neighbours.csv",
+  "v": 0.0093
+ },
+ "diag.pc1": {
+  "s": "36%",
+  "src": "computed as in data/analysis/diagnostics.md",
+  "v": 0.3633544642823859
+ },
+ "diag.pc12": {
+  "s": "50%",
+  "src": "computed as in data/analysis/diagnostics.md",
+  "v": 0.49862381436523756
+ },
+ "diag.pc2": {
+  "s": "14%",
+  "src": "computed as in data/analysis/diagnostics.md",
+  "v": 0.13526935008285168
+ },
+ "diag.shap_premonsoon": {
+  "s": "28%",
+  "src": "data/analysis/diag_shap_groups.csv",
+  "v": 0.2767
+ },
+ "diag.shap_seasonal": {
+  "s": "1%",
+  "src": "data/analysis/diag_shap_groups.csv",
+  "v": 0.0059
+ },
+ "diag.shap_surroundings": {
+  "s": "16%",
+  "src": "data/analysis/diag_shap_groups.csv",
+  "v": 0.1622
+ },
+ "diag.shap_terrain": {
+  "s": "4%",
+  "src": "data/analysis/diag_shap_groups.csv",
+  "v": 0.0441
+ },
+ "diag.shap_thermal": {
+  "s": "34%",
+  "src": "data/analysis/diag_shap_groups.csv",
+  "v": 0.3437
+ },
+ "diag.shap_winter": {
+  "s": "17%",
+  "src": "data/analysis/diag_shap_groups.csv",
+  "v": 0.1674
+ },
+ "diag.top_feature_share": {
+  "s": "33%",
+  "src": "data/analysis/diag_shap_features.csv",
+  "v": 0.3274
+ },
+ "guj.alarm_median_ha": {
+  "s": "2.2",
+  "src": "data/gujarat_results_v3/alarms.csv",
+  "v": 2.23
+ },
+ "guj.alarms": {
+  "s": "7,801",
+  "src": "data/gujarat_results_v3/summary.json",
+  "v": 7801
+ },
+ "guj.box_max": {
+  "s": "16%",
+  "src": "data/gujarat_results_v3/areas.csv",
+  "v": 0.16321
+ },
+ "guj.box_max_name": {
+  "s": "Bhavnagar",
+  "src": "data/gujarat_results_v3/areas.csv",
+  "v": ""
+ },
+ "guj.box_min": {
+  "s": "0.6%",
+  "src": "data/gujarat_results_v3/areas.csv",
+  "v": 0.00553
+ },
+ "guj.box_min_name": {
+  "s": "Dwarka",
+  "src": "data/gujarat_results_v3/areas.csv",
+  "v": ""
+ },
+ "guj.boxes": {
+  "s": "14",
+  "src": "data/gujarat_results_v3/areas.csv",
+  "v": 14
+ },
+ "guj.cities": {
+  "s": "13",
+  "src": "data/gujarat_results_v3/site_recall.csv",
+  "v": 13
+ },
+ "guj.km2": {
+  "s": "12,854",
+  "src": "data/gujarat_results_v3/summary.json",
+  "v": 12854.1
+ },
+ "guj.km2_flagged": {
+  "s": "666",
+  "src": "data/gujarat_results_v3/summary.json",
+  "v": 666.2452
+ },
+ "guj.missed.max_score": {
+  "s": "0.94",
+  "src": "data/gujarat_results_v3/site_recall.csv",
+  "v": 0.9385
+ },
+ "guj.missed.name": {
+  "s": "Rajkot",
+  "src": "data/gujarat_results_v3/site_recall.csv",
+  "v": "Rajkot"
+ },
+ "guj.missed.rank": {
+  "s": "4,388",
+  "src": "data/gujarat_results_v3/site_ranks.csv",
+  "v": 4388
+ },
+ "guj.missed.share": {
+  "s": "48.6%",
+  "src": "data/gujarat_results_v3/site_recall.csv",
+  "v": 0.4859
+ },
+ "guj.patches": {
+  "s": "7,796",
+  "src": "data/gujarat_results_v3/summary.json",
+  "v": 7796
+ },
+ "guj.pixels_flagged": {
+  "s": "6,662,452",
+  "src": "data/gujarat_results_v3/summary.json",
+  "v": 6662452
+ },
+ "guj.pixels_scored": {
+  "s": "128,541,406",
+  "src": "data/gujarat_results_v3/summary.json",
+  "v": 128541406
+ },
+ "guj.pixels_scored_m": {
+  "s": "129 million",
+  "src": "data/gujarat_results_v3/summary.json",
+  "v": 128541406
+ },
+ "guj.share_flagged": {
+  "s": "5.2%",
+  "src": "data/gujarat_results_v3/summary.json",
+  "v": 0.05183
+ },
+ "guj.share_of_state": {
+  "s": "6.6%",
+  "src": "data/gujarat_results_v3/summary.json",
+  "v": 0.06557411337387259
+ },
+ "guj.site_px_share_of_flagged": {
+  "s": "0.4%",
+  "src": "site_recall.csv pixels_flagged / summary.json pixels_flagged",
+  "v": 0.0035323331410117478
+ },
+ "guj.site_px_share_of_scored": {
+  "s": "0.02%",
+  "src": "site_recall.csv pixels / summary.json pixels_scored",
+  "v": 0.00024273112431958307
+ },
+ "guj.sites": {
+  "s": "17",
+  "src": "data/gujarat_results_v3/summary.json",
+  "v": 17
+ },
+ "guj.sites_found": {
+  "s": "16",
+  "src": "data/gujarat_results_v3/summary.json",
+  "v": 16
+ },
+ "guj.sites_ha": {
+  "s": "313",
+  "src": "data/gujarat_results_v3/site_recall.csv",
+  "v": 312.716
+ },
+ "guj.top100": {
+  "s": "8",
+  "src": "data/gujarat_results_v3/summary.json",
+  "v": 8
+ },
+ "guj.top200": {
+  "s": "9",
+  "src": "data/gujarat_results_v3/site_ranks.csv",
+  "v": 9
+ },
+ "guj.top50": {
+  "s": "5",
+  "src": "data/gujarat_results_v3/summary.json",
+  "v": 5
+ },
+ "guj.unseen.area_ha": {
+  "s": "3.3",
+  "src": "data/gujarat_results_v3/alarms.csv",
+  "v": 3.33
+ },
+ "guj.unseen.dist_m": {
+  "s": "33",
+  "src": "data/gujarat_results_v3/alarms.csv",
+  "v": 32.64448785045051
+ },
+ "guj.unseen.rank": {
+  "s": "4",
+  "src": "data/gujarat_results_v3/alarms.csv",
+  "v": 4
+ },
+ "guj.unseen.score": {
+  "s": "0.90",
+  "src": "data/gujarat_results_v3/alarms.csv",
+  "v": 0.9043
+ },
+ "rare.fa_gujarat": {
+  "s": "5.2%",
+  "src": "flagged pixels outside the outlines / scored pixels outside them",
+  "v": 0.05166062881932217
+ },
+ "rare.precision_1000": {
+  "s": "3%",
+  "src": "recall and random-background rate, diag_flagged_by_class.csv",
+  "v": 0.02599055709526862
+ },
+ "rare.sites_one_in": {
+  "s": "4,100",
+  "src": "scored pixels / pixels inside the 17 outlines",
+  "v": 4119.784814589276
+ },
+ "screen.dropped": {
+  "s": "93",
+  "src": "data/samples/samples_summary.txt",
+  "v": 93
+ },
+ "screen.kept": {
+  "s": "13",
+  "src": "data/samples/samples_summary.txt",
+  "v": 13
+ },
+ "screen.kept_share": {
+  "s": "12%",
+  "src": "data/samples/samples_summary.txt",
+  "v": 0.12149532710280374
+ },
+ "screen.not_screened": {
+  "s": "736",
+  "src": "data/samples/samples_summary.txt",
+  "v": 736
+ },
+ "screen.osm_candidates": {
+  "s": "843",
+  "src": "data/samples/samples_summary.txt",
+  "v": 843
+ },
+ "screen.screened": {
+  "s": "107",
+  "src": "data/samples/samples_summary.txt",
+  "v": 107
+ },
+ "screen.unsure": {
+  "s": "1",
+  "src": "data/samples/samples_summary.txt",
+  "v": 1
+ },
+ "thr.rounding_diff": {
+  "s": "1.2%",
+  "src": "score rasters at 50 against summary.json pixels_flagged",
+  "v": 0.012317086862314355
+ },
+ "thr.share_at_030": {
+  "s": "8.5%",
+  "src": "score rasters",
+  "v": 0.08453324370825693
+ },
+ "thr.share_at_070": {
+  "s": "3.0%",
+  "src": "score rasters",
+  "v": 0.029765895045523308
+ },
+ "thr.sites_at_030": {
+  "s": "17",
+  "src": "score rasters",
+  "v": 17
+ },
+ "thr.sites_at_070": {
+  "s": "16",
+  "src": "score rasters",
+  "v": 16
+ },
+ "train.ash_pond": {
+  "s": "900",
+  "src": "data/results_v3/oof_predictions.csv",
+  "v": 900
+ },
+ "train.background_points": {
+  "s": "25,800",
+  "src": "data/samples/points_v2_background.csv",
+  "v": 25800
+ },
+ "train.bare_soil": {
+  "s": "479",
+  "src": "data/results_v3/oof_predictions.csv",
+  "v": 479
+ },
+ "train.dropped_share": {
+  "s": "2.8%",
+  "src": "as above",
+  "v": 0.027879988678177186
+ },
+ "train.landfill": {
+  "s": "3,853",
+  "src": "data/results_v3/oof_predictions.csv",
+  "v": 3853
+ },
+ "train.landfill_share": {
+  "s": "11%",
+  "src": "data/results_v3/oof_predictions.csv",
+  "v": 0.11218517979327414
+ },
+ "train.lookalike_places": {
+  "s": "60",
+  "src": "data/samples/samples_summary.txt",
+  "v": 60
+ },
+ "train.near_site": {
+  "s": "24,989",
+  "src": "data/results_v3/oof_predictions.csv",
+  "v": 24989
+ },
+ "train.outlines_drawn": {
+  "s": "82",
+  "src": "labels/extra_sites.csv",
+  "v": 82
+ },
+ "train.places": {
+  "s": "86",
+  "src": "data/samples/samples_summary.txt",
+  "v": 86
+ },
+ "train.places_drawn": {
+  "s": "75",
+  "src": "data/samples/samples_summary.txt",
+  "v": 75
+ },
+ "train.places_mh": {
+  "s": "15",
+  "src": "data/samples/points.csv",
+  "v": 15
+ },
+ "train.places_osm": {
+  "s": "11",
+  "src": "data/samples/samples_summary.txt",
+  "v": 11
+ },
+ "train.points": {
+  "s": "34,345",
+  "src": "data/results_v3/oof_predictions.csv",
+  "v": 34345
+ },
+ "train.points_drawn": {
+  "s": "35,330",
+  "src": "data/samples/points.csv + points_v2_background.csv",
+  "v": 35330
+ },
+ "train.points_dropped": {
+  "s": "985",
+  "src": "points drawn minus points with all 26 features",
+  "v": 985
+ },
+ "train.quarry": {
+  "s": "360",
+  "src": "data/results_v3/oof_predictions.csv",
+  "v": 360
+ },
+ "train.random": {
+  "s": "3,764",
+  "src": "data/results_v3/oof_predictions.csv",
+  "v": 3764
+ },
+ "train.states": {
+  "s": "26",
+  "src": "data/samples/points.csv",
+  "v": 26
+ },
+ "train.states_small": {
+  "s": "13",
+  "src": "data/samples/points.csv",
+  "v": 13
+ },
+ "val.f1": {
+  "s": "0.762",
+  "src": "data/results_v3/summary.csv",
+  "v": 0.7616
+ },
+ "val.f1_pixel": {
+  "s": "0.815",
+  "src": "data/results_v3/summary.csv",
+  "v": 0.8149
+ },
+ "val.f1_sd": {
+  "s": "0.044",
+  "src": "data/results_v3/summary.csv",
+  "v": 0.0439
+ },
+ "val.f1_site": {
+  "s": "0.784",
+  "src": "data/results_v3/summary.csv",
+  "v": 0.7841
+ },
+ "val.lr_f1": {
+  "s": "0.697",
+  "src": "data/results_v3/summary.csv",
+  "v": 0.697
+ },
+ "val.model": {
+  "s": "gradient boosting",
+  "src": "data/results_v3/model.json",
+  "v": "gradient_boosting"
+ },
+ "val.precision": {
+  "s": "0.694",
+  "src": "data/results_v3/summary.csv",
+  "v": 0.6935
+ },
+ "val.recall": {
+  "s": "0.865",
+  "src": "data/results_v3/summary.csv",
+  "v": 0.8646
+ },
+ "val.rf_f1": {
+  "s": "0.736",
+  "src": "data/results_v3/summary.csv",
+  "v": 0.7361
+ },
+ "val.rf_f1_pixel": {
+  "s": "0.907",
+  "src": "data/results_v3/summary.csv",
+  "v": 0.9073
+ },
+ "val.rule_f1": {
+  "s": "0.415",
+  "src": "data/results_v3/summary.csv",
+  "v": 0.4155
+ },
+ "val.worst_f1": {
+  "s": "0.679",
+  "src": "data/results_v3/fold_metrics.csv",
+  "v": 0.6794
+ },
+ "val.worst_region": {
+  "s": "Western",
+  "src": "data/results_v3/fold_metrics.csv",
+  "v": "Western"
+ }
+}

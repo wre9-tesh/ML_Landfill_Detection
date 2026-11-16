@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Method · Landfill detection in Gujarat</title>
+<meta name="description" content="The preprocessing choices and the reason for each, the nine models compared, how they were validated, and how the test on Gujarat was protected.">
+<script src="site/js/theme.js"></script>
+<link rel="stylesheet" href="site/css/site.css">
+</head>
+<body data-page="method">
+<a class="skip" href="#main">Skip to the text</a>
+<header class="top">
+  <a class="brand" href="index.html">Landfill detection, Gujarat</a>
+  <button class="menu" aria-expanded="false" aria-controls="nav">Menu</button>
+  <nav id="nav" aria-label="Pages"><a href="index.html">Overview</a><a href="data.html">Data</a><a href="method.html" aria-current="page">Method</a><a href="results.html">Results</a><a href="diagnosis.html">Diagnosis</a><a href="reproduce.html">Reproduce</a></nav>
+  <button class="theme" type="button" aria-label="Switch between light and dark">◐</button>
+</header>
+<main id="main">
+<div class="pagehead">
+  <p class="kicker">3 of 6</p>
+  <h1>Method</h1>
+  <p class="lede">The preprocessing choices and the reason for each, the nine models compared, how they were validated, and how the test on Gujarat was protected.</p>
+  <nav class="onpage" aria-label="On this page"><b>On this page</b> <a href="#preprocessing">Preprocessing choices and why</a> <a href="#models">Baselines and models</a> <a href="#splits">Three ways to split the data</a> <a href="#metrics">Metrics and the selection rule</a> <a href="#freeze">The freeze</a> <a href="#scoring">Scoring Gujarat</a> <a href="#handcheck">The hand check</a></nav>
+</div>
+<article>
+<h2 id="preprocessing">Preprocessing choices and why</h2>
+<aside class="note"><b>Pre-monsoon.</b> March to May, the hot dry season before the rains. Skies are clear and fields are mostly bare.</aside>
+<div class="tablewrap wide"><table>
+<thead><tr><th>Choice</th><th>What was done</th><th>Why</th></tr></thead>
+<tbody>
+<tr><td>Season</td><td>Pre-monsoon, 1 March to 31 May 2024</td><td>Dry and nearly cloud-free; crops are harvested, so bare and waste surfaces are exposed</td></tr>
+<tr><td>Second season</td><td>Winter, 15 November 2023 to 14 February 2024</td><td>Farmland is green in winter and bare before the monsoon. A dumpsite looks the same in both</td></tr>
+<tr><td>Compositing</td><td>Per-pixel median of cloud-masked scenes</td><td>Removes cloud, shadow and one-day events such as a fire or a flooded field</td></tr>
+<tr><td>Cloud handling</td><td>Sentinel-2 scenes under 10% cloud, Landsat under 30%; cloud, shadow, cirrus and snow pixels masked</td><td>Thermal scenes are fewer, so the Landsat limit is looser; cloudy pixels are masked either way</td></tr>
+<tr><td>Temperature anomaly</td><td>Temperature minus the mean of land within 2 km, permanent water left out</td><td>Removes regional climate, so a site in Rajasthan and one in Kerala are comparable. Leaving out water stops coastal sites from looking hot</td></tr>
+<tr><td>Surroundings</td><td>Means within 150 m and standard deviations within 50 m</td><td>One pixel cannot tell waste from a roof or a bare plot; what is around it might</td></tr>
+<tr><td>Resolution</td><td>Every input sampled at 10 m</td><td>The finest input. Coarser inputs are resampled, which does not sharpen them</td></tr>
+<tr><td>Points per place</td><td>At most 50 per landfill place, 30 per look-alike place</td><td>One 300 ha site must not outweigh thirty small ones</td></tr>
+<tr><td>Edge inset</td><td>Points at least 15 m inside the outline and 15 m apart</td><td>Edge pixels mix waste with what surrounds it; no pixel is sampled twice</td></tr>
+<tr><td>Background</td><td>Random points at least 500 m from any mapped site, plus points in the 15 km boxes around training landfills</td><td>Random points show ordinary India. Near-site points show the land around a city dump, which is what the Gujarat boxes contain</td></tr>
+<tr><td>Missing values</td><td>A row with any missing feature is dropped</td><td><span data-k="train.dropped_share">2.8%</span> of points; nothing imputed, so nothing to explain away</td></tr>
+<tr><td>Scaling</td><td>Standardised inside the logistic-regression pipeline only</td><td>Tree models do not need it</td></tr>
+<tr><td>Class weights</td><td>Balanced</td><td>Landfill is <span data-k="train.landfill_share">11%</span> of the points</td></tr>
+</tbody></table></div>
+<aside class="note"><b>Temperature anomaly.</b> A pixel's surface temperature minus the mean of the land within 2 km. It removes regional climate, so places in different states can be compared.</aside>
+
+<h2 id="models">Baselines and models</h2>
+<p>Nine methods were compared on the same points and the same splits.</p>
+<div class="tablewrap"><table>
+<thead><tr><th>Method</th><th>Kind</th><th>Settings</th></tr></thead>
+<tbody>
+<tr><td>Flag nothing</td><td>Reference</td><td>Scores zero on every metric; shows what "no skill" is</td></tr>
+<tr><td>Published threshold rule</td><td>Baseline</td><td>NDBI &gt; 0.028 and NDVI &lt; 0.15 and LST &gt; 37.0 °C, as published for Madhya Pradesh</td></tr>
+<tr><td>Refitted threshold rule</td><td>Baseline</td><td>The same three tests with thresholds fitted on the training folds</td></tr>
+<tr><td>Logistic regression</td><td>Linear</td><td>Standardised features</td></tr>
+<tr><td>Decision tree</td><td>Tree</td><td>Unpruned</td></tr>
+<tr><td>Bagged trees</td><td>Ensemble</td><td>200 trees</td></tr>
+<tr><td>Random forest</td><td>Ensemble</td><td>500 trees</td></tr>
+<tr><td>AdaBoost</td><td>Ensemble</td><td>200 stumps</td></tr>
+<tr><td>Gradient boosting</td><td>Ensemble</td><td>100 trees of depth 3, learning rate 0.1</td></tr>
+</tbody></table></div>
+<aside class="note"><b>Gradient boosting.</b> A model built from many small decision trees, each one correcting the errors of those before it.</aside>
+<p>All learned models use scikit-learn defaults with balanced class weights, a threshold of 0.5 and random seed 678. Nothing was tuned.</p>
+<div class="why"><b>Why no tuning:</b> with <span data-k="train.places">86</span> places in six folds, tuned settings would fit the folds. Fixed defaults keep the comparison between models fair and leave nothing to adjust after seeing a result.</div>
+<div class="why"><b>Why a threshold rule is the baseline:</b> it is the method of the study that prompted the project. If three thresholds were enough, nothing more complicated would be justified.</div>
+
+<h2 id="splits">Three ways to split the data</h2>
+<p>The same models were validated three ways. Only the third resembles the real task.</p>
+<aside class="note"><b>Leakage.</b> When test rows are near-copies of training rows, for example two pixels of the same dump. The score then measures memory, not skill.</aside>
+<ul>
+  <li><b>Random pixel.</b> Points are assigned to folds at random, so pixels from the same dumpsite land on both sides. A model can score well by recognising the site, not the class.</li>
+  <li><b>Held-out site.</b> Whole <a class="term" href="reproduce.html#g-place">places</a> are held out. Neighbouring sites in the same city or state remain in training.</li>
+  <li><b>Held-out region (the headline).</b> Every place in one of India's six <a class="term" href="reproduce.html#g-region">Zonal Council regions</a> is held out in turn. The model is tested on a part of the country it has not seen, which is what scoring Gujarat demands.</li>
+</ul>
+<aside class="note"><b>Zonal Council region.</b> India's states are grouped by law into six zones: Northern, Central, Eastern, Western, Southern and North-Eastern. They are used here as six validation folds.</aside>
+<div class="why"><b>Why regions and not states:</b> the plan was to hold out one state at a time, for states with at least ten places. Only Maharashtra has that many, so the fallback written into the plan applied: six regions of 5 to 23 places each.</div>
+
+<h2 id="metrics">Metrics and the selection rule</h2>
+<aside class="note"><b>Precision, recall, F1.</b> Recall: of the real landfill pixels, the share flagged. Precision: of the flagged pixels, the share that are landfill. F1 is their harmonic mean.</aside>
+<p>For each held-out region: precision, recall and F1 for the landfill class at a threshold of 0.5. They are reported as the mean and standard deviation over the six regions. The share of each background class that is flagged is reported alongside, because a single precision figure hides which kind of land causes the false alarms.</p>
+<p>The model with the highest mean F1 on the held-out-region split is selected. This rule was written down before the models were run.</p>
+
+<h2 id="freeze">The freeze</h2>
+<p>A test is only a test if nothing can be adjusted after seeing it. Three things were fixed in the repository's history, in this order:</p>
+<ol>
+  <li><b>11 November.</b> The Gujarat test list was committed (<code>8711855</code>), before any model existed.</li>
+  <li><b>15 November.</b> The selected model, its threshold and every scoring rule were committed and tagged <code>freeze-v3</code>. The rules are in <a href="https://github.com/wre9-tesh/ML_Landfill_Detection/blob/main/docs/freeze_v3.md"><code>docs/freeze_v3.md</code></a>, including what would count as an improvement.</li>
+  <li><b>After the tag.</b> Gujarat was scored. The scoring script refuses to run unless the model file is the tagged one.</li>
+</ol>
+<aside class="note"><b>Freeze.</b> The commit in which the model, its threshold and the scoring rules were fixed. It carries a Git tag, pushed before Gujarat was scored.</aside>
+<div class="callout"><p><b>This is the third model built in this project.</b> Two earlier versions were frozen and scored on the same <span data-k="guj.sites">17</span> sites, so the Gujarat results are not a first-time test. See <a href="diagnosis.html#how-we-got-here">How we got here</a>.</p></div>
+
+<h2 id="scoring">Scoring Gujarat</h2>
+<aside class="note"><b>Model score.</b> The model's output for a pixel, between 0 and 1. A pixel is flagged at 0.5 or above. It is not the probability that the place is a dump.</aside>
+<dl class="rules">
+  <dt>Scored area</dt><dd><span data-k="guj.boxes">14</span> boxes, each reaching 15 km beyond the known sites of one city: <span data-k="guj.km2">12,854</span> km², <span data-k="guj.pixels_scored_m">129 million</span> pixels. One box, Surendranagar, surrounds a dumpsite that is in neither the training data nor the test list.</dd>
+  <dt>Flagged pixel</dt><dd>A pixel with a score of 0.5 or more.</dd>
+  <dt>Site found</dt><dd>At least half of the pixels inside the site's outline are flagged.</dd>
+  <dt>Alarm patch</dt><dd>Touching flagged pixels outside the known outlines, covering at least 1 ha.</dd>
+  <dt>Ranking</dt><dd>Patches are ordered by their mean score, strongest first.</dd>
+</dl>
+
+<h2 id="handcheck">The hand check</h2>
+<p>Recall on <span data-k="guj.sites">17</span> known sites says nothing about the thousands of other places the model flags. To measure that, the 100 strongest alarm patches were given random identifiers and opened one at a time in Google Earth, with scores and ranks hidden. Each was recorded as a dump, a look-alike or unsure, with a note of what was there.</p>
+<aside class="note"><b>Hand check.</b> Looking at each of the top alarm patches in high-resolution imagery and recording what is there, without seeing its score or rank.</aside>
+<p>One hundred is enough to estimate a proportion to within about ten percentage points. The check was done by the author alone, from imagery, which makes it the weakest link in the evaluation: a second checker or a field visit could disagree.</p>
+
+</article>
+<nav class="pager" aria-label="Previous and next page"><a class="prev" href="data.html">← Data</a><a class="next" href="results.html">Results →</a></nav>
+</main>
+<footer class="foot">
+  <p><a href="https://github.com/wre9-tesh/ML_Landfill_Detection">Repository</a> · <a href="project_guide_grader.pdf">Grader's manual (PDF)</a> · <a href="reproduce.html#glossary">Glossary</a> · <a href="reproduce.html#ai-use">AI-use disclosure</a></p>
+  <p class="small">ES 678 course project. Every number on this site is filled from the result files by <code>scripts/build_site_data.py</code>. Contains modified Copernicus Sentinel data 2023 to 2024.</p>
+</footer>
+<script src="site/vendor/d3.min.js" defer></script>
+<script src="site/vendor/plot.min.js" defer></script>
+<script src="site/js/common.js" defer></script>
+<script src="site/js/charts.js" defer></script>
+
+</body>
+</html>

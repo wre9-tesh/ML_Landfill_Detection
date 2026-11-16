@@ -1,0 +1,87 @@
+<h2 id="repository">What is in the repository</h2>
+<div class="tablewrap"><table>
+<thead><tr><th>Folder</th><th>What it holds</th></tr></thead>
+<tbody>
+<tr><td><code>labels/</code></td><td>Screening decisions, hand-drawn outlines, the sealed Gujarat list, the boxes that were scored</td></tr>
+<tr><td><code>scripts/</code></td><td>Every program, from sampling points to building this site</td></tr>
+<tr><td><code>data/</code></td><td>Sample points, feature tables, validation results, Gujarat results (including the score of every pixel), analysis tables</td></tr>
+<tr><td><code>docs/</code></td><td>This site, the freeze notes, the labelling and feature notes, and three PDF guides</td></tr>
+<tr><td><code>site_src/</code></td><td>The text of these pages, with placeholders for the numbers</td></tr>
+<tr><td><code>figures/</code></td><td>Charts for the paper</td></tr>
+</tbody></table></div>
+<p>Repository: <a href="https://github.com/wre9-tesh/ML_Landfill_Detection">github.com/wre9-tesh/ML_Landfill_Detection</a>. The <a href="project_guide_grader.pdf">grader's manual</a> gives a quick check and the full path; the <a href="project_guide_technical.pdf">replication manual</a> gives every command with its expected output.</p>
+
+<h2 id="setup">Setup</h2>
+<p>Python 3.13 on Windows PowerShell (the scripts also run on Linux and macOS):</p>
+<pre><code>python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+python -m pip install -r requirements.txt</code></pre>
+<p>The package versions used for training are pinned in <code>requirements.txt</code> (scikit-learn 1.9.1).</p>
+
+<h2 id="run">Run order</h2>
+<p>Steps marked EE need a free Google Earth Engine account and project. Every other step runs from files in the repository.</p>
+<div class="tablewrap wide"><table>
+<thead><tr><th>#</th><th>Command</th><th>Writes</th></tr></thead>
+<tbody>
+<tr><td>1</td><td><code>python scripts/build_samples.py</code></td><td><code>data/samples/points.csv</code></td></tr>
+<tr><td>2</td><td><code>python scripts/build_background_v2.py</code></td><td><code>data/samples/points_v2_background.csv</code></td></tr>
+<tr><td>3 (EE)</td><td><code>python scripts/gee_features.py --project ID</code>, and again with <code>--points data/samples/points_v2_background.csv --out data/features_v2</code></td><td>The 12 base features</td></tr>
+<tr><td>4 (EE)</td><td>The same two fetches with <code>--stack extra</code> and <code>--out data/features_v3/main</code> or <code>data/features_v3/background</code></td><td>The 10 extra features</td></tr>
+<tr><td>5</td><td><code>python scripts/run_models.py --features data/features/features.csv data/features_v2/features.csv --extra data/features_v3/main/features.csv data/features_v3/background/features.csv --rule best --out data/results_v3</code></td><td>Validation results (about 20 minutes on four cores)</td></tr>
+<tr><td>6</td><td><code>python scripts/freeze_model.py --results data/results_v3</code></td><td>The frozen model</td></tr>
+<tr><td>7 (EE)</td><td><code>python scripts/gee_export_gujarat.py --project ID --boxes labels/gujarat_boxes.json</code>, and again with <code>--stack extra</code></td><td>Feature rasters for <code>data/gujarat/</code> and <code>data/gujarat_x/</code></td></tr>
+<tr><td>8</td><td><code>python scripts/score_gujarat.py --version 3</code></td><td><code>data/gujarat_results_v3/</code></td></tr>
+<tr><td>9</td><td><code>python scripts/diagnostics.py</code>, <code>python scripts/alarm_diagnostics.py</code></td><td><code>data/analysis/</code></td></tr>
+<tr><td>10</td><td><code>python scripts/build_site_data.py</code></td><td>This site, in <code>docs/</code></td></tr>
+</tbody></table></div>
+<p>Steps 1, 2, 5, 6 and the first command of step 9 were rerun from a clean clone and reproduce the committed files byte for byte. Step 10 can be run with <code>--check</code>, which writes nothing and fails if any page or data file of this site differs from what the result files give.</p>
+
+<h2 id="data-access">Data access</h2>
+<ul>
+  <li><b>In the repository:</b> all labels and outlines, all sample points, all four feature tables, all validation and Gujarat results, and the model score of every scored pixel (<code>data/gujarat_results_v3/scores/</code>).</li>
+  <li><b>Not in the repository:</b> the Gujarat feature rasters, several gigabytes. Step 7 rebuilds them from public data. The image chips on this site were cut from them with <code>scripts/make_chips.py</code>.</li>
+  <li><b>No account needed:</b> steps 1, 2, 5, 6, 9 (first command) and 10.</li>
+  <li><b>No private data:</b> the repository holds no credentials or keys. An Earth Engine project identifier is passed on the command line and is not stored.</li>
+</ul>
+
+<h2 id="verify-freeze">Verifying the freeze</h2>
+<p>The order of events can be checked in the history:</p>
+<pre><code>git log -1 --format="%h %ad %s" 8711855       # the test list is sealed
+git log -1 --format="%h %ad %s" freeze-v3     # the model and rules are frozen
+git log --format="%h %ad %s" -- data/gujarat_results_v3/summary.json   # Gujarat is scored</code></pre>
+<p>The earlier tags <code>freeze-v1</code> and <code>freeze-v2</code> mark the two earlier versions in the same way.</p>
+
+<h2 id="ai-use">AI-use disclosure</h2>
+<p>An AI assistant, Claude (Anthropic), was used throughout this project through Claude Code.</p>
+<ul>
+  <li><b>What the assistant did:</b> wrote the Python scripts in <code>scripts/</code> to the author's requirements; ran model training, the diagnostics and the reproducibility checks; searched for and summarised related papers; drafted the documentation, the three PDF guides and this website, including its charts and interactive elements; proposed parts of the study design, such as the freeze procedure and the diagnostic analyses, which the author accepted, changed or rejected.</li>
+  <li><b>What the author did:</b> chose the question; screened every OpenStreetMap candidate and drew every training outline; compiled and outlined the Gujarat test list; ran every Earth Engine fetch and export and the Gujarat scoring on their own machine; judged all 100 alarms in the hand check; made every decision about labels, features, versions and what to report.</li>
+  <li><b>No label or verdict was produced by AI.</b> The assistant never saw the high-resolution imagery used for labelling and for the hand check.</li>
+  <li><b>How AI output was checked:</b> results were reproduced from a clean clone; every number on this site is filled from the result files by a script, not typed; the author read the pages against the result files.</li>
+</ul>
+
+<h2 id="references">References</h2>
+<ol>
+  <li>Bhajantri and Mandpe (2026). <i>Applied Geomatics</i> 18, article 88. The study that prompted this project and the source of the published threshold rule.</li>
+  <li>Kruse, C., and others (2023). Satellite monitoring of terrestrial plastic waste. <i>PLOS ONE</i> 18(1): e0278997. arXiv:2204.01485.</li>
+  <li>Gibellini and others (2025). <i>Waste Management Bulletin</i>. arXiv:2502.06607.</li>
+  <li>Pedregosa, F., and others (2011). Scikit-learn: machine learning in Python. <i>Journal of Machine Learning Research</i> 12: 2825–2830.</li>
+  <li>Lundberg, S. M., and Lee, S.-I. (2017). A unified approach to interpreting model predictions. <i>Advances in Neural Information Processing Systems</i> 30.</li>
+  <li>Gorelick, N., and others (2017). Google Earth Engine: planetary-scale geospatial analysis for everyone. <i>Remote Sensing of Environment</i> 202: 18–27.</li>
+  <li>Pekel, J.-F., and others (2016). High-resolution mapping of global surface water and its long-term changes. <i>Nature</i> 540: 418–422.</li>
+  <li>Farr, T. G., and others (2007). The Shuttle Radar Topography Mission. <i>Reviews of Geophysics</i> 45: RG2004.</li>
+  <li>Runfola, D., and others (2020). geoBoundaries: a global database of political administrative boundaries. <i>PLOS ONE</i> 15(4): e0231866.</li>
+</ol>
+
+<h2 id="licences">Data licences and credits</h2>
+<ul>
+  <li>Sentinel-2: contains modified Copernicus Sentinel data, 2023 to 2024, free and open.</li>
+  <li>Landsat 8 and 9 and SRTM: courtesy of the U.S. Geological Survey and NASA, public domain.</li>
+  <li>JRC Global Surface Water: European Commission Joint Research Centre, free with attribution.</li>
+  <li>OpenStreetMap: © OpenStreetMap contributors, Open Database Licence.</li>
+  <li>State boundaries: geoBoundaries, CC BY.</li>
+  <li>Charts: D3 and Observable Plot, ISC licence; copies are in <code>docs/site/vendor/</code>.</li>
+</ul>
+
+<h2 id="glossary">Glossary</h2>
+{{glossary}}

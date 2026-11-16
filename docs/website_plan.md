@@ -2,6 +2,8 @@
 
 Build specification for the project website. Written 16 November 2026, before the site is built. It is meant to be complete enough that someone who has not followed the project can build the site from this file and the repository.
 
+**As built (16 November):** the site follows this plan with four changes. (1) Page text lives in `site_src/*.html` with placeholders such as `{{k:guj.sites_found}}`; `scripts/build_site_data.py` fills them and writes `docs/*.html`, so there is no separate `--fill` step and `--check` compares everything it would write with what is on disk. (2) Maps and the flagged-pixel box maps are written into the pages at build time, not fetched by script. (3) Figure X5 is two ranked bar charts, not a segmented bar, to keep to three colours. (4) Margin notes fall back into the text column where they would overlap a full-width figure. Fixed text (page list, feature descriptions, glossary) is in `scripts/site_text.py`.
+
 Site address once published: `https://wre9-tesh.github.io/ML_Landfill_Detection/`
 
 Contents: [1 Purpose and constraints](#1-purpose-and-constraints) · [2 Decisions](#2-decisions-already-made) · [3 Course requirements](#3-course-requirements-and-where-each-is-met) · [4 Architecture](#4-architecture) · [5 Data pipeline](#5-data-pipeline) · [6 Design system](#6-design-system) · [7 Pages](#7-page-specifications) · [8 Interactions](#8-interaction-specifications) · [9 Charts](#9-chart-catalogue) · [10 Wording rules](#10-wording-rules) · [11 Glossary](#11-glossary-and-margin-notes) · [12 Pending inputs](#12-pending-inputs) · [13 Build order](#13-build-order-and-cuts) · [14 Acceptance checks](#14-acceptance-checks) · [15 Publishing](#15-publishing) · [16 Open items](#16-open-items-for-the-author)
