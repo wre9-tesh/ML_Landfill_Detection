@@ -1,0 +1,17 @@
+version,seen,centres,median_novelty_pct,v3_score,v3_still_flags
+v1,ash_pond,1,90.4498,0.1434,0.0
+v1,blue_roof,33,95.0298,0.2053,0.3333
+v1,building,4,93.4226,0.7053,0.75
+v1,field_or_grass,2,97.7173,0.4466,0.5
+v1,industrial_plant,1,99.8923,0.152,0.0
+v1,other,1,97.857,0.4057,0.0
+v1,salt_pan,2,99.6768,0.0136,0.0
+v1,salvage_yard,1,93.6148,0.0114,0.0
+v1,water,5,99.8282,0.0114,0.0
+v3,bare_soil,46,37.5673,0.941,0.9565
+v3,blue_roof,1,93.7633,0.8763,1.0
+v3,building,16,47.8105,0.9612,1.0
+v3,field_or_grass,19,52.7821,0.9398,0.8947
+v3,industrial_plant,5,22.3293,0.9454,0.8
+v3,other ,5,50.2897,0.9659,1.0
+v3,riverbed,2,24.2,0.9562,1.0

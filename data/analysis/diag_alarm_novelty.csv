@@ -1,0 +1,8 @@
+version,what,centres,median_novelty_pct,beyond_99th,neighbours_landfill,v3_score
+v1,"alarm, unchecked",50,95.7956,0.2,0.2173,0.0858
+v1,"alarm, lookalike",50,95.8917,0.26,0.1653,0.1534
+v2,"alarm, unchecked",100,25.1085,0.0,0.614,0.9406
+v3,"alarm, look_alike",94,44.612,0.0,0.7518,0.9519
+v3,"alarm, Dump",5,12.6569,0.0,0.8933,0.9759
+v3,"alarm, Unsure",1,33.4488,0.0,1.0,0.9587
+all,sealed site,17,19.1411,0.0,0.7882,0.9355

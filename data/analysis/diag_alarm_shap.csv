@@ -1,0 +1,8 @@
+version,what,thermal,terrain,pre-monsoon spectral,winter spectral,surroundings,seasonal change
+v1,"alarm, unchecked",-0.2928,-0.2868,-0.4649,-0.0164,-0.1898,0.0006
+v1,"alarm, lookalike",-0.2937,-0.2846,-0.5321,-0.1358,-0.0769,0.0031
+v2,"alarm, unchecked",2.4107,-0.1194,0.3601,-0.0932,-0.0206,-0.0052
+v3,"alarm, look_alike",2.4315,-0.1081,0.2928,0.1861,0.1137,0.0073
+v3,"alarm, Dump",1.9959,-0.1078,0.8595,0.5382,0.3985,0.0032
+v3,"alarm, Unsure",3.0367,-0.1159,0.2592,0.475,-0.282,0.0253
+all,sealed site,1.8336,-0.1433,0.6826,0.3976,0.2233,0.005

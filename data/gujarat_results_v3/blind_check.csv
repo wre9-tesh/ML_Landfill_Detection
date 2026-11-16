@@ -1,101 +1,101 @@
 blind_id,verdict,class,notes,seen
-A001,,,,
-A002,,,,
-A003,,,,
-A004,,,,
-A005,,,,
-A006,,,,
-A007,,,,
-A008,,,,
-A009,,,,
-A010,,,,
-A011,,,,
-A012,,,,
-A013,,,,
-A014,,,,
-A015,,,,
-A016,,,,
-A017,,,,
-A018,,,,
-A019,,,,
-A020,,,,
-A021,,,,
-A022,,,,
-A023,,,,
-A024,,,,
-A025,,,,
-A026,,,,
-A027,,,,
-A028,,,,
-A029,,,,
-A030,,,,
-A031,,,,
-A032,,,,
-A033,,,,
-A034,,,,
-A035,,,,
-A036,,,,
-A037,,,,
-A038,,,,
-A039,,,,
-A040,,,,
-A041,,,,
-A042,,,,
-A043,,,,
-A044,,,,
-A045,,,,
-A046,,,,
-A047,,,,
-A048,,,,
-A049,,,,
-A050,,,,
-A051,,,,
-A052,,,,
-A053,,,,
-A054,,,,
-A055,,,,
-A056,,,,
-A057,,,,
-A058,,,,
-A059,,,,
-A060,,,,
-A061,,,,
-A062,,,,
-A063,,,,
-A064,,,,
-A065,,,,
-A066,,,,
-A067,,,,
-A068,,,,
-A069,,,,
-A070,,,,
-A071,,,,
-A072,,,,
-A073,,,,
-A074,,,,
-A075,,,,
-A076,,,,
-A077,,,,
-A078,,,,
-A079,,,,
-A080,,,,
-A081,,,,
-A082,,,,
-A083,,,,
-A084,,,,
-A085,,,,
-A086,,,,
-A087,,,,
-A088,,,,
-A089,,,,
-A090,,,,
-A091,,,,
-A092,,,,
-A093,,,,
-A094,,,,
-A095,,,,
-A096,,,,
-A097,,,,
-A098,,,,
-A099,,,,
-A100,,,,
+A001,look_alike,bare_soil,Soil_ mounds,bare_soil
+A002,look_alike,bare_soil,Soil_ mounds,bare_soil
+A003,look_alike,bare_soil,Very close a known site but not a site itself,bare_soil
+A004,look_alike,bare_soil,little vegetation,bare_soil
+A005,look_alike,bare_soil,some facility ,bare_soil
+A006,look_alike,construction,some facility ,building
+A007,look_alike,bare_soil,fields,field_or_grass
+A008,look_alike,other,fields,field_or_grass
+A009,look_alike,other,fields,field_or_grass
+A010,look_alike,construction,solar field,other 
+A011,look_alike,construction,some facility ,building
+A012,look_alike,bare_soil,fields,bare_soil
+A013,look_alike,bare_soil,fields,field_or_grass
+A014,look_alike,other,industry ponds ,industrial_plant
+A015,look_alike,bare_soil,fields,bare_soil
+A016,look_alike,riverbed,looks like dried ponds,riverbed
+A017,look_alike,bare_soil,fields,bare_soil
+A018,look_alike,construction,some facility ,building
+A019,look_alike,construction,helipad,other 
+A020,look_alike,riverbed,dried pond,riverbed
+A021,Dump,,Its one if the 17 sites,
+A022,look_alike,bare_soil,some C&D watse 500m away ,bare_soil
+A023,look_alike,bare_soil,cricket field ,bare_soil
+A024,look_alike,construction,some facility ,building
+A025,look_alike,other,crop field ,field_or_grass
+A026,look_alike,bare_soil,fields,bare_soil
+A027,look_alike,other,"village with bare ground and house, very little amount of waste",bare_soil
+A028,look_alike,riverbed,dried up industrial pond,industrial_plant
+A029,look_alike,bare_soil,bare land ,bare_soil
+A030,look_alike,bare_soil,bare land ,bare_soil
+A031,look_alike,other,industrial pond,industrial_plant
+A032,look_alike,bare_soil,fields,field_or_grass
+A033,look_alike,riverbed,dried up industrial pond,industrial_plant
+A034,look_alike,riverbed,dried up industrial pond,bare_soil
+A035,look_alike,riverbed,dried up area near ocean  ,bare_soil
+A036,look_alike,bare_soil,some buildings and fields,field_or_grass
+A037,look_alike,bare_soil,fields,field_or_grass
+A038,look_alike,bare_soil,fields,field_or_grass
+A039,Dump,,outside ahmedabad,
+A040,look_alike,construction,,blue_roof
+A041,look_alike,bare_soil,circket ground ,bare_soil
+A042,look_alike,bare_soil,fields,bare_soil
+A043,look_alike,construction,,building
+A044,look_alike,riverbed,dried fields near ocean ,bare_soil
+A045,look_alike,riverbed,dried fields near ocean ,bare_soil
+A046,look_alike,bare_soil,fields,bare_soil
+A047,look_alike,bare_soil,"some buildings and fields , agricultural waste is somewhat visible",bare_soil
+A048,look_alike,riverbed,dried industrial pond,bare_soil
+A049,look_alike,bare_soil,fields,bare_soil
+A050,look_alike,bare_soil,fields,bare_soil
+A051,look_alike,industrial,industrial pond,industrial_plant
+A052,look_alike,bare_soil,fields,bare_soil
+A053,look_alike,bare_soil,fields,bare_soil
+A054,look_alike,bare_soil,fields,bare_soil
+A055,look_alike,construction,some facility ,building
+A056,look_alike,bare_soil,"fields, some C&D waste, 350 maway",bare_soil
+A057,look_alike,bare_soil,fields,field_or_grass
+A058,look_alike,bare_soil,fields,field_or_grass
+A059,look_alike,bare_soil,fields,field_or_grass
+A060,look_alike,construction,some facility ,building
+A061,look_alike,bare_soil,fields,field_or_grass
+A062,look_alike,construction,some facility ,building
+A063,look_alike,construction,some facility ,building
+A064,look_alike,bare_soil,fields,bare_soil
+A065,Dump,,known one(surendarnagar),
+A066,look_alike,other,waste but not MSW waste,other 
+A067,look_alike,bare_soil,fields,bare_soil
+A068,look_alike,bare_soil,fields,bare_soil
+A069,look_alike,construction,some facility ,building
+A070,look_alike,bare_soil,Fields,bare_soil
+A071,look_alike,construction,some facility ,building
+A072,look_alike,bare_soil,fields ,field_or_grass
+A073,look_alike,bare_soil,fields ,field_or_grass
+A074,look_alike,construction,"village with bare ground and house,",other 
+A075,look_alike,bare_soil,fields near industry,bare_soil
+A076,Unsure,,,
+A077,look_alike,bare_soil,,bare_soil
+A078,look_alike,construction,village with buildings,building
+A079,look_alike,bare_soil,,field_or_grass
+A080,look_alike,bare_soil,RECYCLING PLANT 350 M away,bare_soil
+A081,look_alike,construction,,building
+A082,look_alike,bare_soil,,bare_soil
+A083,look_alike,riverbed,industrial pond,bare_soil
+A084,look_alike,bare_soil,,bare_soil
+A085,look_alike,bare_soil,,bare_soil
+A086,look_alike,bare_soil,little waste (C&D),bare_soil
+A087,look_alike,bare_soil,in river delta ,bare_soil
+A088,Dump,,"new dumpsite , although remediated in 2026 ",
+A089,look_alike,bare_soil,,bare_soil
+A090,look_alike,construction,,building
+A091,look_alike,bare_soil,,field_or_grass
+A092,look_alike,riverbed,industrial pond,bare_soil
+A093,look_alike,bare_soil,,bare_soil
+A094,look_alike,bare_soil,near ocean ,bare_soil
+A095,look_alike,bare_soil,,field_or_grass
+A096,look_alike,bare_soil,near industrail complex can contain industrail waste,other 
+A097,look_alike,construction,,building
+A098,look_alike,bare_soil,,field_or_grass
+A099,look_alike,construction,,building
+A100,Dump,,,
