@@ -348,6 +348,34 @@ def hand_check(alarms):
     return b
 
 
+def new_cities():
+    """The second blind test: sites in six further cities, sealed before their boxes were scored."""
+    d = REPO / "data" / "gujarat_results_v3_new"
+    g = json.loads((d / "summary.json").read_text(encoding="utf-8"))
+    src = "data/gujarat_results_v3_new/summary.json"
+    put("new.sites", g["sites_counted"], str(g["sites_counted"]), src)
+    put("new.sites_found", g["sites_found"], str(g["sites_found"]), src)
+    put("new.km2", g["area_scored_km2"], n_(g["area_scored_km2"]), src)
+    put("new.share_flagged", g["share_flagged"], pct(g["share_flagged"]), src)
+    put("new.alarms", g["alarms"], n_(g["alarms"]), src)
+    put("new.top50", g["site_patches_in_top_50"], str(g["site_patches_in_top_50"]), src)
+    put("new.top100", g["site_patches_in_top_100"], str(g["site_patches_in_top_100"]), src)
+    rec = pd.read_csv(d / "site_recall.csv")
+    ranks = pd.read_csv(d / "site_ranks.csv").sort_values("rank_with_sites_left_in").drop_duplicates("test_id").set_index("test_id")
+    T["T-N1"] = [{"id": r.test_id, "city": r.city, "area_ha": r.area_ha, "share_flagged": r.share_flagged, "status": r.status,
+                  "rank": int(ranks.loc[r.test_id, "rank_with_sites_left_in"]) if r.test_id in ranks.index else None}
+                 for r in rec.sort_values("share_flagged", ascending=False).itertuples()]
+    miss = rec[rec.status == "missed"].iloc[0]
+    put("new.missed.name", miss.city, miss.city, "data/gujarat_results_v3_new/site_recall.csv")
+    put("new.missed.share", float(miss.share_flagged), pct(miss.share_flagged, 0), "data/gujarat_results_v3_new/site_recall.csv")
+    put("new.best_rank", int(ranks.rank_with_sites_left_in.min()), str(int(ranks.rank_with_sites_left_in.min())), "data/gujarat_results_v3_new/site_ranks.csv")
+    put("new.best_name", "", ranks.rank_with_sites_left_in.idxmin() and ranks.sort_values("rank_with_sites_left_in").city.iloc[0].capitalize(), "data/gujarat_results_v3_new/site_ranks.csv")
+    tot, found = K["guj.sites"]["v"] + g["sites_counted"], K["guj.sites_found"]["v"] + g["sites_found"]
+    put("all.sites", tot, str(tot), "both test lists")
+    put("all.sites_found", found, str(found), "both test lists")
+    put("all.km2", K["guj.km2"]["v"] + g["area_scored_km2"], n_(K["guj.km2"]["v"] + g["area_scored_km2"]), "both scored areas")
+
+
 # ---------------------------------------------------------------- feature explorer and PCA
 
 def features():
@@ -622,6 +650,11 @@ def gen_table(tid):
         rows = [(r["status"] != "found", [r["id"], r["city"], f"{r['area_ha']:.1f}", pct(r["share_flagged"], 0), st(r["status"]),
                                           f"{r['rank']:,}"]) for r in T[tid]]
         return table([("Site", 0), ("City", 0), ("Area, ha", 1), ("Outline flagged", 1), ("Result", 0), ("Rank of its patch", 1)], rows)
+    if tid == "T-N1":
+        st = lambda s: '<span class="ok">✓ found</span>' if s == "found" else '<span class="bad">✗ missed</span>'
+        rows = [(r["status"] != "found", [r["id"], r["city"], f"{r['area_ha']:.1f}", pct(r["share_flagged"], 0), st(r["status"]),
+                                          f"{r['rank']:,}" if r["rank"] else "no patch"]) for r in T[tid]]
+        return table([("Site", 0), ("City", 0), ("Area, ha", 1), ("Outline flagged", 1), ("Result", 0), ("Rank of its patch", 1)], rows)
     if tid == "T-R3":
         if not T[tid]:
             return '<p class="pendingnote">The hand check is not finished.</p>'
@@ -691,26 +724,25 @@ SHELL = """<!doctype html>
 <body data-page="{slug}">
 <a class="skip" href="#main">Skip to the text</a>
 <header class="top">
-  <a class="brand" href="index.html">Landfill detection, Gujarat</a>
-  <button class="menu" aria-expanded="false" aria-controls="nav">Menu</button>
+  <a class="brand" href="index.html"><span>Landfill detection, Gujarat<small>IIT Gandhinagar · ES 678 · 2026</small></span></a>
   <nav id="nav" aria-label="Pages">{nav}</nav>
-  <button class="theme" type="button" aria-label="Switch between light and dark">◐</button>
+  <div class="tools"><button class="theme" type="button" aria-label="Switch between light and dark">◐ Theme</button><button class="menu" aria-expanded="false" aria-controls="nav">Menu</button></div>
 </header>
 <main id="main">
-<div class="pagehead">
+<div class="pagehead"><div class="in">
   <p class="kicker">{kicker}</p>
   <h1>{h1}</h1>
   <p class="lede">{lede}</p>
   <nav class="onpage" aria-label="On this page"><b>On this page</b> {toc}</nav>
-</div>
+</div></div>
 <article>
 {body}
 </article>
 <nav class="pager" aria-label="Previous and next page">{prev}{next}</nav>
 </main>
 <footer class="foot">
-  <p><a href="https://github.com/wre9-tesh/ML_Landfill_Detection">Repository</a> · {paper}<a href="project_guide_grader.pdf">Grader's manual (PDF)</a> · <a href="reproduce.html#glossary">Glossary</a> · <a href="reproduce.html#ai-use">AI-use disclosure</a></p>
-  <p class="small">ES 678 course project. Every number on this site is filled from the result files by <code>scripts/build_site_data.py</code>. Contains modified Copernicus Sentinel data 2023 to 2024.</p>
+  <p><a href="https://github.com/wre9-tesh/ML_Landfill_Detection">Repository</a> · {paper}<a href="project_guide_grader.pdf">Grader's manual</a> · <a href="reproduce.html#glossary">Glossary</a> · <a href="reproduce.html#ai-use">AI-use disclosure</a></p>
+  <p class="small">Amitesh Kumar (24210011) · IIT Gandhinagar · ES 678 · Numbers filled from the result files by build_site_data.py · Contains modified Copernicus Sentinel data 2023 to 2024</p>
 </footer>
 <script src="site/vendor/d3.min.js" defer></script>
 <script src="site/vendor/plot.min.js" defer></script>
@@ -743,7 +775,7 @@ def build_pages(svgs):
                 return svgs[arg]
             if kind == "note":
                 term, text = GLOSSARY[arg]
-                return f'<aside class="note"><b>{html.escape(term)}.</b> {text}</aside>'
+                return f'<details class="note"><summary><span>Definition</span>{html.escape(term)}</summary><p>{text}</p></details>'
             if kind == "term":
                 slug, _, text = arg.partition("|")
                 GLOSSARY[slug]
@@ -758,12 +790,17 @@ def build_pages(svgs):
     for i, pg in enumerate(PAGES):
         body = (SRC / f"{pg['slug']}.html").read_text(encoding="utf-8").replace("{{glossary}}", gl)
         body = re.sub(r"\{\{(k|table|tv|svg|note|term|gen):([^}]+)\}\}", fill, body)
-        toc = " ".join(f'<a href="#{a}">{re.sub("<[^>]+>", "", t)}</a>' for a, t in re.findall(r'<h2 id="([^"]+)">(.*?)</h2>', body))
+        parts = re.split(r'<h2 id="([^"]+)">(.*?)</h2>', body)
+        toc_items = list(zip(parts[1::3], parts[2::3]))
+        body = (f'<div class="intro">{parts[0]}</div>' if parts[0].strip() else "") + "".join(
+            f'<section class="sec" id="{a}"><div class="sec-l"><span class="lab">§ {n:02d}</span><h2>{t}</h2></div><div class="sec-r">{c}</div></section>'
+            for n, (a, t, c) in enumerate(zip(parts[1::3], parts[2::3], parts[3::3]), 1))
+        toc = " ".join(f'<a href="#{a}">{re.sub("<[^>]+>", "", t)}</a>' for a, t in toc_items)
         nav = "".join(f'<a href="{p["slug"]}.html"' + (' aria-current="page"' if p is pg else "") + f'>{p["nav"]}</a>' for p in PAGES)
-        prev = f'<a class="prev" href="{PAGES[i - 1]["slug"]}.html">← {PAGES[i - 1]["nav"]}</a>' if i else "<span></span>"
-        nxt = f'<a class="next" href="{PAGES[i + 1]["slug"]}.html">{PAGES[i + 1]["nav"]} →</a>' if i + 1 < len(PAGES) else "<span></span>"
+        prev = f'<a class="prev" href="{PAGES[i - 1]["slug"]}.html"><small>Previous</small>← {PAGES[i - 1]["nav"]}</a>' if i else "<span></span>"
+        nxt = f'<a class="next" href="{PAGES[i + 1]["slug"]}.html"><small>Up next · page {i + 2}</small>{PAGES[i + 1]["nav"]} →</a>' if i + 1 < len(PAGES) else "<span></span>"
         scripts = "".join(f'<script src="site/js/{s}.js" defer></script>\n' for s in pg.get("scripts", ["charts"]))
-        page = SHELL.format(title=pg["nav"], desc=html.escape(pg["lede"]), slug=pg["slug"], nav=nav, kicker=f"{i + 1} of {len(PAGES)}",
+        page = SHELL.format(title=pg["nav"], desc=html.escape(pg["lede"]), slug=pg["slug"], nav=nav, kicker=f"Page {i + 1} of {len(PAGES)} · {pg['nav']}",
                             h1=pg["h1"], lede=pg["lede"], toc=toc, body=body, prev=prev, next=nxt, paper=paper,
                             scripts=scripts)
         FILES[DOCS / f"{pg['slug']}.html"] = page.encode("utf-8")
@@ -778,6 +815,7 @@ def main():
     args = ap.parse_args()
     oof, rec, alarms = numbers()
     hand_check(alarms)
+    new_cities()
     features()
     threshold(oof, rec)
     svgs = svg_maps(rec)

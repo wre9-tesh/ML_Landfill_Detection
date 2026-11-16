@@ -4,44 +4,45 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Overview · Landfill detection in Gujarat</title>
-<meta name="description" content="It finds 16 of the 17 known sites. It also flags one twentieth of the land, and 5 of its 100 strongest alarms are dumps. This site shows how that was measured and why it happens.">
+<meta name="description" content="It finds 21 of 23 known sites across two blind tests, and its 100 strongest alarms led to 3 dumpsites that were not known before. It also flags one twentieth of the land. This site shows how that was measured and why it happens.">
 <script src="site/js/theme.js"></script>
 <link rel="stylesheet" href="site/css/site.css">
 </head>
 <body data-page="index">
 <a class="skip" href="#main">Skip to the text</a>
 <header class="top">
-  <a class="brand" href="index.html">Landfill detection, Gujarat</a>
-  <button class="menu" aria-expanded="false" aria-controls="nav">Menu</button>
+  <a class="brand" href="index.html"><span>Landfill detection, Gujarat<small>IIT Gandhinagar · ES 678 · 2026</small></span></a>
   <nav id="nav" aria-label="Pages"><a href="index.html" aria-current="page">Overview</a><a href="data.html">Data</a><a href="method.html">Method</a><a href="results.html">Results</a><a href="diagnosis.html">Diagnosis</a><a href="reproduce.html">Reproduce</a></nav>
-  <button class="theme" type="button" aria-label="Switch between light and dark">◐</button>
+  <div class="tools"><button class="theme" type="button" aria-label="Switch between light and dark">◐ Theme</button><button class="menu" aria-expanded="false" aria-controls="nav">Menu</button></div>
 </header>
 <main id="main">
-<div class="pagehead">
-  <p class="kicker">1 of 6</p>
+<div class="pagehead"><div class="in">
+  <p class="kicker">Page 1 of 6 · Overview</p>
   <h1>Can a model trained elsewhere in India find Gujarat's dumpsites from free satellite data?</h1>
-  <p class="lede">It finds 16 of the 17 known sites. It also flags one twentieth of the land, and 5 of its 100 strongest alarms are dumps. This site shows how that was measured and why it happens.</p>
-  <nav class="onpage" aria-label="On this page"><b>On this page</b> <a href="#question">The question</a> <a href="#answer">The answer in four numbers</a> <a href="#how">How the study was run</a> <a href="#before">What to know before reading</a> <a href="#where">Where each required item is</a> <a href="#facts">Project facts</a></nav>
-</div>
+  <p class="lede">It finds 21 of 23 known sites across two blind tests, and its 100 strongest alarms led to 3 dumpsites that were not known before. It also flags one twentieth of the land. This site shows how that was measured and why it happens.</p>
+  <nav class="onpage" aria-label="On this page"><b>On this page</b> <a href="#question">The question</a> <a href="#answer">The answer in five numbers</a> <a href="#how">How the study was run</a> <a href="#before">What to know before reading</a> <a href="#where">Where each required item is</a> <a href="#facts">Project facts</a></nav>
+</div></div>
 <article>
-<h2 id="question">The question</h2>
+<section class="sec" id="question"><div class="sec-l"><span class="lab">§ 01</span><h2>The question</h2></div><div class="sec-r">
 <p>Indian cities send most of their solid waste to open dumpsites. Many are large, few are mapped, and all of them can be seen from space. The study that prompted this project reported finding hundreds of such sites in one state from free satellite data, using a few thresholds, but never checked what its detections were.</p>
-<aside class="note"><b>Sentinel-2.</b> A pair of European satellites that photograph all land every five days in 13 colour bands, at 10 to 20 m per pixel. The data is free.</aside>
+<details class="note"><summary><span>Definition</span>Sentinel-2</summary><p>A pair of European satellites that photograph all land every five days in 13 colour bands, at 10 to 20 m per pixel. The data is free.</p></details>
 <p>This project asks a narrower question and checks the answer. <b>If a model is trained on dumpsites elsewhere in India, does it find the dumpsites of Gujarat, a state it has never seen? And when it is wrong, why?</b></p>
-<aside class="note"><b>Held-out region.</b> A validation round in which every place in one region is removed from training and used only for testing. Six rounds, one per region.</aside>
+<details class="note"><summary><span>Definition</span>Held-out region</summary><p>A validation round in which every place in one region is removed from training and used only for testing. Six rounds, one per region.</p></details>
 <p>One row of data is one 10 m square of ground, described by 26 numbers measured by the <a class="term" href="reproduce.html#g-sentinel2">Sentinel-2</a>, <a class="term" href="reproduce.html#g-landsat">Landsat</a> and <a class="term" href="reproduce.html#g-srtm">SRTM</a> missions, and labelled landfill or not landfill. The model reads those 26 numbers and returns a <a class="term" href="reproduce.html#g-score">score</a> between 0 and 1.</p>
 
-<h2 id="answer">The answer in four numbers</h2>
+</div></section><section class="sec" id="answer"><div class="sec-l"><span class="lab">§ 02</span><h2>The answer in five numbers</h2></div><div class="sec-r">
 <div class="stats">
   <div class="stat"><span class="v"><span data-k="guj.sites_found">16</span> <small>of <span data-k="guj.sites">17</span></small></span><span class="l">known Gujarat dumpsites found</span></div>
   <div class="stat"><span class="v"><span data-k="guj.share_flagged">5.2%</span></span><span class="l">of the land scored was flagged, as <span data-k="guj.alarms">7,801</span> separate alarm patches</span></div>
-  <div class="stat"><span class="v"><span data-k="check.dumps">5</span> <small>of <span data-k="check.judged">99</span></small></span><span class="l">of the strongest alarms are dumps, checked by eye</span></div>
+  <div class="stat"><span class="v"><span data-k="new.sites_found">5</span> <small>of <span data-k="new.sites">6</span></small></span><span class="l">dumpsites found in six further cities, sealed before scoring</span></div>
+  <div class="stat"><span class="v"><span data-k="check.dumps_new">3</span></span><span class="l">dumpsites not known before, found among the 100 strongest alarms</span></div>
   <div class="stat"><span class="v"><span data-k="val.f1">0.762</span></span><span class="l">F1 outside Gujarat, with whole regions held out</span></div>
 </div>
 <p>The model recognises a dumpsite when it is shown one: it flags at least half of the outline of <span data-k="guj.sites_found">16</span> of the <span data-k="guj.sites">17</span> sites on a list that was fixed in advance. It also flags <span data-k="guj.km2_flagged">666</span> km² of other land. The known sites are <span data-k="guj.site_px_share_of_flagged">0.4%</span> of what it flags.</p>
-<p>Used as a search tool, it mostly points at the wrong places. Of its 100 strongest alarms, <span data-k="check.dumps">5</span> are dumps; the most common thing found instead is <span data-k="check.top_seen">bare soil or open plot</span> (<span data-k="check.top_seen_n">46</span> alarms). The rest of this site shows how those numbers were obtained, what the model confuses with a dumpsite, and why a model with a respectable F1 behaves this way.</p>
+<p>A second blind test gave the same picture: in six more cities, whose dumpsites were outlined and committed before their land was scored, it found <span data-k="new.sites_found">5</span> of <span data-k="new.sites">6</span>. Its 100 strongest alarms, checked by eye, led to <span data-k="check.dumps_new">3</span> dumpsites that were not known beforehand.</p>
+<p>The model's weakness is the amount of other land it flags. Most of the checked alarms were <span data-k="check.top_seen">bare soil or open plot</span> and similar surfaces. The rest of this site shows how these numbers were obtained, what the model confuses with a dumpsite, and why.</p>
 
-<h2 id="how">How the study was run</h2>
+</div></section><section class="sec" id="how"><div class="sec-l"><span class="lab">§ 03</span><h2>How the study was run</h2></div><div class="sec-r">
 <ol class="steps">
   <li><b>Label.</b> <span data-k="train.places">86</span> dumpsites in <span data-k="train.states">26</span> states and territories outside Gujarat were outlined by hand from high-resolution imagery, with <span data-k="train.lookalike_places">60</span> look-alike places (quarries, ash ponds, bare ground). <a href="data.html#labels">Data</a></li>
   <li><b>Measure.</b> 26 features were read for <span data-k="train.points">34,345</span> sample pixels from free satellite archives. <a href="data.html#variables">Data</a></li>
@@ -55,12 +56,12 @@
   <figcaption><b>Figure O1.</b> The 14 boxes that were scored cover <span data-k="guj.km2">12,854</span> km², <span data-k="guj.share_of_state">6.6%</span> of Gujarat. Each reaches 15 km beyond the known sites of one city. Land outside the boxes was not scored; it is not known to be free of dumpsites.</figcaption>
 </figure>
 
-<h2 id="before">What to know before reading</h2>
+</div></section><section class="sec" id="before"><div class="sec-l"><span class="lab">§ 04</span><h2>What to know before reading</h2></div><div class="sec-r">
 <div class="callout">
   <p><b>This is the third model built in this project.</b> Two earlier versions were trained, frozen and scored on the same <span data-k="guj.sites">17</span> Gujarat sites, and what they got wrong shaped this one. The Gujarat results here are therefore not a first-time test. No Gujarat data was used to train any version. The earlier versions are summarised under <a href="diagnosis.html#how-we-got-here">How we got here</a>.</p>
 </div>
 
-<h2 id="where">Where each required item is</h2>
+</div></section><section class="sec" id="where"><div class="sec-l"><span class="lab">§ 05</span><h2>Where each required item is</h2></div><div class="sec-r">
 <div class="tablewrap"><table>
 <thead><tr><th>Item</th><th>Where</th></tr></thead>
 <tbody>
@@ -76,15 +77,15 @@
 <tr><td>AI-use disclosure and citations</td><td><a href="reproduce.html#ai-use">AI-use disclosure</a>; <a href="reproduce.html#references">references</a></td></tr>
 </tbody></table></div>
 
-<h2 id="facts">Project facts</h2>
-<p>ES 678 course project, graduate track, November 2026. The code, labels, feature tables and results are in the <a href="https://github.com/wre9-tesh/ML_Landfill_Detection">repository</a>. A step-by-step <a href="project_guide_grader.pdf">grader's manual</a> and a longer <a href="project_guide_technical.pdf">replication manual</a> are provided as PDFs.</p>
-
+</div></section><section class="sec" id="facts"><div class="sec-l"><span class="lab">§ 06</span><h2>Project facts</h2></div><div class="sec-r">
+<p>Amitesh Kumar (24210011), IIT Gandhinagar. ES 678 course project, graduate track, November 2026. The code, labels, feature tables and results are in the <a href="https://github.com/wre9-tesh/ML_Landfill_Detection">repository</a>. A step-by-step <a href="project_guide_grader.pdf">grader's manual</a> and a longer <a href="project_guide_technical.pdf">replication manual</a> are provided as PDFs.</p>
+</div></section>
 </article>
-<nav class="pager" aria-label="Previous and next page"><span></span><a class="next" href="data.html">Data →</a></nav>
+<nav class="pager" aria-label="Previous and next page"><span></span><a class="next" href="data.html"><small>Up next · page 2</small>Data →</a></nav>
 </main>
 <footer class="foot">
-  <p><a href="https://github.com/wre9-tesh/ML_Landfill_Detection">Repository</a> · <a href="project_guide_grader.pdf">Grader's manual (PDF)</a> · <a href="reproduce.html#glossary">Glossary</a> · <a href="reproduce.html#ai-use">AI-use disclosure</a></p>
-  <p class="small">ES 678 course project. Every number on this site is filled from the result files by <code>scripts/build_site_data.py</code>. Contains modified Copernicus Sentinel data 2023 to 2024.</p>
+  <p><a href="https://github.com/wre9-tesh/ML_Landfill_Detection">Repository</a> · <a href="project_guide_grader.pdf">Grader's manual</a> · <a href="reproduce.html#glossary">Glossary</a> · <a href="reproduce.html#ai-use">AI-use disclosure</a></p>
+  <p class="small">Amitesh Kumar (24210011) · IIT Gandhinagar · ES 678 · Numbers filled from the result files by build_site_data.py · Contains modified Copernicus Sentinel data 2023 to 2024</p>
 </footer>
 <script src="site/vendor/d3.min.js" defer></script>
 <script src="site/vendor/plot.min.js" defer></script>

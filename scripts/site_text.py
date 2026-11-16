@@ -5,7 +5,7 @@ Used by build_site_data.py. Glossary text may contain inline HTML.
 
 PAGES = [
     {"slug": "index", "nav": "Overview", "h1": "Can a model trained elsewhere in India find Gujarat's dumpsites from free satellite data?",
-     "lede": "It finds 16 of the 17 known sites. It also flags one twentieth of the land, and 5 of its 100 strongest alarms are dumps. "
+     "lede": "It finds 21 of 23 known sites across two blind tests, and its 100 strongest alarms led to 3 dumpsites that were not known before. It also flags one twentieth of the land. "
              "This site shows how that was measured and why it happens.",
      "scripts": ["charts"]},
     {"slug": "data", "nav": "Data", "h1": "The data",
@@ -15,7 +15,7 @@ PAGES = [
      "lede": "The preprocessing choices and the reason for each, the nine models compared, how they were validated, and how the test on Gujarat was protected.",
      "scripts": ["charts"]},
     {"slug": "results", "nav": "Results", "h1": "Results",
-     "lede": "Validation outside Gujarat, then Gujarat itself: the known sites, everything else the model flagged, and a hand check of the 100 strongest alarms.",
+     "lede": "Validation outside Gujarat, then Gujarat itself: the known sites, a second blind test in six new cities, everything else the model flagged, and a hand check of the 100 strongest alarms.",
      "scripts": ["charts", "threshold", "gallery"]},
     {"slug": "diagnosis", "nav": "Diagnosis", "h1": "Diagnosis: why the alarms are mostly wrong",
      "lede": "Error analysis organised as six questions, followed by the limitations of the study and a short account of the two earlier versions.",

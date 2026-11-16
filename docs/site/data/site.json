@@ -44,6 +44,21 @@
   "src": "data/analysis/diag_alarm_points.csv",
   "v": 1.83
  },
+ "all.km2": {
+  "s": "18,098",
+  "src": "both scored areas",
+  "v": 18097.7
+ },
+ "all.sites": {
+  "s": "23",
+  "src": "both test lists",
+  "v": 23
+ },
+ "all.sites_found": {
+  "s": "21",
+  "src": "both test lists",
+  "v": 21
+ },
  "check.checked": {
   "s": "100",
   "src": "data/gujarat_results_v3/blind_check.csv",
@@ -227,17 +242,17 @@
  "diag.pc1": {
   "s": "36%",
   "src": "computed as in data/analysis/diagnostics.md",
-  "v": 0.36335446428238605
+  "v": 0.3633544642823859
  },
  "diag.pc12": {
   "s": "50%",
   "src": "computed as in data/analysis/diagnostics.md",
-  "v": 0.4986238143652376
+  "v": 0.49862381436523756
  },
  "diag.pc2": {
   "s": "14%",
   "src": "computed as in data/analysis/diagnostics.md",
-  "v": 0.1352693500828516
+  "v": 0.13526935008285168
  },
  "diag.shap_premonsoon": {
   "s": "28%",
@@ -433,6 +448,61 @@
   "s": "0.90",
   "src": "data/gujarat_results_v3/alarms.csv",
   "v": 0.9043
+ },
+ "new.alarms": {
+  "s": "2,791",
+  "src": "data/gujarat_results_v3_new/summary.json",
+  "v": 2791
+ },
+ "new.best_name": {
+  "s": "Navsari",
+  "src": "data/gujarat_results_v3_new/site_ranks.csv",
+  "v": ""
+ },
+ "new.best_rank": {
+  "s": "1",
+  "src": "data/gujarat_results_v3_new/site_ranks.csv",
+  "v": 1
+ },
+ "new.km2": {
+  "s": "5,244",
+  "src": "data/gujarat_results_v3_new/summary.json",
+  "v": 5243.6
+ },
+ "new.missed.name": {
+  "s": "Porbandar",
+  "src": "data/gujarat_results_v3_new/site_recall.csv",
+  "v": "Porbandar"
+ },
+ "new.missed.share": {
+  "s": "18%",
+  "src": "data/gujarat_results_v3_new/site_recall.csv",
+  "v": 0.1847
+ },
+ "new.share_flagged": {
+  "s": "4.0%",
+  "src": "data/gujarat_results_v3_new/summary.json",
+  "v": 0.0395
+ },
+ "new.sites": {
+  "s": "6",
+  "src": "data/gujarat_results_v3_new/summary.json",
+  "v": 6
+ },
+ "new.sites_found": {
+  "s": "5",
+  "src": "data/gujarat_results_v3_new/summary.json",
+  "v": 5
+ },
+ "new.top100": {
+  "s": "3",
+  "src": "data/gujarat_results_v3_new/summary.json",
+  "v": 3
+ },
+ "new.top50": {
+  "s": "2",
+  "src": "data/gujarat_results_v3_new/summary.json",
+  "v": 2
  },
  "rare.fa_gujarat": {
   "s": "5.2%",

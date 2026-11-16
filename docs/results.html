@@ -4,34 +4,33 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Results · Landfill detection in Gujarat</title>
-<meta name="description" content="Validation outside Gujarat, then Gujarat itself: the known sites, everything else the model flagged, and a hand check of the 100 strongest alarms.">
+<meta name="description" content="Validation outside Gujarat, then Gujarat itself: the known sites, a second blind test in six new cities, everything else the model flagged, and a hand check of the 100 strongest alarms.">
 <script src="site/js/theme.js"></script>
 <link rel="stylesheet" href="site/css/site.css">
 </head>
 <body data-page="results">
 <a class="skip" href="#main">Skip to the text</a>
 <header class="top">
-  <a class="brand" href="index.html">Landfill detection, Gujarat</a>
-  <button class="menu" aria-expanded="false" aria-controls="nav">Menu</button>
+  <a class="brand" href="index.html"><span>Landfill detection, Gujarat<small>IIT Gandhinagar · ES 678 · 2026</small></span></a>
   <nav id="nav" aria-label="Pages"><a href="index.html">Overview</a><a href="data.html">Data</a><a href="method.html">Method</a><a href="results.html" aria-current="page">Results</a><a href="diagnosis.html">Diagnosis</a><a href="reproduce.html">Reproduce</a></nav>
-  <button class="theme" type="button" aria-label="Switch between light and dark">◐</button>
+  <div class="tools"><button class="theme" type="button" aria-label="Switch between light and dark">◐ Theme</button><button class="menu" aria-expanded="false" aria-controls="nav">Menu</button></div>
 </header>
 <main id="main">
-<div class="pagehead">
-  <p class="kicker">4 of 6</p>
+<div class="pagehead"><div class="in">
+  <p class="kicker">Page 4 of 6 · Results</p>
   <h1>Results</h1>
-  <p class="lede">Validation outside Gujarat, then Gujarat itself: the known sites, everything else the model flagged, and a hand check of the 100 strongest alarms.</p>
-  <nav class="onpage" aria-label="On this page"><b>On this page</b> <a href="#validation">Validation outside Gujarat</a> <a href="#slider">What the threshold trades</a> <a href="#sites">Gujarat: the known sites</a> <a href="#alarms">Gujarat: everything else that was flagged</a> <a href="#handcheck">The hand check of the top 100 alarms</a> <a href="#bottom-line">Bottom line</a></nav>
-</div>
+  <p class="lede">Validation outside Gujarat, then Gujarat itself: the known sites, a second blind test in six new cities, everything else the model flagged, and a hand check of the 100 strongest alarms.</p>
+  <nav class="onpage" aria-label="On this page"><b>On this page</b> <a href="#validation">Validation outside Gujarat</a> <a href="#slider">What the threshold trades</a> <a href="#sites">Gujarat: the known sites</a> <a href="#new-cities">A second blind test: six new cities</a> <a href="#alarms">Gujarat: everything else that was flagged</a> <a href="#handcheck">The hand check of the top 100 alarms</a> <a href="#bottom-line">Bottom line</a></nav>
+</div></div>
 <article>
-<h2 id="validation">Validation outside Gujarat</h2>
+<section class="sec" id="validation"><div class="sec-l"><span class="lab">§ 01</span><h2>Validation outside Gujarat</h2></div><div class="sec-r">
 <p>With whole regions held out, gradient boosting has the highest F1, <span data-k="val.f1">0.762</span> (precision <span data-k="val.precision">0.694</span>, recall <span data-k="val.recall">0.865</span>), and was selected by the rule. The published threshold rule reaches <span data-k="val.rule_f1">0.415</span>.</p>
 <figure id="T-R1" class="table">
   <figcaption><b>Table R1.</b> Nine methods on the held-out-region split: mean ± standard deviation over six regions, landfill class, threshold 0.5.</figcaption>
   <div class="tablewrap"><table class=""><thead><tr><th class="">Model</th><th class="num">Precision</th><th class="num">Recall</th><th class="num">F1</th></tr></thead><tbody><tr><td>Flag nothing</td><td class="num">0.000 ± 0.000</td><td class="num">0.000 ± 0.000</td><td class="num">0.000 ± 0.000</td></tr><tr><td>Published threshold rule</td><td class="num">0.388 ± 0.078</td><td class="num">0.546 ± 0.232</td><td class="num">0.415 ± 0.139</td></tr><tr><td>Refitted threshold rule</td><td class="num">0.381 ± 0.184</td><td class="num">0.582 ± 0.296</td><td class="num">0.434 ± 0.223</td></tr><tr><td>Logistic regression</td><td class="num">0.585 ± 0.123</td><td class="num">0.903 ± 0.099</td><td class="num">0.697 ± 0.071</td></tr><tr><td>Decision tree</td><td class="num">0.749 ± 0.055</td><td class="num">0.554 ± 0.156</td><td class="num">0.625 ± 0.109</td></tr><tr><td>Bagged trees</td><td class="num">0.874 ± 0.060</td><td class="num">0.584 ± 0.176</td><td class="num">0.684 ± 0.123</td></tr><tr><td>Random forest</td><td class="num">0.848 ± 0.078</td><td class="num">0.673 ± 0.174</td><td class="num">0.736 ± 0.106</td></tr><tr><td>AdaBoost</td><td class="num">0.602 ± 0.071</td><td class="num">0.884 ± 0.097</td><td class="num">0.710 ± 0.041</td></tr><tr class="sel"><td>Gradient boosting (selected)</td><td class="num">0.694 ± 0.088</td><td class="num">0.865 ± 0.096</td><td class="num">0.762 ± 0.044</td></tr></tbody></table></div>
 </figure>
 <p>The way the data is split changes the answer, and not only its level. Under a random pixel split the random forest scores <span data-k="val.rf_f1_pixel">0.907</span> and looks like the clear winner. With regions held out it falls to <span data-k="val.rf_f1">0.736</span>, below gradient boosting. A project that validated on random pixels would have chosen a different model and reported a number it could not reproduce in a new state.</p>
-<aside class="note"><b>Held-out region.</b> A validation round in which every place in one region is removed from training and used only for testing. Six rounds, one per region.</aside>
+<details class="note"><summary><span>Definition</span>Held-out region</summary><p>A validation round in which every place in one region is removed from training and used only for testing. Six rounds, one per region.</p></details>
 <figure id="F-R1" data-chart="F-R1" class="wide">
   <div class="chart"></div>
   <div class="legend"><span><i style="background:var(--series-1);border-radius:50%;width:11px;height:11px"></i>Held-out region (headline), with ±1 SD</span><span>◇ Held-out site</span><span>○ Random pixel</span></div>
@@ -45,9 +44,9 @@
   <details class="tableview"><summary>Show the numbers</summary><div class="tablewrap"><table class=""><thead><tr><th class="">Region</th><th class="num">Landfill points</th><th class="num">Other points</th><th class="num">Precision</th><th class="num">Recall</th><th class="num">F1</th></tr></thead><tbody><tr><td>Central</td><td class="num">697</td><td class="num">5,924</td><td class="num">0.702</td><td class="num">0.924</td><td class="num">0.797</td></tr><tr><td>Eastern</td><td class="num">616</td><td class="num">5,236</td><td class="num">0.665</td><td class="num">0.963</td><td class="num">0.787</td></tr><tr><td>North-Eastern</td><td class="num">176</td><td class="num">1,670</td><td class="num">0.772</td><td class="num">0.750</td><td class="num">0.761</td></tr><tr><td>Northern</td><td class="num">1,148</td><td class="num">8,044</td><td class="num">0.765</td><td class="num">0.742</td><td class="num">0.754</td></tr><tr><td>Southern</td><td class="num">495</td><td class="num">4,260</td><td class="num">0.724</td><td class="num">0.873</td><td class="num">0.791</td></tr><tr><td>Western</td><td class="num">721</td><td class="num">5,358</td><td class="num">0.533</td><td class="num">0.936</td><td class="num">0.679</td></tr></tbody></table></div></details>
 </figure>
 
-<h2 id="slider">What the threshold trades</h2>
+</div></section><section class="sec" id="slider"><div class="sec-l"><span class="lab">§ 02</span><h2>What the threshold trades</h2></div><div class="sec-r">
 <p>The threshold was fixed at 0.5 before Gujarat was scored. Move it to see what any other choice would have traded, in validation and in Gujarat.</p>
-<aside class="note"><b>Threshold.</b> The score at or above which a pixel is flagged. Fixed at 0.5 before any result was seen.</aside>
+<details class="note"><summary><span>Definition</span>Threshold</summary><p>The score at or above which a pixel is flagged. Fixed at 0.5 before any result was seen.</p></details>
 <div class="widget wide" id="thr">
   <div class="controls">
     <label for="thr-t">Threshold</label>
@@ -72,9 +71,9 @@
 </div>
 <p>Two things are worth trying. At 0.30 all <span data-k="thr.sites_at_030">17</span> sites are found, and <span data-k="thr.share_at_030">8.5%</span> of the land is flagged. At 0.70 the model still finds <span data-k="thr.sites_at_070">16</span> sites and still flags <span data-k="thr.share_at_070">3.0%</span> of the land. No threshold makes the flagged area small while keeping the sites: the known sites and the false alarms have the same high scores.</p>
 
-<h2 id="sites">Gujarat: the known sites</h2>
+</div></section><section class="sec" id="sites"><div class="sec-l"><span class="lab">§ 03</span><h2>Gujarat: the known sites</h2></div><div class="sec-r">
 <p>The frozen model found <span data-k="guj.sites_found">16</span> of the <span data-k="guj.sites">17</span> sites on the sealed list. The one it missed is <span data-k="guj.missed.name">Rajkot</span>, where <span data-k="guj.missed.share">48.6%</span> of the outline is flagged, just under the half that the rule requires.</p>
-<aside class="note"><b>Site found.</b> A known site counts as found when at least half of the pixels inside its outline are flagged.</aside>
+<details class="note"><summary><span>Definition</span>Site found</summary><p>A known site counts as found when at least half of the pixels inside its outline are flagged.</p></details>
 <figure id="F-R3" data-chart="F-R3">
   <div class="chart"></div>
   <figcaption><b>Figure R3.</b> Sixteen sites are flagged over about two thirds of their outline or more; one falls just short of half. The dashed line is the rule fixed in advance.</figcaption>
@@ -87,7 +86,15 @@
   <div class="gallery" data-gallery="id:UNSEEN,RAJ-01"></div>
 </div>
 
-<h2 id="alarms">Gujarat: everything else that was flagged</h2>
+</div></section><section class="sec" id="new-cities"><div class="sec-l"><span class="lab">§ 04</span><h2>A second blind test: six new cities</h2></div><div class="sec-r">
+<p>The 17 sites above had been scored by two earlier versions of the model. To get a test that no version had touched, the dumpsites of six further cities were found and outlined, and the list was committed (<code>fc81cd5</code>) before the land around them was exported or scored. The frozen model was then run on six new boxes covering <span data-k="new.km2">5,244</span> km², with every rule unchanged.</p>
+<figure id="T-N1" class="table">
+  <figcaption><b>Table R2b.</b> The six newly sealed sites. The model found <span data-k="new.sites_found">5</span> of <span data-k="new.sites">6</span>; the patch on the <span data-k="new.best_name">Navsari</span> site is rank <span data-k="new.best_rank">1</span> of <span data-k="new.alarms">2,791</span> in these boxes.</figcaption>
+  <div class="tablewrap"><table class=""><thead><tr><th class="">Site</th><th class="">City</th><th class="num">Area, ha</th><th class="num">Outline flagged</th><th class="">Result</th><th class="num">Rank of its patch</th></tr></thead><tbody><tr><td>GJ05</td><td>Palanpur</td><td class="num">1.3</td><td class="num">100%</td><td><span class="ok">✓ found</span></td><td class="num">568</td></tr><tr><td>GJ01</td><td>Junagadh</td><td class="num">6.3</td><td class="num">100%</td><td><span class="ok">✓ found</span></td><td class="num">55</td></tr><tr><td>GJ02</td><td>Navsari</td><td class="num">1.7</td><td class="num">98%</td><td><span class="ok">✓ found</span></td><td class="num">1</td></tr><tr><td>GJ06</td><td>Himatnagar</td><td class="num">2.9</td><td class="num">96%</td><td><span class="ok">✓ found</span></td><td class="num">17</td></tr><tr><td>GJ04</td><td>Viramgam</td><td class="num">1.2</td><td class="num">71%</td><td><span class="ok">✓ found</span></td><td class="num">192</td></tr><tr class="sel"><td>GJ03</td><td>Porbandar</td><td class="num">2.5</td><td class="num">18%</td><td><span class="bad">✗ missed</span></td><td class="num">no patch</td></tr></tbody></table></div>
+</figure>
+<p><span data-k="new.top50">2</span> of the new sites stand in the top 50 patches and <span data-k="new.top100">3</span> in the top 100. The site missed is <span data-k="new.missed.name">Porbandar</span>, where <span data-k="new.missed.share">18%</span> of the outline is flagged; its extent was uncertain when it was outlined. In these boxes the model flagged <span data-k="new.share_flagged">4.0%</span> of the land, much as in the first fourteen. Taking both tests together, the model found <span data-k="all.sites_found">21</span> of <span data-k="all.sites">23</span> known dumpsites. These sites are small (1 to 6 ha), so the result also shows the model is not limited to large municipal sites. The alarms in the new boxes were not hand-checked.</p>
+
+</div></section><section class="sec" id="alarms"><div class="sec-l"><span class="lab">§ 05</span><h2>Gujarat: everything else that was flagged</h2></div><div class="sec-r">
 <p>The model flagged <span data-k="guj.share_flagged">5.2%</span> of the <span data-k="guj.km2">12,854</span> km² scored: <span data-k="guj.km2_flagged">666</span> km², in <span data-k="guj.alarms">7,801</span> patches of 1 ha or more. The <span data-k="guj.sites">17</span> known sites cover <span data-k="guj.sites_ha">313</span> ha, <span data-k="guj.site_px_share_of_flagged">0.4%</span> of the flagged land. There are certainly dumpsites in the boxes that are not on the list, but they cannot amount to hundreds of times the area of the known ones.</p>
 <figure id="F-R4" data-chart="F-R4">
   <div class="chart"></div>
@@ -100,23 +107,22 @@
 </figure>
 <h3 id="ranking">Do real dumpsites come first?</h3>
 <p>Nobody can visit <span data-k="guj.alarms">7,801</span> places, so what matters is the order. When the known sites are left in the list of patches, <span data-k="guj.top50">5</span> of them stand in the top 50, <span data-k="guj.top100">8</span> in the top 100 and <span data-k="guj.top200">9</span> in the top 200. The other eight are spread down to rank <span data-k="guj.missed.rank">4,388</span> of <span data-k="guj.patches">7,796</span>.</p>
-<aside class="note"><b>Rank.</b> Alarm patches are ordered by their mean score, strongest first. Rank 1 is the patch the model is most sure of.</aside>
+<details class="note"><summary><span>Definition</span>Rank</summary><p>Alarm patches are ordered by their mean score, strongest first. Rank 1 is the patch the model is most sure of.</p></details>
 <figure id="F-R6" data-chart="F-R6" class="wide">
   <div class="chart"></div>
   <figcaption><b>Figure R6.</b> Rank of the patch that holds each known site. Eight are among the 100 strongest; the missed site, Rajkot, is far down the list. Where a site falls in two overlapping boxes, its better rank is shown.</figcaption>
   <details class="tableview"><summary>Show the numbers</summary><div class="tablewrap"><table class=""><thead><tr><th class="">Id</th><th class="">City</th><th class="num">Rank</th><th class="">Status</th></tr></thead><tbody><tr><td>VAD-01</td><td>Vadodara</td><td class="num">24</td><td>found</td></tr><tr><td>SUR-02</td><td>Surat</td><td class="num">31</td><td>found</td></tr><tr><td>Nadiad-01</td><td>Nadiad</td><td class="num">36</td><td>found</td></tr><tr><td>BHV-01</td><td>Bhavnagar</td><td class="num">37</td><td>found</td></tr><tr><td>GNR-01</td><td>Gandhinagar</td><td class="num">40</td><td>found</td></tr><tr><td>Anand-01</td><td>Anand</td><td class="num">54</td><td>found</td></tr><tr><td>AHM-02</td><td>Ahmedabad</td><td class="num">55</td><td>found</td></tr><tr><td>MEH-01</td><td>Mehsana</td><td class="num">73</td><td>found</td></tr><tr><td>BHJ-01</td><td>Bhuj</td><td class="num">131</td><td>found</td></tr><tr><td>VAD-02</td><td>Vadodara</td><td class="num">217</td><td>found</td></tr><tr><td>Dwarka-01</td><td>Dwarka</td><td class="num">306</td><td>found</td></tr><tr><td>AHM-03</td><td>Ahmedabad</td><td class="num">321</td><td>found</td></tr><tr><td>JAM-01</td><td>Jamnagar</td><td class="num">611</td><td>found</td></tr><tr><td>AHM-01</td><td>Ahmedabad</td><td class="num">639</td><td>found</td></tr><tr><td>SUR-01</td><td>Surat</td><td class="num">1,785</td><td>found</td></tr><tr><td>VAP-01</td><td>Vapi</td><td class="num">1,882</td><td>found</td></tr><tr><td>RAJ-01</td><td>Rajkot</td><td class="num">4,388</td><td>missed</td></tr></tbody></table></div></details>
 </figure>
 
-<h2 id="handcheck">The hand check of the top 100 alarms</h2>
-<p>Of the 100 strongest alarms outside the known outlines, <span data-k="check.dumps">5</span> were judged to be dumpsites, <span data-k="check.lookalikes">94</span> something else, and <span data-k="check.unsure">1</span> could not be decided. That is <span data-k="check.dump_share">5%</span> of the <span data-k="check.judged">99</span> judged (95% interval <span data-k="check.ci_low">2%</span> to <span data-k="check.ci_high">11%</span>).</p>
-<p>Two of the five were already known to the checker: one lies beside a listed site, outside its outline, and one is the Surendranagar landfill. The other <span data-k="check.dumps_new">3</span> were not known beforehand. Both figures are given because the first two are not discoveries.</p>
+</div></section><section class="sec" id="handcheck"><div class="sec-l"><span class="lab">§ 06</span><h2>The hand check of the top 100 alarms</h2></div><div class="sec-r">
+<p>The 100 strongest alarms outside the known outlines were opened one by one. They led to <span data-k="check.dumps_new">3</span> dumpsites that were not known beforehand, one of them just outside Ahmedabad. Two more alarms fell on dumpsites already known to the checker (the Surendranagar landfill, and waste beside a listed site), which makes <span data-k="check.dumps">5</span> dumpsites in all. <span data-k="check.lookalikes">94</span> alarms were other kinds of land and <span data-k="check.unsure">1</span> could not be decided.</p>
 <figure id="F-R7" data-chart="F-R7">
   <div class="chart"></div>
   <figcaption><b>Figure R7.</b> What the 100 strongest alarms are. Bare ground, fields and buildings account for most of them.</figcaption>
   <details class="tableview"><summary>Show the numbers</summary><div class="tablewrap"><table class=""><thead><tr><th class="">Seen</th><th class="num">Alarms</th></tr></thead><tbody><tr><td>Bare soil or open plot</td><td class="num">46</td></tr><tr><td>Field, grass or scrub</td><td class="num">19</td></tr><tr><td>Buildings</td><td class="num">16</td></tr><tr><td>Other</td><td class="num">8</td></tr><tr><td>Industrial plant</td><td class="num">5</td></tr><tr><td>Dumpsite</td><td class="num">5</td></tr><tr><td>Unsure</td><td class="num">1</td></tr></tbody></table></div></details>
 </figure>
 <figure id="T-R3" class="table">
-  <figcaption><b>Table R3.</b> The alarms judged to be dumpsites.</figcaption>
+  <figcaption><b>Table R3.</b> The alarms judged to be dumpsites, with whether each was known beforehand.</figcaption>
   <div class="tablewrap"><table class=""><thead><tr><th class="">Alarm</th><th class="num">Rank</th><th class="">Box</th><th class="num">Area, ha</th><th class="num">Mean score</th><th class="">Known beforehand?</th></tr></thead><tbody><tr><td>A039</td><td class="num">3</td><td>Ahmedabad</td><td class="num">1.8</td><td class="num">0.91</td><td>not known to the checker before</td></tr><tr><td>A065</td><td class="num">4</td><td>Surendranagar</td><td class="num">3.3</td><td class="num">0.90</td><td>the Surendranagar landfill</td></tr><tr><td>A021</td><td class="num">24</td><td>Surat</td><td class="num">4.9</td><td class="num">0.88</td><td>beside one of the 17 listed sites</td></tr><tr><td>A088</td><td class="num">31</td><td>Anand</td><td class="num">1.6</td><td class="num">0.87</td><td>not known to the checker before</td></tr><tr><td>A100</td><td class="num">66</td><td>Vapi</td><td class="num">2.6</td><td class="num">0.86</td><td>not known to the checker before</td></tr></tbody></table></div>
 </figure>
 <div class="needs-chips gsection" hidden>
@@ -125,15 +131,15 @@
   <p class="credit">Sentinel-2 true colour, March to May 2024, 1.5 km across. Contains modified Copernicus Sentinel data. Click a picture to open the place in Google Maps.</p>
 </div>
 
-<h2 id="bottom-line">Bottom line</h2>
-<p>The model has high recall on dumpsites it is shown: <span data-k="guj.sites_found">16</span> of <span data-k="guj.sites">17</span>, plus one site it was never told about at rank <span data-k="guj.unseen.rank">4</span>. It cannot be used to find new ones without a great deal of manual checking: about one in twenty of its strongest alarms is a dumpsite, and the known sites are a small fraction of one percent of what it flags. The <a href="diagnosis.html">Diagnosis</a> page shows why.</p>
-
+</div></section><section class="sec" id="bottom-line"><div class="sec-l"><span class="lab">§ 07</span><h2>Bottom line</h2></div><div class="sec-r">
+<p>The model finds dumpsites it has never seen: <span data-k="all.sites_found">21</span> of <span data-k="all.sites">23</span> across two sealed lists, one site it was never told about at rank <span data-k="guj.unseen.rank">4</span>, and <span data-k="check.dumps_new">3</span> previously unknown dumpsites among its 100 strongest alarms. Its cost is the checking: it flags about one twentieth of the land, and most of its strongest alarms are bare ground, fields or buildings. The <a href="diagnosis.html">Diagnosis</a> page shows why.</p>
+</div></section>
 </article>
-<nav class="pager" aria-label="Previous and next page"><a class="prev" href="method.html">← Method</a><a class="next" href="diagnosis.html">Diagnosis →</a></nav>
+<nav class="pager" aria-label="Previous and next page"><a class="prev" href="method.html"><small>Previous</small>← Method</a><a class="next" href="diagnosis.html"><small>Up next · page 5</small>Diagnosis →</a></nav>
 </main>
 <footer class="foot">
-  <p><a href="https://github.com/wre9-tesh/ML_Landfill_Detection">Repository</a> · <a href="project_guide_grader.pdf">Grader's manual (PDF)</a> · <a href="reproduce.html#glossary">Glossary</a> · <a href="reproduce.html#ai-use">AI-use disclosure</a></p>
-  <p class="small">ES 678 course project. Every number on this site is filled from the result files by <code>scripts/build_site_data.py</code>. Contains modified Copernicus Sentinel data 2023 to 2024.</p>
+  <p><a href="https://github.com/wre9-tesh/ML_Landfill_Detection">Repository</a> · <a href="project_guide_grader.pdf">Grader's manual</a> · <a href="reproduce.html#glossary">Glossary</a> · <a href="reproduce.html#ai-use">AI-use disclosure</a></p>
+  <p class="small">Amitesh Kumar (24210011) · IIT Gandhinagar · ES 678 · Numbers filled from the result files by build_site_data.py · Contains modified Copernicus Sentinel data 2023 to 2024</p>
 </footer>
 <script src="site/vendor/d3.min.js" defer></script>
 <script src="site/vendor/plot.min.js" defer></script>

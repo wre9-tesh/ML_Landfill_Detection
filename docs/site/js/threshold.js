@@ -52,7 +52,7 @@
     const at = curve[i];
     el.replaceChildren(Plot.plot({
       width: w, height: 250, marginLeft: 36, marginRight: 64, marginTop: 14, marginBottom: 36,
-      style: { background: "transparent", color: c.ink, fontSize: "12.5px", fontFamily: "system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" },
+      style: { background: "transparent", color: c.ink, fontSize: "12.5px", fontFamily: "'Inter Tight', system-ui, sans-serif" },
       x: { domain: [0, 1], label: "Threshold", grid: true }, y: { domain: [0, 1], label: null, grid: true },
       marks: [
         Plot.ruleX([0.5], { stroke: c.muted, strokeDasharray: "4 3" }),
