@@ -32,7 +32,7 @@
 </figure>
 
 </div></section><section class="sec" id="sources"><div class="sec-l"><span class="lab">§ 02</span><h2>Sources</h2></div><div class="sec-r">
-<aside class="note"><b>Surface reflectance.</b> The share of sunlight a surface reflects in one band, from 0 to 1, after the effect of the atmosphere is removed.</aside>
+<details class="note"><summary><span>Definition</span>Surface reflectance</summary><p>The share of sunlight a surface reflects in one band, from 0 to 1, after the effect of the atmosphere is removed.</p></details>
 <div class="tablewrap wide"><table>
 <thead><tr><th>Source</th><th>Earth Engine dataset</th><th>Native resolution</th><th>Dates used</th><th>What is taken</th></tr></thead>
 <tbody>
@@ -44,13 +44,13 @@
 <tr><td>Google Earth imagery</td><td>viewed by hand</td><td>under 1 m</td><td>closest to Mar to May 2024</td><td>Labelling and the hand check only. Never a model input</td></tr>
 <tr><td>geoBoundaries India, states</td><td>file in the repository</td><td></td><td></td><td>Assigning each site to a state</td></tr>
 </tbody></table></div>
-<aside class="note"><b>Median composite.</b> For each pixel, the middle value of all its cloud-free observations in a period. It removes clouds, shadows and one-day events.</aside>
+<details class="note"><summary><span>Definition</span>Median composite</summary><p>For each pixel, the middle value of all its cloud-free observations in a period. It removes clouds, shadows and one-day events.</p></details>
 <p>Everything the model reads is free and global. The exact collection names, dates and cloud limits are stored with each feature table (<code>features_meta.json</code>) and are the same for the training points and for Gujarat.</p>
 
 </div></section><section class="sec" id="labels"><div class="sec-l"><span class="lab">§ 03</span><h2>How the labels were made</h2></div><div class="sec-r">
 <p>There is no public list of Indian dumpsites with outlines. Two sources were combined.</p>
 <p><b>OpenStreetMap.</b> <span data-k="screen.osm_candidates">843</span> places tagged as landfill outside Gujarat were put in a fixed order. <span data-k="screen.screened">107</span> were screened by eye in the time available. Only <span data-k="screen.kept">13</span> were active dumpsites with a usable outline; <span data-k="screen.dropped">93</span> were dropped. <span data-k="train.lookalike_places">60</span> of the dropped places were kept as <a class="term" href="reproduce.html#g-lookalike">look-alike</a> examples: 32 ash ponds, 16 bare-soil sites and 12 quarries that someone had mapped as landfill.</p>
-<aside class="note"><b>Look-alike.</b> A place that is not a dump but resembles one from above: a quarry, an ash pond, bare ground. Used in training as a hard example of what not to flag.</aside>
+<details class="note"><summary><span>Definition</span>Look-alike</summary><p>A place that is not a dump but resembles one from above: a quarry, an ash pond, bare ground. Used in training as a hard example of what not to flag.</p></details>
 <p><b>Hand-drawn outlines.</b> <span data-k="train.outlines_drawn">82</span> further dumpsites were found and outlined in Google Earth. After merging outlines within 500 m of each other and removing sites under 1 ha, <span data-k="train.places">86</span> places remain (<span data-k="train.places_osm">11</span> from OpenStreetMap, <span data-k="train.places_drawn">75</span> hand-drawn) in <span data-k="train.states">26</span> states and territories.</p>
 <p>The rule for a site was fixed before labelling began: dumping must be visibly active in the image closest to March to May 2024, and the visible waste must cover at least 1 ha.</p>
 <figure id="F-D1" data-chart="F-D1">
@@ -65,13 +65,13 @@
 
 </div></section><section class="sec" id="size"><div class="sec-l"><span class="lab">§ 04</span><h2>Size</h2></div><div class="sec-r">
 <p>Points were drawn inside the outlines: up to 50 per landfill place and up to 30 per look-alike place. As many random points as landfill points were drawn across the same states, and <span data-k="train.background_points">25,800</span> more background points were drawn in the 15 km boxes around the training landfills. Of <span data-k="train.points_drawn">35,330</span> points, <span data-k="train.points_dropped">985</span> lacked at least one feature and were dropped, leaving <span data-k="train.points">34,345</span>. Landfill is <span data-k="train.landfill_share">11%</span> of them.</p>
-<aside class="note"><b>Near-site background.</b> Points drawn at random from the 15 km box around each training landfill. They show the model what the land around a city dump looks like.</aside>
+<details class="note"><summary><span>Definition</span>Near-site background</summary><p>Points drawn at random from the 15 km box around each training landfill. They show the model what the land around a city dump looks like.</p></details>
 <figure id="T-D3" class="table wide">
   <figcaption><b>Table D3.</b> Training points by class and region. Each region is held out once in validation.</figcaption>
   <div class="tablewrap"><table class=""><thead><tr><th class="">Region</th><th class="num">Landfill</th><th class="num">Near-site background</th><th class="num">Random background</th><th class="num">Bare soil</th><th class="num">Quarry</th><th class="num">Ash pond</th><th class="num">Total</th></tr></thead><tbody><tr><td>Central</td><td class="num">697</td><td class="num">4,800</td><td class="num">674</td><td class="num">60</td><td class="num">30</td><td class="num">360</td><td class="num">6,621</td></tr><tr><td>Eastern</td><td class="num">616</td><td class="num">4,200</td><td class="num">616</td><td class="num">60</td><td class="num">180</td><td class="num">180</td><td class="num">5,852</td></tr><tr><td>North-Eastern</td><td class="num">176</td><td class="num">1,496</td><td class="num">174</td><td class="num">0</td><td class="num">0</td><td class="num">0</td><td class="num">1,846</td></tr><tr><td>Northern</td><td class="num">1,148</td><td class="num">6,840</td><td class="num">1,114</td><td class="num">90</td><td class="num">0</td><td class="num">0</td><td class="num">9,192</td></tr><tr><td>Southern</td><td class="num">495</td><td class="num">3,316</td><td class="num">465</td><td class="num">149</td><td class="num">90</td><td class="num">240</td><td class="num">4,755</td></tr><tr><td>Western</td><td class="num">721</td><td class="num">4,337</td><td class="num">721</td><td class="num">120</td><td class="num">60</td><td class="num">120</td><td class="num">6,079</td></tr><tr class="sel"><td>All regions</td><td class="num">3,853</td><td class="num">24,989</td><td class="num">3,764</td><td class="num">479</td><td class="num">360</td><td class="num">900</td><td class="num">34,345</td></tr></tbody></table></div>
 </figure>
 <p>The test set is separate: <span data-k="guj.sites">17</span> known dumpsites in <span data-k="guj.cities">13</span> Gujarat cities, <span data-k="guj.sites_ha">313</span> ha in all. The list was committed to the repository (commit <code>8711855</code>, 11 November) before any model was run, and nothing from Gujarat is in the training table.</p>
-<aside class="note"><b>Sealed test list.</b> The list of known Gujarat dumpsites with their outlines, committed before any model was run and not used in training.</aside>
+<details class="note"><summary><span>Definition</span>Sealed test list</summary><p>The list of known Gujarat dumpsites with their outlines, committed before any model was run and not used in training.</p></details>
 <figure id="T-D4" class="table">
   <figcaption><b>Table D4.</b> The sealed Gujarat test list.</figcaption>
   <details class="tableview"><summary>Show the 17 sites</summary><div class="tablewrap"><table class=""><thead><tr><th class="">ID</th><th class="">City</th><th class="">Name on the list</th><th class="num">Area, ha</th></tr></thead><tbody><tr><td>AHM-01</td><td>Ahmedabad</td><td>Ahmedabad LF-1 (pirana)</td><td class="num">47.5</td></tr><tr><td>AHM-02</td><td>Ahmedabad</td><td>Ahmedabad LF - 2(a) + Ahmedabad LF -2(b)</td><td class="num">19.2</td></tr><tr><td>AHM-03</td><td>Ahmedabad</td><td>Ahmedabad LF - 3</td><td class="num">8.6</td></tr><tr><td>Anand-01</td><td>Anand</td><td>Anand LF-1</td><td class="num">2.5</td></tr><tr><td>BHJ-01</td><td>Bhuj</td><td>Bhuj LF -1</td><td class="num">10.3</td></tr><tr><td>BHV-01</td><td>Bhavnagar</td><td>Bhavnagar LF -1</td><td class="num">28.0</td></tr><tr><td>Dwarka-01</td><td>Dwarka</td><td>Dwarka-01</td><td class="num">1.1</td></tr><tr><td>GNR-01</td><td>Gandhinagar</td><td>Gandhinagar LF -1</td><td class="num">17.0</td></tr><tr><td>JAM-01</td><td>Jamnagar</td><td>Jamnagar LF -1</td><td class="num">3.3</td></tr><tr><td>MEH-01</td><td>Mehsana</td><td>Mehsana LF - 1</td><td class="num">5.1</td></tr><tr><td>Nadiad-01</td><td>Nadiad</td><td>Nadiad LF-1</td><td class="num">4.4</td></tr><tr><td>RAJ-01</td><td>Rajkot</td><td>Rajkot LF-1</td><td class="num">30.2</td></tr><tr><td>SUR-01</td><td>Surat</td><td>Surat LF-1</td><td class="num">2.3</td></tr><tr><td>SUR-02</td><td>Surat</td><td>Surat LF -2 (khajod)</td><td class="num">107.5</td></tr><tr><td>VAD-01</td><td>Vadodara</td><td>Vadodara LF - 1</td><td class="num">15.2</td></tr><tr><td>VAD-02</td><td>Vadodara</td><td>Vadodara LF -2</td><td class="num">8.5</td></tr><tr><td>VAP-01</td><td>Vapi</td><td>Vapi LF - 1</td><td class="num">2.0</td></tr></tbody></table></div></details>
@@ -79,7 +79,7 @@
 
 </div></section><section class="sec" id="variables"><div class="sec-l"><span class="lab">§ 05</span><h2>The 26 variables</h2></div><div class="sec-r">
 <p>The variables fall into six groups. The first three (12 variables) describe one pixel on one date. The last three (14 variables) add a second season and the pixel's surroundings.</p>
-<aside class="note"><b>NDVI.</b> A greenness index from the red and near-infrared bands. High on crops and trees, near zero on bare ground, waste and roofs.</aside>
+<details class="note"><summary><span>Definition</span>NDVI</summary><p>A greenness index from the red and near-infrared bands. High on crops and trees, near zero on bare ground, waste and roofs.</p></details>
 <div class="tablewrap wide"><table>
 <thead><tr><th>Group</th><th>Variables</th><th>What they say</th></tr></thead>
 <tbody>
@@ -90,12 +90,12 @@
 <tr><td>Surroundings (7)</td><td><code>NDVI_ctx</code> <code>NDBI_ctx</code> <code>BSI_ctx</code>, <code>NDVI_sd</code> <code>B11_sd</code>, <code>NDVI_rel</code> <code>NDBI_rel</code></td><td>Mean within 150 m, patchiness within 50 m, and the pixel minus its 150 m mean</td></tr>
 <tr><td>Seasonal change (2)</td><td><code>dNDVI</code>, <code>dBSI</code></td><td>Winter minus pre-monsoon</td></tr>
 </tbody></table></div>
-<aside class="note"><b>Land surface temperature.</b> How warm the ground surface is, measured from thermal infrared. Dumps are usually warmer than their surroundings: dark, dry, and decomposing.</aside>
+<details class="note"><summary><span>Definition</span>Land surface temperature</summary><p>How warm the ground surface is, measured from thermal infrared. Dumps are usually warmer than their surroundings: dark, dry, and decomposing.</p></details>
 <p>The formula and source of each variable are shown in the explorer below when it is selected.</p>
 
 <h3 id="explorer">Explore a variable</h3>
 <p>Pick a variable and compare landfill pixels with each kind of non-landfill pixel. Where the two shapes overlap, that variable cannot tell the two apart. The <a class="term" href="reproduce.html#g-auc">AUC</a> at the right of each panel puts a number on it.</p>
-<aside class="note"><b>AUC of one feature.</b> The chance that a randomly chosen landfill pixel has a higher value of that feature than a randomly chosen pixel of another class. 0.5 means the feature carries no information; 0 or 1 means it separates them completely.</aside>
+<details class="note"><summary><span>Definition</span>AUC of one feature</summary><p>The chance that a randomly chosen landfill pixel has a higher value of that feature than a randomly chosen pixel of another class. 0.5 means the feature carries no information; 0 or 1 means it separates them completely.</p></details>
 <div class="widget wide" id="ex">
   <div class="controls">
     <label for="ex-f">Variable</label>

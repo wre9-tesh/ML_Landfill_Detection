@@ -40,29 +40,6 @@
     menu.setAttribute("aria-expanded", open);
   });
 
-  // Margin notes are placed beside the paragraph before them; keep them from overlapping.
-  function spreadNotes() {
-    let floor = -Infinity;
-    const wideEls = Array.from(document.querySelectorAll("article .wide, article .stats, article .widget"));
-    document.querySelectorAll("aside.note").forEach((n) => {
-      n.style.marginTop = "";
-      n.classList.remove("inline");
-      if (getComputedStyle(n).position !== "absolute") return;
-      let r = n.getBoundingClientRect();
-      if (r.top + scrollY < floor + 12) n.style.marginTop = "calc(-5.2em + " + (floor + 12 - r.top - scrollY) + "px)";
-      r = n.getBoundingClientRect();
-      // A note that would sit on top of a full-width figure goes back into the text column.
-      const hit = (e) => { const w = e.getBoundingClientRect(); return r.bottom > w.top - 6 && r.top < w.bottom + 6; };
-      if (wideEls.some(hit)) { n.style.marginTop = ""; n.classList.add("inline"); return; }
-      floor = r.bottom + scrollY;
-    });
-  }
-  addEventListener("load", spreadNotes);
-  site.onRedraw(spreadNotes);
-  // Charts and widgets change the page height after they load; place the notes again when they do.
-  let noteTimer;
-  if (window.ResizeObserver) new ResizeObserver(() => { clearTimeout(noteTimer); noteTimer = setTimeout(spreadNotes, 80); }).observe(document.querySelector("main"));
-
   let w = innerWidth, timer;
   addEventListener("resize", () => {
     if (innerWidth === w) return;

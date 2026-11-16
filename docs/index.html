@@ -25,9 +25,9 @@
 <article>
 <section class="sec" id="question"><div class="sec-l"><span class="lab">§ 01</span><h2>The question</h2></div><div class="sec-r">
 <p>Indian cities send most of their solid waste to open dumpsites. Many are large, few are mapped, and all of them can be seen from space. The study that prompted this project reported finding hundreds of such sites in one state from free satellite data, using a few thresholds, but never checked what its detections were.</p>
-<aside class="note"><b>Sentinel-2.</b> A pair of European satellites that photograph all land every five days in 13 colour bands, at 10 to 20 m per pixel. The data is free.</aside>
+<details class="note"><summary><span>Definition</span>Sentinel-2</summary><p>A pair of European satellites that photograph all land every five days in 13 colour bands, at 10 to 20 m per pixel. The data is free.</p></details>
 <p>This project asks a narrower question and checks the answer. <b>If a model is trained on dumpsites elsewhere in India, does it find the dumpsites of Gujarat, a state it has never seen? And when it is wrong, why?</b></p>
-<aside class="note"><b>Held-out region.</b> A validation round in which every place in one region is removed from training and used only for testing. Six rounds, one per region.</aside>
+<details class="note"><summary><span>Definition</span>Held-out region</summary><p>A validation round in which every place in one region is removed from training and used only for testing. Six rounds, one per region.</p></details>
 <p>One row of data is one 10 m square of ground, described by 26 numbers measured by the <a class="term" href="reproduce.html#g-sentinel2">Sentinel-2</a>, <a class="term" href="reproduce.html#g-landsat">Landsat</a> and <a class="term" href="reproduce.html#g-srtm">SRTM</a> missions, and labelled landfill or not landfill. The model reads those 26 numbers and returns a <a class="term" href="reproduce.html#g-score">score</a> between 0 and 1.</p>
 
 </div></section><section class="sec" id="answer"><div class="sec-l"><span class="lab">§ 02</span><h2>The answer in five numbers</h2></div><div class="sec-r">

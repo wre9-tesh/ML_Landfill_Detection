@@ -30,7 +30,7 @@
   <div class="tablewrap"><table class=""><thead><tr><th class="">Model</th><th class="num">Precision</th><th class="num">Recall</th><th class="num">F1</th></tr></thead><tbody><tr><td>Flag nothing</td><td class="num">0.000 ± 0.000</td><td class="num">0.000 ± 0.000</td><td class="num">0.000 ± 0.000</td></tr><tr><td>Published threshold rule</td><td class="num">0.388 ± 0.078</td><td class="num">0.546 ± 0.232</td><td class="num">0.415 ± 0.139</td></tr><tr><td>Refitted threshold rule</td><td class="num">0.381 ± 0.184</td><td class="num">0.582 ± 0.296</td><td class="num">0.434 ± 0.223</td></tr><tr><td>Logistic regression</td><td class="num">0.585 ± 0.123</td><td class="num">0.903 ± 0.099</td><td class="num">0.697 ± 0.071</td></tr><tr><td>Decision tree</td><td class="num">0.749 ± 0.055</td><td class="num">0.554 ± 0.156</td><td class="num">0.625 ± 0.109</td></tr><tr><td>Bagged trees</td><td class="num">0.874 ± 0.060</td><td class="num">0.584 ± 0.176</td><td class="num">0.684 ± 0.123</td></tr><tr><td>Random forest</td><td class="num">0.848 ± 0.078</td><td class="num">0.673 ± 0.174</td><td class="num">0.736 ± 0.106</td></tr><tr><td>AdaBoost</td><td class="num">0.602 ± 0.071</td><td class="num">0.884 ± 0.097</td><td class="num">0.710 ± 0.041</td></tr><tr class="sel"><td>Gradient boosting (selected)</td><td class="num">0.694 ± 0.088</td><td class="num">0.865 ± 0.096</td><td class="num">0.762 ± 0.044</td></tr></tbody></table></div>
 </figure>
 <p>The way the data is split changes the answer, and not only its level. Under a random pixel split the random forest scores <span data-k="val.rf_f1_pixel">0.907</span> and looks like the clear winner. With regions held out it falls to <span data-k="val.rf_f1">0.736</span>, below gradient boosting. A project that validated on random pixels would have chosen a different model and reported a number it could not reproduce in a new state.</p>
-<aside class="note"><b>Held-out region.</b> A validation round in which every place in one region is removed from training and used only for testing. Six rounds, one per region.</aside>
+<details class="note"><summary><span>Definition</span>Held-out region</summary><p>A validation round in which every place in one region is removed from training and used only for testing. Six rounds, one per region.</p></details>
 <figure id="F-R1" data-chart="F-R1" class="wide">
   <div class="chart"></div>
   <div class="legend"><span><i style="background:var(--series-1);border-radius:50%;width:11px;height:11px"></i>Held-out region (headline), with ±1 SD</span><span>◇ Held-out site</span><span>○ Random pixel</span></div>
@@ -46,7 +46,7 @@
 
 </div></section><section class="sec" id="slider"><div class="sec-l"><span class="lab">§ 02</span><h2>What the threshold trades</h2></div><div class="sec-r">
 <p>The threshold was fixed at 0.5 before Gujarat was scored. Move it to see what any other choice would have traded, in validation and in Gujarat.</p>
-<aside class="note"><b>Threshold.</b> The score at or above which a pixel is flagged. Fixed at 0.5 before any result was seen.</aside>
+<details class="note"><summary><span>Definition</span>Threshold</summary><p>The score at or above which a pixel is flagged. Fixed at 0.5 before any result was seen.</p></details>
 <div class="widget wide" id="thr">
   <div class="controls">
     <label for="thr-t">Threshold</label>
@@ -73,7 +73,7 @@
 
 </div></section><section class="sec" id="sites"><div class="sec-l"><span class="lab">§ 03</span><h2>Gujarat: the known sites</h2></div><div class="sec-r">
 <p>The frozen model found <span data-k="guj.sites_found">16</span> of the <span data-k="guj.sites">17</span> sites on the sealed list. The one it missed is <span data-k="guj.missed.name">Rajkot</span>, where <span data-k="guj.missed.share">48.6%</span> of the outline is flagged, just under the half that the rule requires.</p>
-<aside class="note"><b>Site found.</b> A known site counts as found when at least half of the pixels inside its outline are flagged.</aside>
+<details class="note"><summary><span>Definition</span>Site found</summary><p>A known site counts as found when at least half of the pixels inside its outline are flagged.</p></details>
 <figure id="F-R3" data-chart="F-R3">
   <div class="chart"></div>
   <figcaption><b>Figure R3.</b> Sixteen sites are flagged over about two thirds of their outline or more; one falls just short of half. The dashed line is the rule fixed in advance.</figcaption>
@@ -107,7 +107,7 @@
 </figure>
 <h3 id="ranking">Do real dumpsites come first?</h3>
 <p>Nobody can visit <span data-k="guj.alarms">7,801</span> places, so what matters is the order. When the known sites are left in the list of patches, <span data-k="guj.top50">5</span> of them stand in the top 50, <span data-k="guj.top100">8</span> in the top 100 and <span data-k="guj.top200">9</span> in the top 200. The other eight are spread down to rank <span data-k="guj.missed.rank">4,388</span> of <span data-k="guj.patches">7,796</span>.</p>
-<aside class="note"><b>Rank.</b> Alarm patches are ordered by their mean score, strongest first. Rank 1 is the patch the model is most sure of.</aside>
+<details class="note"><summary><span>Definition</span>Rank</summary><p>Alarm patches are ordered by their mean score, strongest first. Rank 1 is the patch the model is most sure of.</p></details>
 <figure id="F-R6" data-chart="F-R6" class="wide">
   <div class="chart"></div>
   <figcaption><b>Figure R6.</b> Rank of the patch that holds each known site. Eight are among the 100 strongest; the missed site, Rajkot, is far down the list. Where a site falls in two overlapping boxes, its better rank is shown.</figcaption>

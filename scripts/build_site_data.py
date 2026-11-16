@@ -775,7 +775,7 @@ def build_pages(svgs):
                 return svgs[arg]
             if kind == "note":
                 term, text = GLOSSARY[arg]
-                return f'<aside class="note"><b>{html.escape(term)}.</b> {text}</aside>'
+                return f'<details class="note"><summary><span>Definition</span>{html.escape(term)}</summary><p>{text}</p></details>'
             if kind == "term":
                 slug, _, text = arg.partition("|")
                 GLOSSARY[slug]
