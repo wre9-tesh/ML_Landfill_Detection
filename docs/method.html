@@ -11,20 +11,19 @@
 <body data-page="method">
 <a class="skip" href="#main">Skip to the text</a>
 <header class="top">
-  <a class="brand" href="index.html">Landfill detection, Gujarat</a>
-  <button class="menu" aria-expanded="false" aria-controls="nav">Menu</button>
+  <a class="brand" href="index.html"><span>Landfill detection, Gujarat<small>IIT Gandhinagar · ES 678 · 2026</small></span></a>
   <nav id="nav" aria-label="Pages"><a href="index.html">Overview</a><a href="data.html">Data</a><a href="method.html" aria-current="page">Method</a><a href="results.html">Results</a><a href="diagnosis.html">Diagnosis</a><a href="reproduce.html">Reproduce</a></nav>
-  <button class="theme" type="button" aria-label="Switch between light and dark">◐</button>
+  <div class="tools"><button class="theme" type="button" aria-label="Switch between light and dark">◐ Theme</button><button class="menu" aria-expanded="false" aria-controls="nav">Menu</button></div>
 </header>
 <main id="main">
-<div class="pagehead">
-  <p class="kicker">3 of 6</p>
+<div class="pagehead"><div class="in">
+  <p class="kicker">Page 3 of 6 · Method</p>
   <h1>Method</h1>
   <p class="lede">The preprocessing choices and the reason for each, the nine models compared, how they were validated, and how the test on Gujarat was protected.</p>
   <nav class="onpage" aria-label="On this page"><b>On this page</b> <a href="#preprocessing">Preprocessing choices and why</a> <a href="#models">Baselines and models</a> <a href="#splits">Three ways to split the data</a> <a href="#metrics">Metrics and the selection rule</a> <a href="#freeze">The freeze</a> <a href="#scoring">Scoring Gujarat</a> <a href="#handcheck">The hand check</a></nav>
-</div>
+</div></div>
 <article>
-<h2 id="preprocessing">Preprocessing choices and why</h2>
+<section class="sec" id="preprocessing"><div class="sec-l"><span class="lab">§ 01</span><h2>Preprocessing choices and why</h2></div><div class="sec-r">
 <aside class="note"><b>Pre-monsoon.</b> March to May, the hot dry season before the rains. Skies are clear and fields are mostly bare.</aside>
 <div class="tablewrap wide"><table>
 <thead><tr><th>Choice</th><th>What was done</th><th>Why</th></tr></thead>
@@ -45,7 +44,7 @@
 </tbody></table></div>
 <aside class="note"><b>Temperature anomaly.</b> A pixel's surface temperature minus the mean of the land within 2 km. It removes regional climate, so places in different states can be compared.</aside>
 
-<h2 id="models">Baselines and models</h2>
+</div></section><section class="sec" id="models"><div class="sec-l"><span class="lab">§ 02</span><h2>Baselines and models</h2></div><div class="sec-r">
 <p>Nine methods were compared on the same points and the same splits.</p>
 <div class="tablewrap"><table>
 <thead><tr><th>Method</th><th>Kind</th><th>Settings</th></tr></thead>
@@ -65,7 +64,7 @@
 <div class="why"><b>Why no tuning:</b> with <span data-k="train.places">86</span> places in six folds, tuned settings would fit the folds. Fixed defaults keep the comparison between models fair and leave nothing to adjust after seeing a result.</div>
 <div class="why"><b>Why a threshold rule is the baseline:</b> it is the method of the study that prompted the project. If three thresholds were enough, nothing more complicated would be justified.</div>
 
-<h2 id="splits">Three ways to split the data</h2>
+</div></section><section class="sec" id="splits"><div class="sec-l"><span class="lab">§ 03</span><h2>Three ways to split the data</h2></div><div class="sec-r">
 <p>The same models were validated three ways. Only the third resembles the real task.</p>
 <aside class="note"><b>Leakage.</b> When test rows are near-copies of training rows, for example two pixels of the same dump. The score then measures memory, not skill.</aside>
 <ul>
@@ -76,12 +75,12 @@
 <aside class="note"><b>Zonal Council region.</b> India's states are grouped by law into six zones: Northern, Central, Eastern, Western, Southern and North-Eastern. They are used here as six validation folds.</aside>
 <div class="why"><b>Why regions and not states:</b> the plan was to hold out one state at a time, for states with at least ten places. Only Maharashtra has that many, so the fallback written into the plan applied: six regions of 5 to 23 places each.</div>
 
-<h2 id="metrics">Metrics and the selection rule</h2>
+</div></section><section class="sec" id="metrics"><div class="sec-l"><span class="lab">§ 04</span><h2>Metrics and the selection rule</h2></div><div class="sec-r">
 <aside class="note"><b>Precision, recall, F1.</b> Recall: of the real landfill pixels, the share flagged. Precision: of the flagged pixels, the share that are landfill. F1 is their harmonic mean.</aside>
 <p>For each held-out region: precision, recall and F1 for the landfill class at a threshold of 0.5. They are reported as the mean and standard deviation over the six regions. The share of each background class that is flagged is reported alongside, because a single precision figure hides which kind of land causes the false alarms.</p>
 <p>The model with the highest mean F1 on the held-out-region split is selected. This rule was written down before the models were run.</p>
 
-<h2 id="freeze">The freeze</h2>
+</div></section><section class="sec" id="freeze"><div class="sec-l"><span class="lab">§ 05</span><h2>The freeze</h2></div><div class="sec-r">
 <p>A test is only a test if nothing can be adjusted after seeing it. Three things were fixed in the repository's history, in this order:</p>
 <ol>
   <li><b>11 November.</b> The Gujarat test list was committed (<code>8711855</code>), before any model existed.</li>
@@ -91,7 +90,7 @@
 <aside class="note"><b>Freeze.</b> The commit in which the model, its threshold and the scoring rules were fixed. It carries a Git tag, pushed before Gujarat was scored.</aside>
 <div class="callout"><p><b>This is the third model built in this project.</b> Two earlier versions were frozen and scored on the same <span data-k="guj.sites">17</span> sites, so the Gujarat results are not a first-time test. See <a href="diagnosis.html#how-we-got-here">How we got here</a>.</p></div>
 
-<h2 id="scoring">Scoring Gujarat</h2>
+</div></section><section class="sec" id="scoring"><div class="sec-l"><span class="lab">§ 06</span><h2>Scoring Gujarat</h2></div><div class="sec-r">
 <aside class="note"><b>Model score.</b> The model's output for a pixel, between 0 and 1. A pixel is flagged at 0.5 or above. It is not the probability that the place is a dump.</aside>
 <dl class="rules">
   <dt>Scored area</dt><dd><span data-k="guj.boxes">14</span> boxes, each reaching 15 km beyond the known sites of one city: <span data-k="guj.km2">12,854</span> km², <span data-k="guj.pixels_scored_m">129 million</span> pixels. One box, Surendranagar, surrounds a dumpsite that is in neither the training data nor the test list.</dd>
@@ -101,17 +100,17 @@
   <dt>Ranking</dt><dd>Patches are ordered by their mean score, strongest first.</dd>
 </dl>
 
-<h2 id="handcheck">The hand check</h2>
+</div></section><section class="sec" id="handcheck"><div class="sec-l"><span class="lab">§ 07</span><h2>The hand check</h2></div><div class="sec-r">
 <p>Recall on <span data-k="guj.sites">17</span> known sites says nothing about the thousands of other places the model flags. To measure that, the 100 strongest alarm patches were given random identifiers and opened one at a time in Google Earth, with scores and ranks hidden. Each was recorded as a dump, a look-alike or unsure, with a note of what was there.</p>
 <aside class="note"><b>Hand check.</b> Looking at each of the top alarm patches in high-resolution imagery and recording what is there, without seeing its score or rank.</aside>
 <p>One hundred is enough to estimate a proportion to within about ten percentage points. The check was done by the author alone, from imagery, which makes it the weakest link in the evaluation: a second checker or a field visit could disagree.</p>
-
+</div></section>
 </article>
-<nav class="pager" aria-label="Previous and next page"><a class="prev" href="data.html">← Data</a><a class="next" href="results.html">Results →</a></nav>
+<nav class="pager" aria-label="Previous and next page"><a class="prev" href="data.html"><small>Previous</small>← Data</a><a class="next" href="results.html"><small>Up next · page 4</small>Results →</a></nav>
 </main>
 <footer class="foot">
-  <p><a href="https://github.com/wre9-tesh/ML_Landfill_Detection">Repository</a> · <a href="project_guide_grader.pdf">Grader's manual (PDF)</a> · <a href="reproduce.html#glossary">Glossary</a> · <a href="reproduce.html#ai-use">AI-use disclosure</a></p>
-  <p class="small">Amitesh Kumar (24210011), IIT Gandhinagar. ES 678 course project. Every number on this site is filled from the result files by <code>scripts/build_site_data.py</code>. Contains modified Copernicus Sentinel data 2023 to 2024.</p>
+  <p><a href="https://github.com/wre9-tesh/ML_Landfill_Detection">Repository</a> · <a href="project_guide_grader.pdf">Grader's manual</a> · <a href="reproduce.html#glossary">Glossary</a> · <a href="reproduce.html#ai-use">AI-use disclosure</a></p>
+  <p class="small">Amitesh Kumar (24210011) · IIT Gandhinagar · ES 678 · Numbers filled from the result files by build_site_data.py · Contains modified Copernicus Sentinel data 2023 to 2024</p>
 </footer>
 <script src="site/vendor/d3.min.js" defer></script>
 <script src="site/vendor/plot.min.js" defer></script>

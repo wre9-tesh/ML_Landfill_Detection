@@ -11,20 +11,19 @@
 <body data-page="data">
 <a class="skip" href="#main">Skip to the text</a>
 <header class="top">
-  <a class="brand" href="index.html">Landfill detection, Gujarat</a>
-  <button class="menu" aria-expanded="false" aria-controls="nav">Menu</button>
+  <a class="brand" href="index.html"><span>Landfill detection, Gujarat<small>IIT Gandhinagar · ES 678 · 2026</small></span></a>
   <nav id="nav" aria-label="Pages"><a href="index.html">Overview</a><a href="data.html" aria-current="page">Data</a><a href="method.html">Method</a><a href="results.html">Results</a><a href="diagnosis.html">Diagnosis</a><a href="reproduce.html">Reproduce</a></nav>
-  <button class="theme" type="button" aria-label="Switch between light and dark">◐</button>
+  <div class="tools"><button class="theme" type="button" aria-label="Switch between light and dark">◐ Theme</button><button class="menu" aria-expanded="false" aria-controls="nav">Menu</button></div>
 </header>
 <main id="main">
-<div class="pagehead">
-  <p class="kicker">2 of 6</p>
+<div class="pagehead"><div class="in">
+  <p class="kicker">Page 2 of 6 · Data</p>
   <h1>The data</h1>
   <p class="lede">Where the labels and the satellite measurements come from, how much there is, what the 26 variables are, and what is wrong with them.</p>
   <nav class="onpage" aria-label="On this page"><b>On this page</b> <a href="#row">What one row is</a> <a href="#sources">Sources</a> <a href="#labels">How the labels were made</a> <a href="#size">Size</a> <a href="#variables">The 26 variables</a> <a href="#quality">Quality problems</a></nav>
-</div>
+</div></div>
 <article>
-<h2 id="row">What one row is</h2>
+<section class="sec" id="row"><div class="sec-l"><span class="lab">§ 01</span><h2>What one row is</h2></div><div class="sec-r">
 <p>A training row is one 10 m pixel at a sampled point. It has an identifier, a label (1 for landfill, 0 for anything else), a class (landfill, near-site background, random background, bare soil, quarry or ash pond), the <a class="term" href="reproduce.html#g-place">place</a> and state it belongs to, and 26 feature values.</p>
 <p>A Gujarat row is one 10 m pixel inside a scored box, with the same 26 features and no label. There are <span data-k="guj.pixels_scored_m">129 million</span> of them. Results for Gujarat are not reported per pixel but per known site and per <a class="term" href="reproduce.html#g-patch">alarm patch</a>, because a site is what an inspector would visit.</p>
 <figure id="T-D1" class="table">
@@ -32,7 +31,7 @@
   <details class="tableview"><summary>Show the 26 values of this row</summary><div class="tablewrap"><table class=""><thead><tr><th class="">Feature</th><th class="">What it is</th><th class="num">Value</th><th class="">Unit</th></tr></thead><tbody><tr><td><code>B2</code></td><td>Blue reflectance, pre-monsoon</td><td class="num">0.17</td><td>reflectance</td></tr><tr><td><code>B3</code></td><td>Green reflectance, pre-monsoon</td><td class="num">0.191</td><td>reflectance</td></tr><tr><td><code>B4</code></td><td>Red reflectance, pre-monsoon</td><td class="num">0.225</td><td>reflectance</td></tr><tr><td><code>B8</code></td><td>Near-infrared reflectance, pre-monsoon</td><td class="num">0.276</td><td>reflectance</td></tr><tr><td><code>B11</code></td><td>Short-wave infrared reflectance, pre-monsoon</td><td class="num">0.311</td><td>reflectance</td></tr><tr><td><code>NDVI</code></td><td>Greenness (NDVI), pre-monsoon</td><td class="num">0.103</td><td>index, -1 to 1</td></tr><tr><td><code>NDBI</code></td><td>Built-up index (NDBI), pre-monsoon</td><td class="num">0.059</td><td>index, -1 to 1</td></tr><tr><td><code>BSI</code></td><td>Bare soil index (BSI), pre-monsoon</td><td class="num">0.091</td><td>index, -1 to 1</td></tr><tr><td><code>LST</code></td><td>Land surface temperature</td><td class="num">42.9</td><td>°C</td></tr><tr><td><code>LST_anom</code></td><td>Temperature above surroundings</td><td class="num">5.123</td><td>°C</td></tr><tr><td><code>elev</code></td><td>Elevation</td><td class="num">4</td><td>m</td></tr><tr><td><code>slope</code></td><td>Slope</td><td class="num">6.532</td><td>degrees</td></tr><tr><td><code>B2_w</code></td><td>Blue reflectance, winter</td><td class="num">0.141</td><td>reflectance</td></tr><tr><td><code>B11_w</code></td><td>Short-wave infrared reflectance, winter</td><td class="num">0.268</td><td>reflectance</td></tr><tr><td><code>NDVI_w</code></td><td>Greenness (NDVI), winter</td><td class="num">0.201</td><td>index, -1 to 1</td></tr><tr><td><code>NDBI_w</code></td><td>Built-up index (NDBI), winter</td><td class="num">-0.003</td><td>index, -1 to 1</td></tr><tr><td><code>BSI_w</code></td><td>Bare soil index (BSI), winter</td><td class="num">0.042</td><td>index, -1 to 1</td></tr><tr><td><code>NDVI_ctx</code></td><td>Greenness of the surroundings</td><td class="num">0.394</td><td>index, -1 to 1</td></tr><tr><td><code>NDBI_ctx</code></td><td>Built-up index of the surroundings</td><td class="num">-0.053</td><td>index, -1 to 1</td></tr><tr><td><code>BSI_ctx</code></td><td>Bare soil index of the surroundings</td><td class="num">-0.015</td><td>index, -1 to 1</td></tr><tr><td><code>NDVI_sd</code></td><td>Patchiness of greenness</td><td class="num">0.108</td><td>index units</td></tr><tr><td><code>B11_sd</code></td><td>Patchiness of short-wave infrared</td><td class="num">0.017</td><td>reflectance</td></tr><tr><td><code>dNDVI</code></td><td>Change in greenness, winter minus pre-monsoon</td><td class="num">0.098</td><td>index units</td></tr><tr><td><code>dBSI</code></td><td>Change in bare soil index, winter minus pre-monsoon</td><td class="num">-0.049</td><td>index units</td></tr><tr><td><code>NDVI_rel</code></td><td>Greenness compared with surroundings</td><td class="num">-0.292</td><td>index units</td></tr><tr><td><code>NDBI_rel</code></td><td>Built-up index compared with surroundings</td><td class="num">0.112</td><td>index units</td></tr></tbody></table></div></details>
 </figure>
 
-<h2 id="sources">Sources</h2>
+</div></section><section class="sec" id="sources"><div class="sec-l"><span class="lab">§ 02</span><h2>Sources</h2></div><div class="sec-r">
 <aside class="note"><b>Surface reflectance.</b> The share of sunlight a surface reflects in one band, from 0 to 1, after the effect of the atmosphere is removed.</aside>
 <div class="tablewrap wide"><table>
 <thead><tr><th>Source</th><th>Earth Engine dataset</th><th>Native resolution</th><th>Dates used</th><th>What is taken</th></tr></thead>
@@ -48,7 +47,7 @@
 <aside class="note"><b>Median composite.</b> For each pixel, the middle value of all its cloud-free observations in a period. It removes clouds, shadows and one-day events.</aside>
 <p>Everything the model reads is free and global. The exact collection names, dates and cloud limits are stored with each feature table (<code>features_meta.json</code>) and are the same for the training points and for Gujarat.</p>
 
-<h2 id="labels">How the labels were made</h2>
+</div></section><section class="sec" id="labels"><div class="sec-l"><span class="lab">§ 03</span><h2>How the labels were made</h2></div><div class="sec-r">
 <p>There is no public list of Indian dumpsites with outlines. Two sources were combined.</p>
 <p><b>OpenStreetMap.</b> <span data-k="screen.osm_candidates">843</span> places tagged as landfill outside Gujarat were put in a fixed order. <span data-k="screen.screened">107</span> were screened by eye in the time available. Only <span data-k="screen.kept">13</span> were active dumpsites with a usable outline; <span data-k="screen.dropped">93</span> were dropped. <span data-k="train.lookalike_places">60</span> of the dropped places were kept as <a class="term" href="reproduce.html#g-lookalike">look-alike</a> examples: 32 ash ponds, 16 bare-soil sites and 12 quarries that someone had mapped as landfill.</p>
 <aside class="note"><b>Look-alike.</b> A place that is not a dump but resembles one from above: a quarry, an ash pond, bare ground. Used in training as a hard example of what not to flag.</aside>
@@ -64,7 +63,7 @@
   <figcaption><b>Figure D2.</b> The <span data-k="train.places">86</span> training places (dots). Shading separates the six regions used as validation folds. Gujarat supplies no training data.</figcaption>
 </figure>
 
-<h2 id="size">Size</h2>
+</div></section><section class="sec" id="size"><div class="sec-l"><span class="lab">§ 04</span><h2>Size</h2></div><div class="sec-r">
 <p>Points were drawn inside the outlines: up to 50 per landfill place and up to 30 per look-alike place. As many random points as landfill points were drawn across the same states, and <span data-k="train.background_points">25,800</span> more background points were drawn in the 15 km boxes around the training landfills. Of <span data-k="train.points_drawn">35,330</span> points, <span data-k="train.points_dropped">985</span> lacked at least one feature and were dropped, leaving <span data-k="train.points">34,345</span>. Landfill is <span data-k="train.landfill_share">11%</span> of them.</p>
 <aside class="note"><b>Near-site background.</b> Points drawn at random from the 15 km box around each training landfill. They show the model what the land around a city dump looks like.</aside>
 <figure id="T-D3" class="table wide">
@@ -78,7 +77,7 @@
   <details class="tableview"><summary>Show the 17 sites</summary><div class="tablewrap"><table class=""><thead><tr><th class="">ID</th><th class="">City</th><th class="">Name on the list</th><th class="num">Area, ha</th></tr></thead><tbody><tr><td>AHM-01</td><td>Ahmedabad</td><td>Ahmedabad LF-1 (pirana)</td><td class="num">47.5</td></tr><tr><td>AHM-02</td><td>Ahmedabad</td><td>Ahmedabad LF - 2(a) + Ahmedabad LF -2(b)</td><td class="num">19.2</td></tr><tr><td>AHM-03</td><td>Ahmedabad</td><td>Ahmedabad LF - 3</td><td class="num">8.6</td></tr><tr><td>Anand-01</td><td>Anand</td><td>Anand LF-1</td><td class="num">2.5</td></tr><tr><td>BHJ-01</td><td>Bhuj</td><td>Bhuj LF -1</td><td class="num">10.3</td></tr><tr><td>BHV-01</td><td>Bhavnagar</td><td>Bhavnagar LF -1</td><td class="num">28.0</td></tr><tr><td>Dwarka-01</td><td>Dwarka</td><td>Dwarka-01</td><td class="num">1.1</td></tr><tr><td>GNR-01</td><td>Gandhinagar</td><td>Gandhinagar LF -1</td><td class="num">17.0</td></tr><tr><td>JAM-01</td><td>Jamnagar</td><td>Jamnagar LF -1</td><td class="num">3.3</td></tr><tr><td>MEH-01</td><td>Mehsana</td><td>Mehsana LF - 1</td><td class="num">5.1</td></tr><tr><td>Nadiad-01</td><td>Nadiad</td><td>Nadiad LF-1</td><td class="num">4.4</td></tr><tr><td>RAJ-01</td><td>Rajkot</td><td>Rajkot LF-1</td><td class="num">30.2</td></tr><tr><td>SUR-01</td><td>Surat</td><td>Surat LF-1</td><td class="num">2.3</td></tr><tr><td>SUR-02</td><td>Surat</td><td>Surat LF -2 (khajod)</td><td class="num">107.5</td></tr><tr><td>VAD-01</td><td>Vadodara</td><td>Vadodara LF - 1</td><td class="num">15.2</td></tr><tr><td>VAD-02</td><td>Vadodara</td><td>Vadodara LF -2</td><td class="num">8.5</td></tr><tr><td>VAP-01</td><td>Vapi</td><td>Vapi LF - 1</td><td class="num">2.0</td></tr></tbody></table></div></details>
 </figure>
 
-<h2 id="variables">The 26 variables</h2>
+</div></section><section class="sec" id="variables"><div class="sec-l"><span class="lab">§ 05</span><h2>The 26 variables</h2></div><div class="sec-r">
 <p>The variables fall into six groups. The first three (12 variables) describe one pixel on one date. The last three (14 variables) add a second season and the pixel's surroundings.</p>
 <aside class="note"><b>NDVI.</b> A greenness index from the red and near-infrared bands. High on crops and trees, near zero on bare ground, waste and roofs.</aside>
 <div class="tablewrap wide"><table>
@@ -115,7 +114,7 @@
   <p class="caveat">Each panel shows the share of a class's points that fall in each of 40 ranges of the variable. Values below the 1st or above the 99th percentile of all points are collected in the end columns. Start with <code>LST_anom</code>, the strongest single variable, then try <code>NDVI</code> against bare soil.</p>
 </div>
 
-<h2 id="quality">Quality problems</h2>
+</div></section><section class="sec" id="quality"><div class="sec-l"><span class="lab">§ 06</span><h2>Quality problems</h2></div><div class="sec-r">
 <ol>
   <li><b>Labels are one person's reading of imagery.</b> No site was visited. The high-resolution image used for labelling is not always from the same months as the satellite features.</li>
   <li><b>Few places, unevenly spread.</b> <span data-k="train.places">86</span> places; <span data-k="train.places_mh">15</span> are in Maharashtra and <span data-k="train.states_small">13</span> states or territories have two or fewer. This is why validation holds out regions, not states.</li>
@@ -126,13 +125,13 @@
   <li><b>The test list is small and not random.</b> <span data-k="guj.sites">17</span> sites in <span data-k="guj.cities">13</span> cities, compiled from public lists and the author's own knowledge. It favours large municipal sites.</li>
   <li><b>Most of Gujarat was not scored.</b> The boxes cover <span data-k="guj.share_of_state">6.6%</span> of the state.</li>
 </ol>
-
+</div></section>
 </article>
-<nav class="pager" aria-label="Previous and next page"><a class="prev" href="index.html">← Overview</a><a class="next" href="method.html">Method →</a></nav>
+<nav class="pager" aria-label="Previous and next page"><a class="prev" href="index.html"><small>Previous</small>← Overview</a><a class="next" href="method.html"><small>Up next · page 3</small>Method →</a></nav>
 </main>
 <footer class="foot">
-  <p><a href="https://github.com/wre9-tesh/ML_Landfill_Detection">Repository</a> · <a href="project_guide_grader.pdf">Grader's manual (PDF)</a> · <a href="reproduce.html#glossary">Glossary</a> · <a href="reproduce.html#ai-use">AI-use disclosure</a></p>
-  <p class="small">Amitesh Kumar (24210011), IIT Gandhinagar. ES 678 course project. Every number on this site is filled from the result files by <code>scripts/build_site_data.py</code>. Contains modified Copernicus Sentinel data 2023 to 2024.</p>
+  <p><a href="https://github.com/wre9-tesh/ML_Landfill_Detection">Repository</a> · <a href="project_guide_grader.pdf">Grader's manual</a> · <a href="reproduce.html#glossary">Glossary</a> · <a href="reproduce.html#ai-use">AI-use disclosure</a></p>
+  <p class="small">Amitesh Kumar (24210011) · IIT Gandhinagar · ES 678 · Numbers filled from the result files by build_site_data.py · Contains modified Copernicus Sentinel data 2023 to 2024</p>
 </footer>
 <script src="site/vendor/d3.min.js" defer></script>
 <script src="site/vendor/plot.min.js" defer></script>

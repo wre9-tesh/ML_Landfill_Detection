@@ -5,7 +5,7 @@
   const LBL = { near_site: "Near-site background", random: "Random background", bare_soil: "Bare soil", quarry: "Quarry", ash_pond: "Ash pond", landfill: "Landfill" };
 
   function base(c, o) {
-    return Object.assign({ style: { background: "transparent", color: c.ink, fontSize: "13px", fontFamily: "system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif", "--plot-background": c.surface }, marginTop: 24, marginBottom: 44 }, o);
+    return Object.assign({ style: { background: "transparent", color: c.ink, fontSize: "13px", fontFamily: "'Inter Tight', system-ui, sans-serif", "--plot-background": c.surface }, marginTop: 24, marginBottom: 44 }, o);
   }
   const pc = (d) => Math.round(d * 100) + "%";
 

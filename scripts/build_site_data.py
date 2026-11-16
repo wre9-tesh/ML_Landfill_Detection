@@ -724,26 +724,25 @@ SHELL = """<!doctype html>
 <body data-page="{slug}">
 <a class="skip" href="#main">Skip to the text</a>
 <header class="top">
-  <a class="brand" href="index.html">Landfill detection, Gujarat</a>
-  <button class="menu" aria-expanded="false" aria-controls="nav">Menu</button>
+  <a class="brand" href="index.html"><span>Landfill detection, Gujarat<small>IIT Gandhinagar · ES 678 · 2026</small></span></a>
   <nav id="nav" aria-label="Pages">{nav}</nav>
-  <button class="theme" type="button" aria-label="Switch between light and dark">◐</button>
+  <div class="tools"><button class="theme" type="button" aria-label="Switch between light and dark">◐ Theme</button><button class="menu" aria-expanded="false" aria-controls="nav">Menu</button></div>
 </header>
 <main id="main">
-<div class="pagehead">
+<div class="pagehead"><div class="in">
   <p class="kicker">{kicker}</p>
   <h1>{h1}</h1>
   <p class="lede">{lede}</p>
   <nav class="onpage" aria-label="On this page"><b>On this page</b> {toc}</nav>
-</div>
+</div></div>
 <article>
 {body}
 </article>
 <nav class="pager" aria-label="Previous and next page">{prev}{next}</nav>
 </main>
 <footer class="foot">
-  <p><a href="https://github.com/wre9-tesh/ML_Landfill_Detection">Repository</a> · {paper}<a href="project_guide_grader.pdf">Grader's manual (PDF)</a> · <a href="reproduce.html#glossary">Glossary</a> · <a href="reproduce.html#ai-use">AI-use disclosure</a></p>
-  <p class="small">Amitesh Kumar (24210011), IIT Gandhinagar. ES 678 course project. Every number on this site is filled from the result files by <code>scripts/build_site_data.py</code>. Contains modified Copernicus Sentinel data 2023 to 2024.</p>
+  <p><a href="https://github.com/wre9-tesh/ML_Landfill_Detection">Repository</a> · {paper}<a href="project_guide_grader.pdf">Grader's manual</a> · <a href="reproduce.html#glossary">Glossary</a> · <a href="reproduce.html#ai-use">AI-use disclosure</a></p>
+  <p class="small">Amitesh Kumar (24210011) · IIT Gandhinagar · ES 678 · Numbers filled from the result files by build_site_data.py · Contains modified Copernicus Sentinel data 2023 to 2024</p>
 </footer>
 <script src="site/vendor/d3.min.js" defer></script>
 <script src="site/vendor/plot.min.js" defer></script>
@@ -791,12 +790,17 @@ def build_pages(svgs):
     for i, pg in enumerate(PAGES):
         body = (SRC / f"{pg['slug']}.html").read_text(encoding="utf-8").replace("{{glossary}}", gl)
         body = re.sub(r"\{\{(k|table|tv|svg|note|term|gen):([^}]+)\}\}", fill, body)
-        toc = " ".join(f'<a href="#{a}">{re.sub("<[^>]+>", "", t)}</a>' for a, t in re.findall(r'<h2 id="([^"]+)">(.*?)</h2>', body))
+        parts = re.split(r'<h2 id="([^"]+)">(.*?)</h2>', body)
+        toc_items = list(zip(parts[1::3], parts[2::3]))
+        body = (f'<div class="intro">{parts[0]}</div>' if parts[0].strip() else "") + "".join(
+            f'<section class="sec" id="{a}"><div class="sec-l"><span class="lab">§ {n:02d}</span><h2>{t}</h2></div><div class="sec-r">{c}</div></section>'
+            for n, (a, t, c) in enumerate(zip(parts[1::3], parts[2::3], parts[3::3]), 1))
+        toc = " ".join(f'<a href="#{a}">{re.sub("<[^>]+>", "", t)}</a>' for a, t in toc_items)
         nav = "".join(f'<a href="{p["slug"]}.html"' + (' aria-current="page"' if p is pg else "") + f'>{p["nav"]}</a>' for p in PAGES)
-        prev = f'<a class="prev" href="{PAGES[i - 1]["slug"]}.html">← {PAGES[i - 1]["nav"]}</a>' if i else "<span></span>"
-        nxt = f'<a class="next" href="{PAGES[i + 1]["slug"]}.html">{PAGES[i + 1]["nav"]} →</a>' if i + 1 < len(PAGES) else "<span></span>"
+        prev = f'<a class="prev" href="{PAGES[i - 1]["slug"]}.html"><small>Previous</small>← {PAGES[i - 1]["nav"]}</a>' if i else "<span></span>"
+        nxt = f'<a class="next" href="{PAGES[i + 1]["slug"]}.html"><small>Up next · page {i + 2}</small>{PAGES[i + 1]["nav"]} →</a>' if i + 1 < len(PAGES) else "<span></span>"
         scripts = "".join(f'<script src="site/js/{s}.js" defer></script>\n' for s in pg.get("scripts", ["charts"]))
-        page = SHELL.format(title=pg["nav"], desc=html.escape(pg["lede"]), slug=pg["slug"], nav=nav, kicker=f"{i + 1} of {len(PAGES)}",
+        page = SHELL.format(title=pg["nav"], desc=html.escape(pg["lede"]), slug=pg["slug"], nav=nav, kicker=f"Page {i + 1} of {len(PAGES)} · {pg['nav']}",
                             h1=pg["h1"], lede=pg["lede"], toc=toc, body=body, prev=prev, next=nxt, paper=paper,
                             scripts=scripts)
         FILES[DOCS / f"{pg['slug']}.html"] = page.encode("utf-8")
