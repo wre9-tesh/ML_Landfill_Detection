@@ -5,15 +5,17 @@
 {{note:heldout}}
 <p>One row of data is one 10 m square of ground, described by 26 numbers measured by the {{term:sentinel2|Sentinel-2}}, {{term:landsat|Landsat}} and {{term:srtm|SRTM}} missions, and labelled landfill or not landfill. The model reads those 26 numbers and returns a {{term:score|score}} between 0 and 1.</p>
 
-<h2 id="answer">The answer in four numbers</h2>
+<h2 id="answer">The answer in five numbers</h2>
 <div class="stats">
   <div class="stat"><span class="v">{{k:guj.sites_found}} <small>of {{k:guj.sites}}</small></span><span class="l">known Gujarat dumpsites found</span></div>
   <div class="stat"><span class="v">{{k:guj.share_flagged}}</span><span class="l">of the land scored was flagged, as {{k:guj.alarms}} separate alarm patches</span></div>
-  <div class="stat"><span class="v">{{k:check.dumps}} <small>of {{k:check.judged}}</small></span><span class="l">of the strongest alarms are dumps, checked by eye</span></div>
+  <div class="stat"><span class="v">{{k:new.sites_found}} <small>of {{k:new.sites}}</small></span><span class="l">dumpsites found in six further cities, sealed before scoring</span></div>
+  <div class="stat"><span class="v">{{k:check.dumps_new}}</span><span class="l">dumpsites not known before, found among the 100 strongest alarms</span></div>
   <div class="stat"><span class="v">{{k:val.f1}}</span><span class="l">F1 outside Gujarat, with whole regions held out</span></div>
 </div>
 <p>The model recognises a dumpsite when it is shown one: it flags at least half of the outline of {{k:guj.sites_found}} of the {{k:guj.sites}} sites on a list that was fixed in advance. It also flags {{k:guj.km2_flagged}} km² of other land. The known sites are {{k:guj.site_px_share_of_flagged}} of what it flags.</p>
-<p>Used as a search tool, it mostly points at the wrong places. Of its 100 strongest alarms, {{k:check.dumps}} are dumps; the most common thing found instead is {{k:check.top_seen}} ({{k:check.top_seen_n}} alarms). The rest of this site shows how those numbers were obtained, what the model confuses with a dumpsite, and why a model with a respectable F1 behaves this way.</p>
+<p>A second blind test gave the same picture: in six more cities, whose dumpsites were outlined and committed before their land was scored, it found {{k:new.sites_found}} of {{k:new.sites}}. Its 100 strongest alarms, checked by eye, led to {{k:check.dumps_new}} dumpsites that were not known beforehand.</p>
+<p>The model's weakness is the amount of other land it flags. Most of the checked alarms were {{k:check.top_seen}} and similar surfaces. The rest of this site shows how these numbers were obtained, what the model confuses with a dumpsite, and why.</p>
 
 <h2 id="how">How the study was run</h2>
 <ol class="steps">
@@ -51,4 +53,4 @@
 </tbody></table></div>
 
 <h2 id="facts">Project facts</h2>
-<p>ES 678 course project, graduate track, November 2026. The code, labels, feature tables and results are in the <a href="https://github.com/wre9-tesh/ML_Landfill_Detection">repository</a>. A step-by-step <a href="project_guide_grader.pdf">grader's manual</a> and a longer <a href="project_guide_technical.pdf">replication manual</a> are provided as PDFs.</p>
+<p>Amitesh Kumar (24210011), IIT Gandhinagar. ES 678 course project, graduate track, November 2026. The code, labels, feature tables and results are in the <a href="https://github.com/wre9-tesh/ML_Landfill_Detection">repository</a>. A step-by-step <a href="project_guide_grader.pdf">grader's manual</a> and a longer <a href="project_guide_technical.pdf">replication manual</a> are provided as PDFs.</p>

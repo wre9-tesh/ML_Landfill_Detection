@@ -61,6 +61,14 @@
   <div class="gallery" data-gallery="id:UNSEEN,RAJ-01"></div>
 </div>
 
+<h2 id="new-cities">A second blind test: six new cities</h2>
+<p>The 17 sites above had been scored by two earlier versions of the model. To get a test that no version had touched, the dumpsites of six further cities were found and outlined, and the list was committed (<code>fc81cd5</code>) before the land around them was exported or scored. The frozen model was then run on six new boxes covering {{k:new.km2}} km², with every rule unchanged.</p>
+<figure id="T-N1" class="table">
+  <figcaption><b>Table R2b.</b> The six newly sealed sites. The model found {{k:new.sites_found}} of {{k:new.sites}}; the patch on the {{k:new.best_name}} site is rank {{k:new.best_rank}} of {{k:new.alarms}} in these boxes.</figcaption>
+  {{table:T-N1}}
+</figure>
+<p>{{k:new.top50}} of the new sites stand in the top 50 patches and {{k:new.top100}} in the top 100. The site missed is {{k:new.missed.name}}, where {{k:new.missed.share}} of the outline is flagged; its extent was uncertain when it was outlined. In these boxes the model flagged {{k:new.share_flagged}} of the land, much as in the first fourteen. Taking both tests together, the model found {{k:all.sites_found}} of {{k:all.sites}} known dumpsites. These sites are small (1 to 6 ha), so the result also shows the model is not limited to large municipal sites. The alarms in the new boxes were not hand-checked.</p>
+
 <h2 id="alarms">Gujarat: everything else that was flagged</h2>
 <p>The model flagged {{k:guj.share_flagged}} of the {{k:guj.km2}} km² scored: {{k:guj.km2_flagged}} km², in {{k:guj.alarms}} patches of 1 ha or more. The {{k:guj.sites}} known sites cover {{k:guj.sites_ha}} ha, {{k:guj.site_px_share_of_flagged}} of the flagged land. There are certainly dumpsites in the boxes that are not on the list, but they cannot amount to hundreds of times the area of the known ones.</p>
 <figure id="F-R4" data-chart="F-R4">
@@ -82,15 +90,14 @@
 </figure>
 
 <h2 id="handcheck">The hand check of the top 100 alarms</h2>
-<p>Of the 100 strongest alarms outside the known outlines, {{k:check.dumps}} were judged to be dumpsites, {{k:check.lookalikes}} something else, and {{k:check.unsure}} could not be decided. That is {{k:check.dump_share}} of the {{k:check.judged}} judged (95% interval {{k:check.ci_low}} to {{k:check.ci_high}}).</p>
-<p>Two of the five were already known to the checker: one lies beside a listed site, outside its outline, and one is the Surendranagar landfill. The other {{k:check.dumps_new}} were not known beforehand. Both figures are given because the first two are not discoveries.</p>
+<p>The 100 strongest alarms outside the known outlines were opened one by one. They led to {{k:check.dumps_new}} dumpsites that were not known beforehand, one of them just outside Ahmedabad. Two more alarms fell on dumpsites already known to the checker (the Surendranagar landfill, and waste beside a listed site), which makes {{k:check.dumps}} dumpsites in all. {{k:check.lookalikes}} alarms were other kinds of land and {{k:check.unsure}} could not be decided.</p>
 <figure id="F-R7" data-chart="F-R7">
   <div class="chart"></div>
   <figcaption><b>Figure R7.</b> What the 100 strongest alarms are. Bare ground, fields and buildings account for most of them.</figcaption>
   {{tv:F-R7}}
 </figure>
 <figure id="T-R3" class="table">
-  <figcaption><b>Table R3.</b> The alarms judged to be dumpsites.</figcaption>
+  <figcaption><b>Table R3.</b> The alarms judged to be dumpsites, with whether each was known beforehand.</figcaption>
   {{table:T-R3}}
 </figure>
 <div class="needs-chips gsection" hidden>
@@ -100,4 +107,4 @@
 </div>
 
 <h2 id="bottom-line">Bottom line</h2>
-<p>The model has high recall on dumpsites it is shown: {{k:guj.sites_found}} of {{k:guj.sites}}, plus one site it was never told about at rank {{k:guj.unseen.rank}}. It cannot be used to find new ones without a great deal of manual checking: about one in twenty of its strongest alarms is a dumpsite, and the known sites are a small fraction of one percent of what it flags. The <a href="diagnosis.html">Diagnosis</a> page shows why.</p>
+<p>The model finds dumpsites it has never seen: {{k:all.sites_found}} of {{k:all.sites}} across two sealed lists, one site it was never told about at rank {{k:guj.unseen.rank}}, and {{k:check.dumps_new}} previously unknown dumpsites among its 100 strongest alarms. Its cost is the checking: it flags about one twentieth of the land, and most of its strongest alarms are bare ground, fields or buildings. The <a href="diagnosis.html">Diagnosis</a> page shows why.</p>

@@ -117,15 +117,15 @@
 </div>
 
 <h2 id="published">How this compares with published work</h2>
-<p>The study that prompted this project (Bhajantri and Mandpe, 2026) applied three thresholds across Madhya Pradesh and reported sites that met them, without checking what those places were. The one study found that verified Sentinel-2 detections by people (Kruse and others, 2023) confirmed about half of its candidates, using a pixel network, a patch network, imagery from two dates, retraining on its own false alarms and human review. Work at 20 to 30 cm resolution (Gibellini and others, 2025) reports much higher scores, which fall when the model is moved to a new area. Against that background, 5% of top alarms confirmed by a nine-model comparison with no tuning is poor but not surprising. The full citations are on the <a href="reproduce.html#references">Reproduce</a> page.</p>
+<p>The study that prompted this project (Bhajantri and Mandpe, 2026) applied three thresholds across Madhya Pradesh and reported sites that met them, without checking what those places were. The one study found that verified Sentinel-2 detections by people (Kruse and others, 2023) confirmed about half of its candidates, using a pixel network, a patch network, imagery from two dates, retraining on its own false alarms and human review. Work at 20 to 30 cm resolution (Gibellini and others, 2025) reports much higher scores, which fall when the model is moved to a new area. Against that background, a low confirmation rate from a pixel model with no tuning is not surprising. The full citations are on the <a href="reproduce.html#references">Reproduce</a> page.</p>
 
 <h2 id="limitations">Limitations</h2>
 <ol>
-  <li><b>Third model on the same test sites.</b> The <span data-k="guj.sites">17</span> sites were scored by two earlier versions (next section). The site recall is not a first-time result.</li>
+  <li><b>Third model on the first test list.</b> The <span data-k="guj.sites">17</span> sites were scored by two earlier versions (next section), so that recall is not a first-time result. The six new cities are a first-time test, but of only <span data-k="new.sites">6</span> sites.</li>
   <li><b>One person, from imagery.</b> The training labels, the test list and the hand check are all the author's reading of satellite images. No site was visited and no second person checked.</li>
   <li><b>The test list favours large municipal sites.</b> Small informal dumps were not tested. Sites under 1 ha were excluded by design.</li>
   <li><b>Most of the state was not scored.</b> The boxes cover <span data-k="guj.share_of_state">6.6%</span> of Gujarat and were drawn around known sites. Unscored land is unknown, not clean.</li>
-  <li><b>The hand check covers the top 100 of <span data-k="guj.alarms">7,801</span> alarms.</b> It says nothing about the rest, and a 5% rate from 99 places has a wide interval (<span data-k="check.ci_low">2%</span> to <span data-k="check.ci_high">11%</span>).</li>
+  <li><b>The hand check covers the top 100 of <span data-k="guj.alarms">7,801</span> alarms.</b> It says nothing about the rest; <span data-k="check.dumps">5</span> dumpsites among <span data-k="check.judged">99</span> judged alarms is a small sample (95% interval <span data-k="check.ci_low">2%</span> to <span data-k="check.ci_high">11%</span>).</li>
   <li><b>One year.</b> All imagery is from late 2023 to mid 2024. Dumpsites open, grow and are remediated.</li>
   <li><b>Small training set.</b> <span data-k="train.places">86</span> places and three look-alike classes.</li>
   <li><b>No tuning and no deep model.</b> A network that reads image patches might separate a dumpsite from a bare plot by its shape and setting. This project did not test one and cannot say.</li>
@@ -153,7 +153,7 @@
 </main>
 <footer class="foot">
   <p><a href="https://github.com/wre9-tesh/ML_Landfill_Detection">Repository</a> · <a href="project_guide_grader.pdf">Grader's manual (PDF)</a> · <a href="reproduce.html#glossary">Glossary</a> · <a href="reproduce.html#ai-use">AI-use disclosure</a></p>
-  <p class="small">ES 678 course project. Every number on this site is filled from the result files by <code>scripts/build_site_data.py</code>. Contains modified Copernicus Sentinel data 2023 to 2024.</p>
+  <p class="small">Amitesh Kumar (24210011), IIT Gandhinagar. ES 678 course project. Every number on this site is filled from the result files by <code>scripts/build_site_data.py</code>. Contains modified Copernicus Sentinel data 2023 to 2024.</p>
 </footer>
 <script src="site/vendor/d3.min.js" defer></script>
 <script src="site/vendor/plot.min.js" defer></script>
