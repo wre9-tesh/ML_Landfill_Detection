@@ -6,3 +6,10 @@ rep/
 .venv/
 data/gujarat_new/
 data/gujarat_new_x/
+
+# LaTeX build files
+docs/Paper/*.aux
+docs/Paper/*.bbl
+docs/Paper/*.blg
+docs/Paper/*.log
+docs/Paper/*.out

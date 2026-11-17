@@ -10,7 +10,7 @@ Reads data/features/features.csv (written by gee_features.py) and writes, in dat
   selection.json       the folds used, the model the selection rule picks, and the settings
   results.md           the tables, ready to read
 
-Everything here was fixed in docs/checklist.md before any model was run:
+Everything here was fixed before any model was run (see docs/freeze.md):
   - twelve features, scikit-learn defaults, class-balanced weights, threshold 0.5, no tuning;
   - headline split is leave-one-state-out over states with at least 10 kept places, or the
     Zonal Council regions when fewer than five states qualify; site-grouped and random-pixel
@@ -18,7 +18,7 @@ Everything here was fixed in docs/checklist.md before any model was run:
   - the primary model has the best mean headline F1, unless a simpler model is within one
     standard deviation (across folds, of the best model) of it, in which case the simplest
     such model is taken.
-Two details the checklist leaves open are settled here, also before any results: the
+Two further details are settled here, also before any results: the
 recalibrated rule keeps the published form (NDBI > a, NDVI < b, LST > c) and takes the
 cut-offs with the best F1 on the training rows, searched over each feature's 5th to 95th
 percentiles in steps of 5; and the SD is the sample SD (n - 1).

@@ -9,7 +9,7 @@
 Accepts .kml or .kmz, points or drawn polygons (a polygon gives its centroid
 and area). --folder takes only the placemarks in the Google Earth folder of that name. Writes the CSV and, next to it, a GeoJSON with the same rows and
 their outlines, which scripts/build_samples.py samples from. Naming rules, set
-in docs/phase1_labels.md:
+in docs/methods.md:
   gujarat    "City | site name", source in the description; or a pin per site
              ("Surat LF-2 (khajod)") with outlines named "SUR-02 boundary", where
              outlines sharing a name are parts of one site and each pin goes to

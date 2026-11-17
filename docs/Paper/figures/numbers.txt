@@ -1,0 +1,10 @@
+val_tpr = 0.863743
+val_fpr = 0.0324123
+guj_tpr = 0.754271
+guj_fpr = 0.0516606
+guj_prev = 0.000242731
+guj_pixel_precision = 0.00353233
+precision at prevalence 0.5: validation rates 0.9638, Gujarat rates 0.9359
+precision at prevalence 0.1: validation rates 0.7475, Gujarat rates 0.6187
+precision at prevalence 0.01: validation rates 0.2121, Gujarat rates 0.1285
+precision at prevalence 0.001: validation rates 0.0260, Gujarat rates 0.0144
