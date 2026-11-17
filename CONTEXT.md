@@ -15,9 +15,9 @@ Where the project stands and why, for anyone (person or AI assistant) picking it
 | --- | --- |
 | Website (six pages, two interactions, light and dark) | Built, in `docs/`. Restyled after the author's Food Trade Networks site |
 | Repository, reproducible, with README | Done. README has setup, run order, data access, AI-use disclosure, references |
-| Four-page LaTeX paper (ES 678 template), with source and bibliography | **Not started in the repository.** No `paper/` folder yet |
+| Four-page LaTeX paper (ES 678 template), with source and bibliography | Template added in `docs/Paper/` (17 Nov); text not written yet |
 | AI-use disclosure | Draft on the Reproduce page and in the README; the author accepted it "for now" and will edit it |
-| GitHub Pages enabled, repository visible to graders | To be confirmed by the author |
+| GitHub Pages enabled, repository visible to graders | Not live yet (17 Nov); the author will enable it |
 
 ## Results that everything else quotes
 
@@ -62,16 +62,16 @@ Diagnostics (`data/analysis/`): `LST_anom` is the strongest single feature and c
 ## Working setup
 
 - **Author's machine:** Windows PowerShell, repository at `D:\COursework\ML\project\ML_Landfill_Detection`. The Gujarat feature rasters exist only there (`data\gujarat\`, `data\gujarat_x\`, `data\gujarat_new\`, `data\gujarat_new_x\`; all git-ignored). Earth Engine fetches, exports, scoring and chips are run there.
-- **Assistant:** works on branch `claude/dazzling-mayer-jw7pqk`; the author pulls it or merges it into `main` by pull request. The assistant cannot push tags. Pull requests are opened only when the author asks.
+- **Assistant:** works on the branch its session names (earlier `claude/dazzling-mayer-jw7pqk`, from 17 Nov `claude/intelligent-pasteur-5zh1ox`); the author pulls it or merges it into `main` by pull request. The assistant cannot push tags. Pull requests are opened only when the author asks.
 - **Run order and setup:** see [README.md](README.md). Step-by-step manuals: `docs/project_guide_grader.pdf`, `docs/project_guide_technical.pdf`, `docs/project_guide_plain.pdf` (sources in `docs/guide/`, rendered with `node docs/guide/render.js`).
 - **Author's preferences:** short, direct answers; a small checklist when asked what remains.
 
 ## Open items
 
-- [ ] Paper: add the ES 678 LaTeX starter package (for example in `paper/`), write the four pages, copy the PDF to `docs/paper.pdf` (the site footer then links it automatically on the next build).
-- [ ] References: the titles of Bhajantri and Mandpe (2026, *Applied Geomatics* 18:88) and Gibellini and others (2025, arXiv:2502.06607) are missing on the site and in the README; Agrawal and others and the Campania paper are unverified and not cited.
-- [ ] AI-use disclosure: author's final wording, then the same text in the paper, README and site.
-- [ ] The three PDF guides still mark the version 3 hand check and the alarm diagnostics as pending, and do not mention the new-cities test.
-- [ ] Rajkot: the site says the reason for the miss is not established. Change it only if the chip shows a reason.
-- [ ] Confirm GitHub Pages is serving `main` `/docs` and that graders can open the repository.
+- [ ] Paper: the ES 678 starter package is in `docs/Paper/`. Write the four pages, copy the PDF to `docs/paper.pdf` (the site footer then links it automatically on the next build).
+- [x] References (17 Nov): Bhajantri and Mandpe title added; Gibellini and others (2025) dropped from the site and README at the author's request. Kruse and others (2023, arXiv:2204.01485) is the comparison paper. Agrawal and others and the Campania paper are not cited.
+- [ ] AI-use disclosure: waiting for the author's final wording, then the same text in the paper, README and site.
+- [ ] The three PDF guides still mark the version 3 hand check and the alarm diagnostics as pending, and do not mention the new-cities test. **Do not touch until the author asks.**
+- [ ] Rajkot: the site says the reason for the miss is not established. The author will confirm whether the chip shows a reason.
+- [ ] GitHub Pages is not live yet. Enable it on `main` `/docs` and confirm that graders can open the repository.
 - [ ] Submit the site address, repository address and paper on the course portal.
