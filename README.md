@@ -4,7 +4,7 @@ ES 678 course project (graduate track), Amitesh Kumar, IIT Gandhinagar.
 
 Balanced Scores, Rare Targets: How Validation Design and Prevalence Change Satellite Dumpsite Detection
 
-**Paper:** [docs/Paper/Amitesh_Kumar_24210011_ML_project_Report.pdf](docs/Paper/Amitesh_Kumar_24210011_ML_project_Report.pdf), with its LaTeX source in the same folder.
+**Paper:** [Amitesh_Kumar_24210011_ML_project_Report.pdf](Amitesh_Kumar_24210011_ML_project_Report.pdf), with its LaTeX source in the same folder.
 
 ---
 
