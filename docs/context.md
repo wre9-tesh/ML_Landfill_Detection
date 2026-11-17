@@ -1,6 +1,6 @@
-# Project context
+# Project context (earlier notes)
 
-Hand-off notes for picking this project up in a new session. Written Tue Nov 10, 2026; status updated Wed Nov 11. The plan of record is `docs/checklist.md`; this file says where things stand and why.
+These are the hand-off notes up to 15 November 2026, kept for the history of versions 1 and 2. **The current state is in [CONTEXT.md](../CONTEXT.md) at the top of the repository.**
 
 ## The project
 
