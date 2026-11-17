@@ -4,11 +4,10 @@
 
 Reads data/results_v3/, data/gujarat_results_v3/ and data/gujarat_results_v3_new/, and writes
 in docs/Paper/figures/:
-  fig_results.pdf  a: share of each Gujarat test site's outline flagged, both sealed lists (Q1);
-                   b: what the 100 top alarms were, from the hand check
+  fig_results.pdf  share of each Gujarat test site's outline flagged, both sealed lists (Q1)
   fig_depth.pdf    a: F1 of each method under three validation designs, plus Gujarat (Q2);
                    b: pixel precision against landfill prevalence, with measured points (Q3)
-  fig_*_a.pdf, fig_*_b.pdf   each panel on its own
+  fig_depth_a.pdf, fig_depth_b.pdf   each panel of fig_depth on its own
   numbers.txt      the derived numbers quoted in the paper
 
 Style follows the Nature figure guidelines: vector PDF with embedded TrueType fonts (editable
@@ -150,31 +149,14 @@ def draw_sites(ax):
     ], loc="lower left", bbox_to_anchor=(0.0, 0.08), handletextpad=0.3)
 
 
-def draw_hand_check(ax):
-    """What the 100 highest-scoring alarms were."""
+def hand_check_counts():
+    """What the 100 highest-scoring alarms were (reported in the text, not plotted)."""
     bc = pd.read_csv(GUJ / "blind_check.csv")
     groups = bc.seen.str.strip().map(SEEN)
     groups[bc.verdict == "Dump"] = "Dumpsite"
     groups[bc.verdict == "Unsure"] = "Unsure"
     order = ["Dumpsite", "Unsure", "Bare soil", "Fields, grass", "Buildings", "Industrial", "Other"]
-    counts = groups.value_counts().reindex(order).fillna(0).astype(int)
-    colors = [BLUE, SKY] + [GREY] * 5
-    y = np.arange(len(order))[::-1]
-    ax.barh(y, counts.values, color=colors, height=0.68, lw=0)
-    for yi, c in zip(y, counts.values):
-        ax.text(c + 0.8, yi, str(c), va="center", fontsize=6)
-    ax.set_yticks(y)
-    ax.set_yticklabels(order)
-    ax.tick_params(axis="y", length=0)
-    ax.set_xlabel("Alarms among the top 100 (count)")
-    ax.set_xlim(0, 52)
-    ax.set_xticks([0, 10, 20, 30, 40, 50])
-    ax.legend(handles=[
-        plt.Rectangle((0, 0), 1, 1, color=BLUE, label="Dumpsite"),
-        plt.Rectangle((0, 0), 1, 1, color=SKY, label="Unsure"),
-        plt.Rectangle((0, 0), 1, 1, color=GREY, label="Look-alike"),
-    ], loc="lower right", handlelength=1, handleheight=0.8, handletextpad=0.4)
-    return counts
+    return groups.value_counts().reindex(order).fillna(0).astype(int)
 
 
 def draw_validation_design(ax, val, guj):
@@ -263,12 +245,17 @@ def build(name, drawers, widths):
 
 def main():
     OUT.mkdir(parents=True, exist_ok=True)
-    for old in ("fig_main.pdf", "fig_main.png"):
+    for old in ("fig_main.pdf", "fig_main.png", "fig_results_a.pdf", "fig_results_a.png",
+                "fig_results_b.pdf", "fig_results_b.png"):
         (OUT / old).unlink(missing_ok=True)
     style()
     val, guj, new = validation_rates(), pixel_rates(GUJ), pixel_rates(NEW)
 
-    _, counts = build("fig_results", [draw_sites, draw_hand_check], [1, 1.1])
+    fig, ax = plt.subplots(figsize=(75 * MM, PANEL_H))
+    draw_sites(ax)
+    fig.tight_layout(pad=0.4)
+    save(fig, "fig_results")
+    counts = hand_check_counts()
     f1_guj, _ = build("fig_depth", [lambda ax: draw_validation_design(ax, val, guj),
                                     lambda ax: draw_prevalence(ax, val, guj, new)], [1.35, 1])
 
