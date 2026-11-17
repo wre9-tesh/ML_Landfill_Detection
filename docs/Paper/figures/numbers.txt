@@ -1,10 +1,18 @@
-val_tpr = 0.863743
-val_fpr = 0.0324123
-guj_tpr = 0.754271
-guj_fpr = 0.0516606
-guj_prev = 0.000242731
-guj_pixel_precision = 0.00353233
+validation_tpr = 0.863743
+validation_fpr = 0.0324123
+validation_prev = 0.112185
+validation_precision = 0.671238
+gujarat_first_tpr = 0.754271
+gujarat_first_fpr = 0.0516606
+gujarat_first_prev = 0.000242731
+gujarat_first_precision = 0.00353233
+gujarat_new_tpr = 0.839218
+gujarat_new_fpr = 0.0394749
+gujarat_new_prev = 3.02465e-05
+gujarat_new_precision = 0.000642633
+gujarat_first F1 at the validation class mix = 0.6974
 precision at prevalence 0.5: validation rates 0.9638, Gujarat rates 0.9359
 precision at prevalence 0.1: validation rates 0.7475, Gujarat rates 0.6187
 precision at prevalence 0.01: validation rates 0.2121, Gujarat rates 0.1285
 precision at prevalence 0.001: validation rates 0.0260, Gujarat rates 0.0144
+top-100 hand check: Dumpsite 5, Unsure 1, Bare soil 46, Fields, grass 19, Buildings 17, Industrial 5, Other 7
