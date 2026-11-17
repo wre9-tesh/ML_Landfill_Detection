@@ -2,34 +2,13 @@
 
 ES 678 course project (graduate track), Amitesh Kumar, IIT Gandhinagar.
 
-Can a pixel classifier trained only on Indian dumpsites **outside** Gujarat find Gujarat's dumpsites from free satellite data (Sentinel-2, Landsat 8/9 thermal, SRTM)? When it is wrong, why?
+Balanced Scores, Rare Targets: How Validation Design and Prevalence Change Satellite Dumpsite Detection
 
-This repository holds everything needed to answer that question again: the hand-made labels, every script, every intermediate table, the three frozen models, the per-pixel Gujarat score maps and the hand-check sheet. This README explains what was done, step by step, and how to rerun each step.
-
-**Paper:** [docs/Paper/main.pdf](docs/Paper/main.pdf), with its LaTeX source in the same folder.
+**Paper:** [docs/Paper/Amitesh_Kumar_24210011_ML_project_Report.pdf](docs/Paper/Amitesh_Kumar_24210011_ML_project_Report.pdf), with its LaTeX source in the same folder.
 
 ---
 
-## Contents
-
-1. [The questions and the short answers](#1-the-questions-and-the-short-answers)
-2. [Main results](#2-main-results)
-3. [Why there are three versions](#3-why-there-are-three-versions)
-4. [Safeguards against test leakage](#4-safeguards-against-test-leakage)
-5. [The pipeline on one page](#5-the-pipeline-on-one-page)
-6. [Setup](#6-setup)
-7. [Step-by-step replication](#7-step-by-step-replication)
-8. [Numbers to match, and what can differ](#8-numbers-to-match-and-what-can-differ)
-9. [Detailed results](#9-detailed-results)
-10. [Limitations](#10-limitations)
-11. [Repository layout](#11-repository-layout)
-12. [Data sources and licences](#12-data-sources-and-licences)
-13. [AI-use disclosure](#13-ai-use-disclosure)
-14. [References](#14-references)
-
----
-
-## 1. The questions and the short answers
+## 1. Research Questions
 
 The unit of prediction is one 10 m pixel. The target is 1 if the pixel lies on visible, active waste in March–May 2024, and 0 otherwise. A prediction uses only imagery up to May 2024 and no Gujarat labels. A flagged pixel is a candidate for a human to check, not a confirmed dumpsite.
 
@@ -39,14 +18,11 @@ The unit of prediction is one 10 m pixel. The target is 1 if the pixel lies on v
 | Q2 | How much does the validation design change the score? | **A lot for some models.** Random forest falls from F1 0.907 (random pixels) to 0.736 (whole regions held out), and under random-pixel validation it would have been selected. Gradient boosting only falls from 0.815 to 0.762. Region-held-out validation predicted the Gujarat pixel-level behaviour well (F1 about 0.70 at the same class mix). |
 | Q3 | What precision should a user expect when dumpsites are rare? | **Very low.** With the validation rates, expected pixel precision is 96% when half the land is dump, 21% at 1% and 2.6% at 0.1%. In Gujarat, dump outlines are 0.024% of the scored pixels, and the measured pixel precision is 0.35%. The false-alarm rate, not recall, decides precision. |
 
-**Why it is wrong.** The false alarms are not out-of-distribution. They look like the training landfills, mainly through surface temperature. None of the 94 checked look-alike alarms lies beyond the 99th percentile of training-point distances, and 80 of 94 have a landfill as their nearest training point. The model's strongest cue, the thermal anomaly (`LST_anom`, AUC 0.94 on its own, a third of the model's SHAP weight), is shared by hot bare soil, fields, roofs and industrial yards. Adding winter and neighbourhood features (12 to 26 features) did not remove this confusion. Per-pixel features cannot separate a dump from hot bare land; whole-patch context would be needed.
-
 ---
 
 ## 2. Main results
 
-Version 3 is the final model: gradient boosting with 26 features and a threshold of 0.5, frozen under the Git tag `freeze-v3`.
-
+Version 3 is the final model: gradient boosting with 26 features and a threshold of 0.5.
 | | |
 | --- | --- |
 | Training data | 34,345 labelled pixels from 86 landfill places in 26 states and 60 look-alike places (3,853 landfill, 24,989 near-site background, 3,764 random background, 1,739 look-alike) |
@@ -61,9 +37,9 @@ Version 3 is the final model: gradient boosting with 26 features and a threshold
 
 ---
 
-## 3. Why there are three versions
+## 3. Three versions
 
-Each version was frozen under its own Git tag before Gujarat was scored with it. Versions 1 and 2 are kept for transparency, because the way they failed motivated the next version.
+Versions 1 and 2 are kept for transparency, because the way they failed motivated the next version.
 
 | | Version 1 (`freeze-v1`) | Version 2 (`freeze-v2`) | Version 3 (`freeze-v3`) |
 | --- | --- | --- | --- |
@@ -770,46 +746,8 @@ Mean SHAP (log-odds) shows what pushes alarms over the threshold. Thermal featur
 
 ---
 
-## 11. Repository layout
 
-| Path | Contents |
-| --- | --- |
-| `docs/Paper/` | Paper source (`main.tex`, `refs.bib`, `figures/`, course style file) and compiled PDF |
-| `docs/methods.md` | Labelling rules, sampling design and feature definitions in detail |
-| `docs/freeze.md`, `freeze_v2.md`, `freeze_v3.md` | What each freeze fixed, written before the corresponding Gujarat scoring |
-| `labels/` | OSM screening sheet, hand-drawn outlines, the two sealed Gujarat lists and the scored boxes |
-| `scripts/` | Every program (see section 7) |
-| `data/raw/`, `data/boundaries/` | OSM snapshot and state boundaries |
-| `data/samples/` | Sample points |
-| `data/features*/` | Feature tables fetched from Earth Engine, with their settings |
-| `data/results*/` | Validation results and frozen models: `results/` is version 1, `results_v2/` version 2, `results_v3/` version 3 |
-| `data/gujarat_results*/` | Gujarat scoring per version, with per-site recall, alarms, hand-check sheets and per-pixel score rasters; `_v3_new/` is the new-cities test |
-| `data/gujarat/`, `data/gujarat_x/` | Export metadata only; the feature rasters (several GB) are rebuilt in step 7 |
-| `data/analysis/` | Diagnostics, alarm diagnostics and version 1 depth analysis |
-| `figures/` | Diagnostic figures |
-
-### Script index
-
-| Script | Purpose |
-| --- | --- |
-| `osm_to_screening.py` | OSM export → screening sheet |
-| `kml_to_csv.py` | Google Earth placemarks → label CSV/GeoJSON |
-| `build_samples.py` | Labels → sample points (step 1) |
-| `build_background_v2.py` | Near-site background points (step 2) |
-| `gee_features.py` | Feature values at points from Earth Engine (steps 3–4) |
-| `compare_tables.py` | Compare a refetched table with the stored one |
-| `run_models.py` | Train and validate the nine methods (step 5) |
-| `freeze_model.py` | Fit and save the selected model (step 6) |
-| `gee_export_gujarat.py` | Export Gujarat feature rasters (step 7) |
-| `score_gujarat.py` | Score Gujarat with a frozen model (steps 8–9) |
-| `diagnostics.py`, `alarm_diagnostics.py` | Diagnostics (step 11) |
-| `paper_figures.py` | Paper figures and numbers |
-| `depth_analysis.py`, `posthoc_gujarat.py`, `make_figures.py` | Version 1 depth analysis |
-| `geoutil.py` | Shared geometry helpers |
-
----
-
-## 12. Data sources and licences
+## 11. Data sources and licences
 
 - **In the repository:** labels, sample points, all feature tables, all results, the three frozen models, and the model score of every scored Gujarat pixel.
 - **Not in the repository:** the Gujarat feature rasters (several GB). Step 7 rebuilds them from public data.
@@ -825,21 +763,21 @@ Mean SHAP (log-odds) shows what pushes alarms over the threshold. Thermal featur
 
 ---
 
-## 13. AI-use disclosure
+## 12. AI-use disclosure
 
 Claude (Anthropic), used through Claude Code, did the following:
-- wrote the Python scripts to the author's specification;
-- ran model training, the diagnostics and the reproducibility checks;
-- searched for and summarised related work;
-- drafted the documentation and the paper text.
+- wrote the Python scripts.
+- searched for and summarised related work.
+- ran the diagnostics and the reproducibility checks
 
 The author did the following:
-- chose the question;
-- screened every OpenStreetMap candidate and drew every training outline;
-- compiled and outlined both Gujarat test lists;
-- ran every Earth Engine fetch and the Gujarat scoring;
-- judged all 100 alarms in the hand check;
-- made every decision about labels, features, versions and what to report;
+- chose the question.
+- screened every OpenStreetMap candidate and drew every training outline.
+- compiled and outlined both Gujarat test lists.
+- ran every Earth Engine fetch and the Gujarat scoring.
+- Ran model training.
+- judged all 100 alarms in the hand check.
+- made every decision about labels, features, versions and what to report.
 - checked the reported numbers against the result files.
 
 No label or verdict was produced by AI.
